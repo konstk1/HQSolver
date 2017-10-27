@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF04293D1FA2B6CB00F6B7A7 /* ScreenCap.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF04293C1FA2B6CB00F6B7A7 /* ScreenCap.swift */; };
 		FF79E0C91FA17465007B2922 /* OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = FF79E0C81FA17465007B2922 /* OpenCV.mm */; };
 		FF79E0D01FA177E2007B2922 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF79E0CE1FA17554007B2922 /* opencv2.framework */; };
 		FF79E0D11FA177E2007B2922 /* opencv2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FF79E0CE1FA17554007B2922 /* opencv2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -45,6 +46,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FF04293C1FA2B6CB00F6B7A7 /* ScreenCap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCap.swift; sourceTree = "<group>"; };
 		FF79E0C81FA17465007B2922 /* OpenCV.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCV.mm; sourceTree = "<group>"; };
 		FF79E0CA1FA1747E007B2922 /* OpenCV.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = OpenCV.h; sourceTree = "<group>"; };
 		FF79E0CE1FA17554007B2922 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				FFEF19191F9FE84D00533CDC /* HQ Solver-Bridging-Header.h */,
 				FFEF18F81F9FE46600533CDC /* AppDelegate.swift */,
 				FFEF18FA1F9FE46600533CDC /* ViewController.swift */,
+				FF04293C1FA2B6CB00F6B7A7 /* ScreenCap.swift */,
 				FF79E0C81FA17465007B2922 /* OpenCV.mm */,
 				FF79E0CA1FA1747E007B2922 /* OpenCV.h */,
 				FFEF18FC1F9FE46600533CDC /* Assets.xcassets */,
@@ -247,6 +250,7 @@
 			files = (
 				FFEF18FB1F9FE46600533CDC /* ViewController.swift in Sources */,
 				FF79E0C91FA17465007B2922 /* OpenCV.mm in Sources */,
+				FF04293D1FA2B6CB00F6B7A7 /* ScreenCap.swift in Sources */,
 				FFEF18F91F9FE46600533CDC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

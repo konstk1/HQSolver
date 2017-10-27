@@ -9,6 +9,8 @@
 import Cocoa
 
 class ViewController: NSViewController {
+    
+    let screenCap = ScreenCap(displayId: 0, maxFrameRate: 4)
 
     @IBOutlet weak var originalImageView: NSImageView!
     @IBOutlet weak var ocrImageView: NSImageView!
@@ -17,19 +19,33 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        runTess(filename: "/Users/kon/Downloads/hq/q1.jpg")
+//        runTess(filename: "/Users/kon/Downloads/hq/q1.jpg")
 //        openFileDialog()
+        screenCap?.startCaputre()
+        screenCap?.cropRect = CGRect(x: 30, y: 270, width: 400, height: 420)
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [unowned self] (timer) in
+            self.screenCap?.getImage(completion: { (image) in
+                DispatchQueue.main.async { [unowned self] in
+                    self.runOcr(image: image)
+                }
+            })
+        }
     }
     
-    func runTess(filename: String) {
+    override func viewWillDisappear() {
+        super.viewWillDisappear()
+        screenCap?.stopCapture()
+    }
+    
+    func runOcr(image: NSImage) {
+        let startTime = Date()
         let verStr = String(cString: TessVersion()!)
         print("Tesseract \(verStr)")
         
         // Prepare image for OCR with OpenCV
-        let origImg = NSImage(contentsOfFile: filename)!
-        originalImageView.image = origImg
+        originalImageView.image = image
         
-        let opencv =  OpenCV(image: origImg)
+        let opencv =  OpenCV(image: image)
 //        opencv.convertColorSpace(.BGR2GRAY)
 //        opencv.crop(to: CGRect(x: 380, y: 100, width: 220, height: 300))
 //        opencv.threshold(190)
@@ -49,35 +65,13 @@ class ViewController: NSViewController {
         TessBaseAPISetImage(tess, data, Int32(bmp.pixelsWide), Int32(bmp.pixelsHigh), Int32(bmp.bitsPerPixel/8), Int32(bmp.bytesPerRow))
         
         let outText = String(cString: TessBaseAPIGetUTF8Text(tess)!)
+        let endTime = Date()
         print("OCR:\n \(outText)")
+        print("Duration: \(endTime.timeIntervalSince(startTime))")
+        
         
         ocrResultLabel.stringValue = outText
         TessBaseAPIDelete(tess)
-    }
-    
-    func openFileDialog() {
-        let dialog = NSOpenPanel();
-        
-        dialog.title                   = "Choose an image";
-        dialog.showsResizeIndicator    = true;
-        dialog.showsHiddenFiles        = false;
-        dialog.canChooseDirectories    = true;
-        dialog.canCreateDirectories    = true;
-        dialog.allowsMultipleSelection = false;
-//        dialog.allowedFileTypes        = [""];
-        
-        if (dialog.runModal() == NSApplication.ModalResponse.OK) {
-            let result = dialog.url // Pathname of the file
-            
-            if (result != nil) {
-                let path = result!.path
-                print("Chose \(path)")
-                runTess(filename: path)
-            }
-        } else {
-            // User clicked on "Cancel"
-            return
-        }
     }
 
     override var representedObject: Any? {

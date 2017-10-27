@@ -51,10 +51,10 @@ static cv::Mat _cvMat;
 
 - (void)prepareForOcr {
     cv::cvtColor(_cvMat, _cvMat, cv::COLOR_BGR2GRAY);
-    _cvMat = _cvMat(cv::Rect(380, 100, 220, 300));
+//    _cvMat = _cvMat(cv::Rect(380, 100, 220, 300));
     cv::threshold(_cvMat, _cvMat, 200, 255, cv::THRESH_BINARY);
 //    cv::fastNlMeansDenoising(_cvMat, _cvMat);
-    cv::GaussianBlur(_cvMat, _cvMat, cv::Size(3,3), .5, .5);
+//    cv::GaussianBlur(_cvMat, _cvMat, cv::Size(3,3), .5, .5);
 }
 
 @end
