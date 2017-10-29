@@ -10,25 +10,35 @@ import Cocoa
 
 class ViewController: NSViewController {
     
-    let screenCap = ScreenCap(displayId: 0, maxFrameRate: 4)
+    let screenCap = ScreenCap(displayId: 0, maxFrameRate: 30)
+    let captureInterval: TimeInterval = 0.5
+
+    var openCvDuration: TimeInterval = 0
+    var ocrDuration:    TimeInterval = 0
+    var totalDuration:  TimeInterval = 0
+    
+    var shouldSolve = false
+    let solver = TriviaSolver()
 
     @IBOutlet weak var originalImageView: NSImageView!
     @IBOutlet weak var ocrImageView: NSImageView!
     @IBOutlet weak var ocrResultLabel: NSTextField!
+    @IBOutlet weak var statsLabel: NSTextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        runTess(filename: "/Users/kon/Downloads/hq/q1.jpg")
-//        openFileDialog()
+        drawBorder(view: originalImageView, width: 1, color: NSColor.green)
+        drawBorder(view: ocrImageView, width: 1, color: NSColor.blue)
+        
+        solver.add(strategy: QBotStrategy())
+        solver.add(strategy: GoogleStrategy())
+        
         screenCap?.startCaputre()
-        screenCap?.cropRect = CGRect(x: 30, y: 270, width: 400, height: 420)
-        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [unowned self] (timer) in
-            self.screenCap?.getImage(completion: { (image) in
-                DispatchQueue.main.async { [unowned self] in
-                    self.runOcr(image: image)
-                }
-            })
+        screenCap?.cropRect = CGRect(x: 30, y: 270, width: 450, height: 460)
+        
+        Timer.scheduledTimer(withTimeInterval: captureInterval, repeats: true) { [unowned self] (timer) in
+            self.processFrame()
         }
     }
     
@@ -37,22 +47,54 @@ class ViewController: NSViewController {
         screenCap?.stopCapture()
     }
     
-    func runOcr(image: NSImage) {
+    func processFrame() {
         let startTime = Date()
-        let verStr = String(cString: TessVersion()!)
-        print("Tesseract \(verStr)")
+        screenCap?.getImage(completion: { [unowned self] (image) in
+            DispatchQueue.main.async { [unowned self] in
+                let text = self.runOcr(image: image)
+                let endTime = Date()
+                self.parseAndSolve(text: text)
+                self.totalDuration = endTime.timeIntervalSince(startTime)
+                self.statsLabel.stringValue = """
+                Cap Freq\t:\t\(String(format: "%4.1f", 1/self.captureInterval)) fps
+                Cap Time\t:\t\(String(format: "%4.0f", (self.totalDuration - self.ocrDuration) * 1000)) ms
+                OpenCV\t:\t\(String(format: "%4.0f", self.openCvDuration * 1000)) ms
+                OCR Time\t:\t\(String(format: "%4.0f", self.ocrDuration * 1000)) ms
+                Total\t:\t\(String(format: "%4.0f", self.totalDuration  * 1000)) ms
+                """
+            }
+        })
+    }
+    
+    func parseAndSolve(text: String) {
+        var lines = text.split(separator: "\n")
+        
+        var answers = [String]()
+        for answer in [lines.popLast(), lines.popLast(), lines.popLast()].reversed() {
+            if let answer = answer {
+                answers.append(String(answer))
+            }
+        }
+        let question = lines.joined(separator: " ")
+        
+        if shouldSolve {
+            solver.solve(question: question, possibleAnswers: answers)
+            shouldSolve = false
+        }
+    }
+    
+    func runOcr(image: NSImage) -> String {
+        let startTime = Date()
         
         // Prepare image for OCR with OpenCV
         originalImageView.image = image
         
         let opencv =  OpenCV(image: image)
-//        opencv.convertColorSpace(.BGR2GRAY)
-//        opencv.crop(to: CGRect(x: 380, y: 100, width: 220, height: 300))
-//        opencv.threshold(190)
         opencv.prepareForOcr()
         
         let ocrImage = opencv.image
         ocrImageView.image = ocrImage
+        self.openCvDuration = Date().timeIntervalSince(startTime)
         
         // Run OCR
         let tess = TessBaseAPICreate()
@@ -61,23 +103,38 @@ class ViewController: NSViewController {
         let bmp = ocrImage.representations[0] as! NSBitmapImageRep
         let data: UnsafeMutablePointer<UInt8> = bmp.bitmapData!
         
-        print("Processing image \(bmp.pixelsWide)x\(bmp.pixelsHigh) \(bmp.bitsPerPixel/8) \(bmp.bytesPerRow)")
+//        print("Processing image \(bmp.pixelsWide)x\(bmp.pixelsHigh) \(bmp.bitsPerPixel/8) \(bmp.bytesPerRow)")
         TessBaseAPISetImage(tess, data, Int32(bmp.pixelsWide), Int32(bmp.pixelsHigh), Int32(bmp.bitsPerPixel/8), Int32(bmp.bytesPerRow))
         
         let outText = String(cString: TessBaseAPIGetUTF8Text(tess)!)
         let endTime = Date()
-        print("OCR:\n \(outText)")
-        print("Duration: \(endTime.timeIntervalSince(startTime))")
+        self.ocrDuration = endTime.timeIntervalSince(startTime)
         
         
         ocrResultLabel.stringValue = outText
         TessBaseAPIDelete(tess)
+        
+        return outText
     }
 
+    @IBAction func doItPushed(_ sender: NSButton) {
+        shouldSolve = true
+    }
+    
     override var representedObject: Any? {
         didSet {
         
         }
+    }
+}
+
+extension ViewController {
+    func drawBorder(view: NSView, width: Int, color: NSColor) {
+        view.wantsLayer = true
+        view.layer?.borderWidth = 1.0
+        view.layer?.cornerRadius = 0.0
+        view.layer?.masksToBounds = true
+        view.layer?.borderColor = color.cgColor
     }
 }
 

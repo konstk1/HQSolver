@@ -13,6 +13,10 @@
 		FF79E0D11FA177E2007B2922 /* opencv2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FF79E0CE1FA17554007B2922 /* opencv2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FF79E0D41FA17856007B2922 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF79E0D21FA17848007B2922 /* Accelerate.framework */; };
 		FF79E0D61FA178AC007B2922 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF79E0D51FA178AC007B2922 /* OpenCL.framework */; };
+		FF8B934F1FA3933F00CED013 /* TriviaSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B934E1FA3933F00CED013 /* TriviaSolver.swift */; };
+		FF8B93511FA3974B00CED013 /* QBotStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B93501FA3974B00CED013 /* QBotStrategy.swift */; };
+		FF8B93531FA3BDE200CED013 /* GoogleStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B93521FA3BDE200CED013 /* GoogleStrategy.swift */; };
+		FF8B93551FA3C2FC00CED013 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B93541FA3C2FC00CED013 /* WebViewController.swift */; };
 		FFEF18F91F9FE46600533CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF18F81F9FE46600533CDC /* AppDelegate.swift */; };
 		FFEF18FB1F9FE46600533CDC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF18FA1F9FE46600533CDC /* ViewController.swift */; };
 		FFEF18FD1F9FE46600533CDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFEF18FC1F9FE46600533CDC /* Assets.xcassets */; };
@@ -52,6 +56,10 @@
 		FF79E0CE1FA17554007B2922 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		FF79E0D21FA17848007B2922 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		FF79E0D51FA178AC007B2922 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
+		FF8B934E1FA3933F00CED013 /* TriviaSolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriviaSolver.swift; sourceTree = "<group>"; };
+		FF8B93501FA3974B00CED013 /* QBotStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QBotStrategy.swift; sourceTree = "<group>"; };
+		FF8B93521FA3BDE200CED013 /* GoogleStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleStrategy.swift; sourceTree = "<group>"; };
+		FF8B93541FA3C2FC00CED013 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		FFEF18F51F9FE46600533CDC /* HQ Solver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HQ Solver.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFEF18F81F9FE46600533CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FFEF18FA1F9FE46600533CDC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +121,10 @@
 				FFEF19191F9FE84D00533CDC /* HQ Solver-Bridging-Header.h */,
 				FFEF18F81F9FE46600533CDC /* AppDelegate.swift */,
 				FFEF18FA1F9FE46600533CDC /* ViewController.swift */,
+				FF8B93541FA3C2FC00CED013 /* WebViewController.swift */,
+				FF8B934E1FA3933F00CED013 /* TriviaSolver.swift */,
+				FF8B93501FA3974B00CED013 /* QBotStrategy.swift */,
+				FF8B93521FA3BDE200CED013 /* GoogleStrategy.swift */,
 				FF04293C1FA2B6CB00F6B7A7 /* ScreenCap.swift */,
 				FF79E0C81FA17465007B2922 /* OpenCV.mm */,
 				FF79E0CA1FA1747E007B2922 /* OpenCV.h */,
@@ -248,10 +260,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF8B93531FA3BDE200CED013 /* GoogleStrategy.swift in Sources */,
+				FF8B93511FA3974B00CED013 /* QBotStrategy.swift in Sources */,
 				FFEF18FB1F9FE46600533CDC /* ViewController.swift in Sources */,
 				FF79E0C91FA17465007B2922 /* OpenCV.mm in Sources */,
 				FF04293D1FA2B6CB00F6B7A7 /* ScreenCap.swift in Sources */,
 				FFEF18F91F9FE46600533CDC /* AppDelegate.swift in Sources */,
+				FF8B934F1FA3933F00CED013 /* TriviaSolver.swift in Sources */,
+				FF8B93551FA3C2FC00CED013 /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

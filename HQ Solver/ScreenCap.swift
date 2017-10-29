@@ -32,6 +32,7 @@ class ScreenCap {
         
         screenCapInput = AVCaptureScreenInput(displayID: tempDisplay)
         screenCapInput.minFrameDuration = CMTimeMake(1, maxFrameRate)
+        print("Min frame rate: \(screenCapInput.minFrameDuration)")
         guard capSession.canAddInput(screenCapInput) else { return nil }
         capSession.addInput(screenCapInput)
         
