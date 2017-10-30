@@ -10,7 +10,7 @@ import Foundation
 
 class QBotStrategy: TriviaStrategy {
     let name = "QBot"
-    let baseUrl = "http://4c6d3ced.ngrok.io/question"
+    let baseUrl = "http://7b66bf25.ngrok.io/question"
     
     let defaultSession = URLSession(configuration: .default)
     var dataTask: URLSessionDataTask?

@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		FF04293D1FA2B6CB00F6B7A7 /* ScreenCap.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF04293C1FA2B6CB00F6B7A7 /* ScreenCap.swift */; };
+		FF1154711FA6C2E80056959B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF1154701FA6C2E80056959B /* Keys.plist */; };
+		FF1154731FA6C6FD0056959B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF1154701FA6C2E80056959B /* Keys.plist */; };
+		FF4A0D9A1FA6892A00EB7A1C /* TestQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */; };
+		FF4A0DA11FA6A8FA00EB7A1C /* TriviaSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B934E1FA3933F00CED013 /* TriviaSolver.swift */; };
+		FF4A0DA31FA6A98C00EB7A1C /* TfidfStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */; };
+		FF4A0DA41FA6A98C00EB7A1C /* TfidfStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */; };
+		FF4A0DA61FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */; };
+		FF4A0DA71FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */; };
 		FF79E0C91FA17465007B2922 /* OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = FF79E0C81FA17465007B2922 /* OpenCV.mm */; };
 		FF79E0D01FA177E2007B2922 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF79E0CE1FA17554007B2922 /* opencv2.framework */; };
 		FF79E0D11FA177E2007B2922 /* opencv2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FF79E0CE1FA17554007B2922 /* opencv2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -51,6 +59,11 @@
 
 /* Begin PBXFileReference section */
 		FF04293C1FA2B6CB00F6B7A7 /* ScreenCap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCap.swift; sourceTree = "<group>"; };
+		FF1154701FA6C2E80056959B /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestQuestions.swift; sourceTree = "<group>"; };
+		FF4A0D971FA6866200EB7A1C /* examples.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = examples.json; path = "HQ Solver/examples.json"; sourceTree = SOURCE_ROOT; };
+		FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TfidfStrategy.swift; sourceTree = "<group>"; };
+		FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatsonNLU.swift; sourceTree = "<group>"; };
 		FF79E0C81FA17465007B2922 /* OpenCV.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCV.mm; sourceTree = "<group>"; };
 		FF79E0CA1FA1747E007B2922 /* OpenCV.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = OpenCV.h; sourceTree = "<group>"; };
 		FF79E0CE1FA17554007B2922 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
@@ -96,6 +109,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FF11546F1FA6C2B70056959B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FFEF19011F9FE46600533CDC /* Info.plist */,
+				FF1154701FA6C2E80056959B /* Keys.plist */,
+				FFEF18FC1F9FE46600533CDC /* Assets.xcassets */,
+				FFEF19021F9FE46600533CDC /* HQ_Solver.entitlements */,
+				FF4A0D971FA6866200EB7A1C /* examples.json */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		FFEF18EC1F9FE46600533CDC = {
 			isa = PBXGroup;
 			children = (
@@ -125,13 +150,13 @@
 				FF8B934E1FA3933F00CED013 /* TriviaSolver.swift */,
 				FF8B93501FA3974B00CED013 /* QBotStrategy.swift */,
 				FF8B93521FA3BDE200CED013 /* GoogleStrategy.swift */,
+				FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */,
+				FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */,
 				FF04293C1FA2B6CB00F6B7A7 /* ScreenCap.swift */,
 				FF79E0C81FA17465007B2922 /* OpenCV.mm */,
 				FF79E0CA1FA1747E007B2922 /* OpenCV.h */,
-				FFEF18FC1F9FE46600533CDC /* Assets.xcassets */,
 				FFEF18FE1F9FE46600533CDC /* Main.storyboard */,
-				FFEF19011F9FE46600533CDC /* Info.plist */,
-				FFEF19021F9FE46600533CDC /* HQ_Solver.entitlements */,
+				FF11546F1FA6C2B70056959B /* Supporting Files */,
 			);
 			path = "HQ Solver";
 			sourceTree = "<group>";
@@ -139,6 +164,7 @@
 		FFEF190A1F9FE46600533CDC /* HQ SolverTests */ = {
 			isa = PBXGroup;
 			children = (
+				FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */,
 				FFEF190B1F9FE46600533CDC /* HQ_SolverTests.swift */,
 				FFEF190D1F9FE46600533CDC /* Info.plist */,
 			);
@@ -213,7 +239,6 @@
 					FFEF19061F9FE46600533CDC = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
-						TestTargetID = FFEF18F41F9FE46600533CDC;
 					};
 				};
 			};
@@ -243,6 +268,7 @@
 			files = (
 				FFEF18FD1F9FE46600533CDC /* Assets.xcassets in Resources */,
 				FFEF19001F9FE46600533CDC /* Main.storyboard in Resources */,
+				FF1154711FA6C2E80056959B /* Keys.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF1154731FA6C6FD0056959B /* Keys.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,7 +292,9 @@
 				FFEF18FB1F9FE46600533CDC /* ViewController.swift in Sources */,
 				FF79E0C91FA17465007B2922 /* OpenCV.mm in Sources */,
 				FF04293D1FA2B6CB00F6B7A7 /* ScreenCap.swift in Sources */,
+				FF4A0DA61FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */,
 				FFEF18F91F9FE46600533CDC /* AppDelegate.swift in Sources */,
+				FF4A0DA31FA6A98C00EB7A1C /* TfidfStrategy.swift in Sources */,
 				FF8B934F1FA3933F00CED013 /* TriviaSolver.swift in Sources */,
 				FF8B93551FA3C2FC00CED013 /* WebViewController.swift in Sources */,
 			);
@@ -275,7 +304,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF4A0DA71FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */,
+				FF4A0DA11FA6A8FA00EB7A1C /* TriviaSolver.swift in Sources */,
 				FFEF190C1F9FE46600533CDC /* HQ_SolverTests.swift in Sources */,
+				FF4A0DA41FA6A98C00EB7A1C /* TfidfStrategy.swift in Sources */,
+				FF4A0D9A1FA6892A00EB7A1C /* TestQuestions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,15 +495,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = "HQ SolverTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.armada.HQ-SolverTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HQ Solver.app/Contents/MacOS/HQ Solver";
 			};
 			name = Debug;
 		};
@@ -478,15 +511,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = "HQ SolverTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.armada.HQ-SolverTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HQ Solver.app/Contents/MacOS/HQ Solver";
 			};
 			name = Release;
 		};

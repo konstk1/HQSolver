@@ -9,12 +9,6 @@
 import Foundation
 import WebKit
 
-//{
-//    "url": "https://gateway.watsonplatform.net/natural-language-understanding/api",
-//    "username": "77af9280-4d24-4f8d-bf86-3809fc179311",
-//    "password": "rzwQdnMRQuQB"
-//}
-
 class GoogleStrategy: TriviaStrategy {
     let name = "Google"
     let baseUrl = "https://www.google.com/search"

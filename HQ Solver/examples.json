@@ -1,0 +1,272 @@
+[
+    {
+        "question": "Which of these countries has the highest personal income tax rates?",
+        "answers": ["Russia", "Sweden", "United States"],
+        "solution": "Sweden"
+    },
+    {
+        "question": "What was the fictitious band that was featured in the TV show \"Lost\"?",
+        "answers": ["Distant Signals", "Axelrods", "Drive Shaft"],
+        "solution": "Drive Shaft"
+    },
+    {
+        "question": "The verdict in which case caused Gawker Media to shut down?",
+        "answers": ["Bollea v. Gawker Media", "Hulk v. News Corp", "Thiel v. Denton"],
+        "solution": "Bollea v. Gawker Media"
+    },
+    {
+        "question": "Which of these beauty brands is NOT owned by Procter & Gamble?",
+        "answers": ["Herbal Essences", "Glossier", "Pantene"],
+        "solution": "Glossier"
+    },
+    {
+        "question": "What U.S. federal agency has an academy in Quantico, Virginia?",
+        "answers": ["CIA", "NSA", "FBI"],
+        "solution": "FBI"
+    },
+    {
+        "question": "Which company executed the biggest merger in history?",
+        "answers": ["Vodafone", "Exxon", "AT&T"],
+        "solution": "Vodafone"
+    },
+    {
+        "question": "Who was TV's \"Teenage Witch\"?",
+        "answers": ["Sabrina", "Donald", "Samantha"],
+        "solution": "Sabrina"
+    },
+    {
+        "question": "Which Blizzard video game was never released?",
+        "answers": ["Warcraft II", "Starcraft: Ghost", "Blackthorne"],
+        "solution": "Starcraft: Ghost"
+    },
+    {
+        "question": "Who is NOT a member of the hip-hop group Outkast?",
+        "answers": ["Big Boi", "DJ Nu-Mark", "Andre 3000"],
+        "solution": "DJ Nu-Mark"
+    },
+    {
+        "question": "Which female athlete has the biggest following on social media?",
+        "answers": ["Hope Solo", "Maria Sharapova", "Venus Williams"],
+        "solution": "Maria Sharapova"
+    },
+    {
+        "question": "What is the shortest reign for a monarch in recorded history?",
+        "answers": ["1 day", "1 month", "20 minutes"],
+        "solution": "20 minutes"
+    },
+    {
+        "question": "Which of these superheroes was a member of Marvel's original X-Men?",
+        "answers": ["Wolverine", "Iceman", "Banshee"],
+        "solution": "Iceman"
+    },
+    {
+        "question": "In what part of the body would you find the Prussak's Space?",
+        "answers": ["Ear", "Nose", "Intestines"],
+        "solution": "Ear"
+    },
+    {
+        "question": "What is Philematology the science of?",
+        "answers": ["Postal history", "Shopping", "Kissing"],
+        "solution": "Kissing"
+    },
+    {
+        "question": "The movie \"Stand By Me\" was based on a novella by whom?",
+        "answers": ["Truman Capote", "Stephen King", "JD Salinger"],
+        "solution": "Stephen King"
+    },
+    {
+        "question": "What gift did ancient Persians exchange at New Year?",
+        "answers": ["Eggs", "Ribbons", "Fish"],
+        "solution": "Eggs"
+    },
+    {
+        "question": "Which of these people have never rung the opening bell at the NYSE?",
+        "answers": ["Seth Rogen", "Ronald Reagan", "Darth Vader"],
+        "solution": "Seth Rogen"
+    },
+    {
+        "question": "What classic TV show's theme song is titled \"Tossed Salads and Scrambled Eggs?\"",
+        "answers": ["Friends", "Seinfeld", "Fraiser"],
+        "solution": "Fraiser"
+    },
+    {
+      "question": "Which of these would you not find in a cup of Chinese \"bubble tea\"?",
+      "answers": ["Jelly cubes", "Noodles", "Tapioca balls"],
+      "solution": "Noodles"
+    },
+    {
+      "question": "What is the name used for Apple's proprietary connector cables?",
+      "answers": ["Lightning", "Thunder", "Mable's Cables"],
+      "solution": "Lightning"
+    },
+    {
+      "question": "The website Kickstarter allows for what kind of business?",
+      "answers": ["Movie rentals", "Crowdfunding", "Auctioning"],
+      "solution": "Crowdfunding"
+    },
+    {
+      "question": "\"Beavis & Butthead\" creator Mike Judge also created which current TV series?",
+      "answers": ["Scorpion", "Flaked", "Silicon Valley"],
+      "solution": "Silicon Valley"
+    },
+    {
+      "question": "Who is actress Rita Wilson's husband?",
+      "answers": ["Pierce Brosnan", "Tom Hanks", "Kevin Bacon"],
+      "solution": "Tom Hanks"
+    },
+    {
+      "question": "What kind of chemical solution turns blue litmus paper red?",
+      "answers": ["Base", "Alkaline", "Acidic"],
+      "solution": "Acidic"
+    },
+    {
+      "question": "Which style of Adidas sneakers were made famous in the 80s by Run- DMC?",
+      "answers": ["Superstar", "SL 72", "Stan Smith"],
+      "solution": "Superstar"
+    },
+    {
+      "question": "What company used a misheard Italian phrase as inspiration for its name?",
+      "answers": ["Baidu", "Roku", "Etsy"],
+      "solution": "Etsy"
+    },
+    {
+      "question": "Which of these Richard Linklater films is not part of the \"Before\" series?",
+      "answers": ["Before Midnight", "Before Sunset", "Before Tomorrow"],
+      "solution": "Before Tomorrow"
+    },
+    {
+      "question": "Until 1985, what was the title for the U.S. Library of Congress poet laureate?",
+      "answers": ["Poetic Director", "Senior Chair of Poetry", "Consultant in Poetry"],
+      "solution": "Consultant in Poetry"
+    },
+    {
+      "question": "Who is the only non- American golfer to win the Career Grand Slam?",
+      "answers": ["Gary Player", "Rory Mcllroy", "Ben Hogan"],
+      "solution": "Gary Player"
+    },
+    {
+      "question": "Which of these home video game consoles came first?",
+      "answers": ["Magnavox Odyssey", "Fairchild Channel F", "Coleco Telstar"],
+      "solution": "Magnavox Odyssey"
+    },
+    {
+        "answers":["Porky","Daffy","Bugs"],
+        "question":"What is the name of the Warner Bros. cartoon bunny?",
+        "solution": "Bugs"
+    },
+    {
+        "answers":["Rigatoni","Tagliatelle","Panini"],
+        "question":"Which one of these Italian foods is NOT a pasta?",
+        "solution": "Panini"
+    },
+    {
+        "answers":["Croatia","Italy","France"],
+        "question":"Which one of these countries was part of Yugoslavia?",
+        "solution": "Croatia"
+    },
+    {
+        "answers":["The Hunger Games","Twilight","The Chronicles of Narnia"],
+        "question":"Suzanne Collins is the author of which famous book series?",
+        "solution": "The Hunger Games"
+    },
+    {
+        "answers":["HDR","3D film","Virtual Reality"],
+        "question":"Dolby Vision is Dolby Labs' latest work in which technology?",
+        "solution": "HDR"
+    },
+    {
+        "answers":["Gatorade bottle","Sharpie","Yardstick"],
+        "question":"Which simple item prompted the NFL to ban players carrying \"foreign objects\" onto the field?",
+        "solution": "Sharpie"
+    },
+    {
+        "answers":["Dismaland","Dystopialand","Unhappyland"],
+        "question":"What was the name of Banksy's 2015 art exhibition inspired by Disneyland?",
+        "solution": "Dismaland"
+    },
+    {
+        "answers":["Ninja","Kabuki stage hand","Chimney sweep"],
+        "question":"Nokizaru, or literally “macaque on the roof,\" was used to describe which Japanese occupation?",
+        "solution": "Ninja"
+    },
+    {
+        "answers":["Thom Yorke","Phil Selway","Jonny Greenwood"],
+        "question":"Which member of Radiohead composed the score for \"There Will Be Blood\"?",
+        "solution": "Jonny Greenwood"
+    },
+    {
+        "answers":["Bill Clinton","Barack Obama","Gerald Ford"],
+        "question":"Which of these U.S. presidents has never appeared on the cover of Sports Illustrated?",
+        "solution": "Barack Obama"
+    },
+    {
+        "answers":["Rudy Rucker","Bruce Sterling","William Gibson"],
+        "question":"Who was the editor of the cyberpunk short story anthology \"Mirrorshades\"?",
+        "solution": "Bruce Sterling"
+    },
+    {
+        "answers":["wind and sky","sky and ice","ice and wind"],
+        "question":"Finish this “Let It Go” lyric from Disney’s Frozen: “1 am one with the...”",
+        "solution": "wind and sky"
+    },
+    {
+        "answers":["Merry","Cheerful","Glum"],
+        "question":"Which of these is not a synonym for happy?",
+        "solution": "Glum"
+    },
+    {
+        "answers":["Korea","Germany","Thailand"],
+        "question":"Kimchi is a traditional side dish in which country's cuisine?",
+        "solution": "Korea"
+    },
+    {
+        "answers":["Editing video","Spreadsheets","Creating music"],
+        "question":"Final Cut Pro is Apple's software for doing what?",
+        "solution": "Editing video"
+    },
+    {
+        "answers":["Iron Man 2","Ant Man","Doctor Strange"],
+        "question":"Which Marvel Studios film is centered on magic?",
+        "solution": "Doctor Strange"
+    },
+    {
+        "answers":["Pierre","Lansing","Bismarck"],
+        "question":"What is the state capital of South Dakota?",
+        "solution": "Pierre"
+    },
+    {
+        "answers":["Devil's Ivy","Lucky Bamboo","Rubber Fig"],
+        "question":"What is the Epipremnum aureum house plant also known as?",
+        "solution": "Devil's Ivy"
+    },
+    {
+        "answers":["Darren Shan","H. P, Lovecraft","Robert Louis Stevenson"],
+        "question":"Who wrote \"Strange Case of Dr Jekyll and Mr Hyde\"?",
+        "solution": "Robert Louis Stevenson"
+    },
+    {
+        "answers":["Testa","Google","Uber"],
+        "question":"Last year, autonomous- driving truck company Otto was purchased by whom?",
+        "solution": "Uber"
+    },
+    {
+        "answers":["José dos Santos Madrigal","Rui Costa Maria Eymael","Michel Temer"],
+        "question":"Who is currently the President of Brazil?",
+        "solution": "Michel Temer"
+    },
+    {
+        "answers":["Italy","Netherlands","England"],
+        "question":"The Pre-Raphaelite Brotherhood of painters was formed in which country?",
+        "solution": "England"
+    },
+    {
+        "answers":["Harley-Davidson","Samsung","Duke Energy"],
+        "question":"From whom did Apple purchase the rights to use the word \"Lightning\" on their cables?",
+        "solution": "Harley-Davidson"
+    },
+    {
+        "answers":["Duke Snider","Lou Gehrig","Joe DiMaggio"],
+        "question":"Who of these HOFers hit the least amount of World Series home runs in his career?",
+        "solution": "Joe DiMaggio"
+    }
+]

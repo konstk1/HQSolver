@@ -22,15 +22,28 @@ class HQ_SolverTests: XCTestCase {
     }
     
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        let testQs = TestQuestions()
+        print("Loaded \(testQs.questions.count) questions")
+        
+        for _ in 0..<testQs.questions.count {
+            if let question = testQs.nextQuestion() {
+                print("\(testQs.currentQuestion): \(question.question)")
+            }
+        }
+        
+        for i in 0..<5 {
+            print("Random \(i): \(testQs.randomQuestion().question)")
         }
     }
+    
+    func testWatson() {
+        let watson = WatsonNLU()
+        watson.analyzie(text: "What U.S. federal agency has an academy in Quantico, Virginia?")
+    }
+    
+//    func testPerformanceExample() {
+//        self.measure {
+//        }
+//    }
     
 }

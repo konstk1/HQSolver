@@ -78,7 +78,7 @@ class ViewController: NSViewController {
         let question = lines.joined(separator: " ")
         
         if shouldSolve {
-            solver.solve(question: question, possibleAnswers: answers)
+            _ = solver.solve(question: question, possibleAnswers: answers)
             shouldSolve = false
         }
     }
