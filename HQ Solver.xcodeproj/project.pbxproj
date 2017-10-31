@@ -10,10 +10,11 @@
 		FF04293D1FA2B6CB00F6B7A7 /* ScreenCap.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF04293C1FA2B6CB00F6B7A7 /* ScreenCap.swift */; };
 		FF1154711FA6C2E80056959B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF1154701FA6C2E80056959B /* Keys.plist */; };
 		FF1154731FA6C6FD0056959B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF1154701FA6C2E80056959B /* Keys.plist */; };
+		FF1154741FA7E31C0056959B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFEF18FE1F9FE46600533CDC /* Main.storyboard */; };
+		FF1154761FA7E4A20056959B /* TestQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */; };
 		FF4A0D9A1FA6892A00EB7A1C /* TestQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */; };
 		FF4A0DA11FA6A8FA00EB7A1C /* TriviaSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B934E1FA3933F00CED013 /* TriviaSolver.swift */; };
 		FF4A0DA31FA6A98C00EB7A1C /* TfidfStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */; };
-		FF4A0DA41FA6A98C00EB7A1C /* TfidfStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */; };
 		FF4A0DA61FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */; };
 		FF4A0DA71FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */; };
 		FF79E0C91FA17465007B2922 /* OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = FF79E0C81FA17465007B2922 /* OpenCV.mm */; };
@@ -277,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF1154731FA6C6FD0056959B /* Keys.plist in Resources */,
+				FF1154741FA7E31C0056959B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +292,7 @@
 				FF8B93531FA3BDE200CED013 /* GoogleStrategy.swift in Sources */,
 				FF8B93511FA3974B00CED013 /* QBotStrategy.swift in Sources */,
 				FFEF18FB1F9FE46600533CDC /* ViewController.swift in Sources */,
+				FF1154761FA7E4A20056959B /* TestQuestions.swift in Sources */,
 				FF79E0C91FA17465007B2922 /* OpenCV.mm in Sources */,
 				FF04293D1FA2B6CB00F6B7A7 /* ScreenCap.swift in Sources */,
 				FF4A0DA61FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */,
@@ -307,7 +310,6 @@
 				FF4A0DA71FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */,
 				FF4A0DA11FA6A8FA00EB7A1C /* TriviaSolver.swift in Sources */,
 				FFEF190C1F9FE46600533CDC /* HQ_SolverTests.swift in Sources */,
-				FF4A0DA41FA6A98C00EB7A1C /* TfidfStrategy.swift in Sources */,
 				FF4A0D9A1FA6892A00EB7A1C /* TestQuestions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

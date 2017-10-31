@@ -21,7 +21,7 @@ class HQ_SolverTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func ztestExample() {
         let testQs = TestQuestions()
         print("Loaded \(testQs.questions.count) questions")
         
@@ -38,7 +38,7 @@ class HQ_SolverTests: XCTestCase {
     
     func testWatson() {
         let watson = WatsonNLU()
-        watson.analyzie(text: "What U.S. federal agency has an academy in Quantico, Virginia?")
+        watson.analyze(text: "What U.S. federal agency has an academy in Quantico, Virginia?")
     }
     
 //    func testPerformanceExample() {

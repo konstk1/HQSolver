@@ -28,15 +28,16 @@ class WatsonNLU {
         components.host = "gateway.watsonplatform.net"
         components.path = "/natural-language-understanding/api//v1/analyze"
         components.query = "version=2017-02-27"
-        components.user = keys["watsonUser"] as! String
-        components.password = keys["watsonPassword"] as! String
+        components.user = keys["watsonUser"] as? String
+        components.password = keys["watsonPassword"] as? String
         
         url = components.url!
         print("Watson URL: \(url.absoluteString)")
     }
     
-    func analyzie(text: String) {
+    func analyze(text: String) -> WatsonNLU.Analysis? {
         let params = Params(text: text)
+        var analysis: Analysis?
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -56,12 +57,13 @@ class WatsonNLU {
             }
             guard let response = response as? HTTPURLResponse else { return }
             print("Response \(response.statusCode)")
-            print(String(data: data!, encoding: .utf8))
-            let analysis = try! JSONDecoder().decode(Analysis.self, from: data!)
-            print(analysis)
+            analysis = try? JSONDecoder().decode(Analysis.self, from: data!)
         }
         dataTask?.resume()
         group.wait()
+        
+//        print(analysis)
+        return analysis
         
     }
     
@@ -106,76 +108,3 @@ class WatsonNLU {
         }
     }
 }
-//{
-//    "usage": {
-//        "text_units": 1,
-//        "text_characters": 69,
-//        "features": 4
-//    },
-//    "semantic_roles": [
-//    {
-//    "subject": {
-//    "text": "style of adidas sneakers"
-//    },
-//    "sentence": "Which style of adidas sneakers were made famous in the 80s by Run-DMC",
-//    "object": {
-//    "text": "famous"
-//    },
-//    "action": {
-//    "verb": {
-//    "text": "make",
-//    "tense": "past"
-//    },
-//    "text": "were made",
-//    "normalized": "be make"
-//    }
-//    }
-//    ],
-//    "language": "en",
-//    "keywords": [
-//    {
-//    "text": "adidas sneakers",
-//    "relevance": 0.997787
-//    },
-//    {
-//    "text": "Run-DMC",
-//    "relevance": 0.765757
-//    },
-//    {
-//    "text": "80s",
-//    "relevance": 0.633225
-//    },
-//    {
-//    "text": "style",
-//    "relevance": 0.441278
-//    }
-//    ],
-//    "entities": [
-//    {
-//    "type": "Company",
-//    "text": "adidas",
-//    "relevance": 0.33,
-//    "disambiguation": {
-//    "subtype": [
-//    "Brand"
-//    ],
-//    "name": "Adidas",
-//    "dbpedia_resource": "http://dbpedia.org/resource/Adidas"
-//    },
-//    "count": 1
-//    }
-//    ],
-//    "concepts": [
-//    {
-//    "text": "Adidas",
-//    "relevance": 0.91136,
-//    "dbpedia_resource": "http://dbpedia.org/resource/Adidas"
-//    },
-//    {
-//    "text": "1980s",
-//    "relevance": 0.886784,
-//    "dbpedia_resource": "http://dbpedia.org/resource/1980s"
-//    }
-//    ]
-//}
-

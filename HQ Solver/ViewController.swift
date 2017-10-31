@@ -32,11 +32,11 @@ class ViewController: NSViewController {
         drawBorder(view: ocrImageView, width: 1, color: NSColor.blue)
         
         solver.add(strategy: QBotStrategy())
-        solver.add(strategy: GoogleStrategy())
+        solver.add(strategy: TfIdfStrategy())
         
         screenCap?.startCaputre()
         screenCap?.cropRect = CGRect(x: 30, y: 270, width: 450, height: 460)
-        
+
         Timer.scheduledTimer(withTimeInterval: captureInterval, repeats: true) { [unowned self] (timer) in
             self.processFrame()
         }
@@ -119,6 +119,9 @@ class ViewController: NSViewController {
 
     @IBAction func doItPushed(_ sender: NSButton) {
         shouldSolve = true
+        
+//        let question = TestQuestions().randomQuestion()
+//        _ = solver.solve(question: question.question, possibleAnswers: question.answers)
     }
     
     override var representedObject: Any? {

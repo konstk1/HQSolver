@@ -26,6 +26,9 @@ class GoogleStrategy: TriviaStrategy {
         webViewWindowController = NSStoryboard.main?.instantiateController(withIdentifier: identifier) as! NSWindowController
         webViewWindowController.showWindow(nil)
         webViewController = webViewWindowController.contentViewController as! WebViewController
+//        webViewController.webView1.webFrame.frameView.documentView.scaleUnitSquare(to: NSMakeSize(0.7, 0.7))
+        
+
     }
     
     func answerQuestion(question: String, possibleAnswers: [String]) -> String {
