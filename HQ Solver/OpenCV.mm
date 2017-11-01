@@ -50,9 +50,22 @@ static cv::Mat _cvMat;
 }
 
 - (void)prepareForOcr {
+    cv::Mat colorMat = _cvMat;
     cv::cvtColor(_cvMat, _cvMat, cv::COLOR_BGR2GRAY);
 //    _cvMat = _cvMat(cv::Rect(380, 100, 220, 300));
     cv::threshold(_cvMat, _cvMat, 200, 255, cv::THRESH_BINARY);
+    std::vector<std::vector<cv::Point>> contours;
+    std::vector<cv::Vec4i> hierarchy;
+    cv::findContours(_cvMat, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    printf("Found %lu contours\n", contours.size());
+    cv::Scalar color = cv::Scalar(0, 255, 0);
+    cv::drawContours(colorMat, contours, -1, color, 2, 8, hierarchy);
+    _cvMat = colorMat;
+    
+    for(auto const &cnt: contours) {
+        auto area = cv::contourArea(cnt);
+        printf("Counter area = %0.2f\n", area);
+    }
 //    cv::fastNlMeansDenoising(_cvMat, _cvMat);
 //    cv::GaussianBlur(_cvMat, _cvMat, cv::Size(3,3), .5, .5);
 }
@@ -61,7 +74,6 @@ static cv::Mat _cvMat;
 
 /// Converts an NSImage to Mat.
 static void NSImageToMat(NSImage *image, cv::Mat &mat) {
-    
     // Create a pixel buffer.
     NSBitmapImageRep *bitmapImageRep = [NSBitmapImageRep imageRepWithData:[image TIFFRepresentation]];
     NSInteger width = [bitmapImageRep pixelsWide];
@@ -73,11 +85,11 @@ static void NSImageToMat(NSImage *image, cv::Mat &mat) {
     CGContextDrawImage(contextRef, CGRectMake(0, 0, width, height), imageRef);
     CGContextRelease(contextRef);
     CGColorSpaceRelease(colorSpace);
-    
+
     // Draw all pixels to the buffer.
     cv::Mat mat8uc3 = cv::Mat((int)width, (int)height, CV_8UC3);
     cv::cvtColor(mat8uc4, mat8uc3, CV_RGBA2BGR);
-    
+
     mat = mat8uc3;
 }
 

@@ -35,7 +35,7 @@ class ViewController: NSViewController {
         solver.add(strategy: TfIdfStrategy())
         
         screenCap?.startCaputre()
-        screenCap?.cropRect = CGRect(x: 30, y: 270, width: 450, height: 460)
+        screenCap?.cropRect = CGRect(x: 0, y: 100, width: 550, height: 760)
 
         Timer.scheduledTimer(withTimeInterval: captureInterval, repeats: true) { [unowned self] (timer) in
             self.processFrame()
