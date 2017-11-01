@@ -11,13 +11,14 @@ import Cocoa
 class ViewController: NSViewController {
     
     let screenCap = ScreenCap(displayId: 0, maxFrameRate: 30)
-    let captureInterval: TimeInterval = 0.5
+    let captureInterval: TimeInterval = 0.1
 
     var openCvDuration: TimeInterval = 0
     var ocrDuration:    TimeInterval = 0
     var totalDuration:  TimeInterval = 0
     
     var shouldSolve = false
+    var shouldOcr = false
     let solver = TriviaSolver()
 
     @IBOutlet weak var originalImageView: NSImageView!
@@ -35,6 +36,7 @@ class ViewController: NSViewController {
         solver.add(strategy: TfIdfStrategy())
         
         screenCap?.startCaputre()
+//        screenCap?.cropRect = CGRect(x: 30, y: 280, width: 445, height: 460)
         screenCap?.cropRect = CGRect(x: 0, y: 100, width: 550, height: 760)
 
         Timer.scheduledTimer(withTimeInterval: captureInterval, repeats: true) { [unowned self] (timer) in
@@ -96,6 +98,9 @@ class ViewController: NSViewController {
         ocrImageView.image = ocrImage
         self.openCvDuration = Date().timeIntervalSince(startTime)
         
+        guard shouldOcr else { return "No OCR" }
+        shouldOcr = false
+        
         // Run OCR
         let tess = TessBaseAPICreate()
         TessBaseAPIInit3(tess, nil, "eng")
@@ -113,11 +118,12 @@ class ViewController: NSViewController {
         
         ocrResultLabel.stringValue = outText
         TessBaseAPIDelete(tess)
-        
+
         return outText
     }
 
     @IBAction func doItPushed(_ sender: NSButton) {
+        shouldOcr = true
         shouldSolve = true
         
 //        let question = TestQuestions().randomQuestion()

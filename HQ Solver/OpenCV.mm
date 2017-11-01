@@ -58,14 +58,32 @@ static cv::Mat _cvMat;
     std::vector<cv::Vec4i> hierarchy;
     cv::findContours(_cvMat, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
     printf("Found %lu contours\n", contours.size());
-    cv::Scalar color = cv::Scalar(0, 255, 0);
-    cv::drawContours(colorMat, contours, -1, color, 2, 8, hierarchy);
     _cvMat = colorMat;
     
-    for(auto const &cnt: contours) {
-        auto area = cv::contourArea(cnt);
-        printf("Counter area = %0.2f\n", area);
+    auto largestArea = 0.0;
+    auto largestIndex = 0;
+    
+    for(int i = 0; i < contours.size(); i++) {
+        auto area = cv::contourArea(contours[i]);
+        if (area > largestArea)
+        {
+            largestArea = area;
+            largestIndex = i;
+        }
     }
+    
+    printf("Largest counter area = %0.2f (index %d)\n", largestArea, largestIndex);
+//    cv::Scalar color = cv::Scalar(0, 255, 0);
+//    cv::drawContours(colorMat, contours, largestIndex, color, 2, cv::LINE_8);
+    
+    cv::Rect bounds = cv::boundingRect(contours[largestIndex]);
+    bounds.x += 5;
+    bounds.y += 105;
+    bounds.width -= 10;
+    bounds.height -= 110;
+    
+    _cvMat = _cvMat(bounds);
+    
 //    cv::fastNlMeansDenoising(_cvMat, _cvMat);
 //    cv::GaussianBlur(_cvMat, _cvMat, cv::Size(3,3), .5, .5);
 }
