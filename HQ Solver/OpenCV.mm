@@ -23,8 +23,20 @@ static NSImage *MatToNSImage(cv::Mat &mat);
 @implementation OpenCV
 
 static cv::Mat _cvMat;
+static cv::Mat _qTemplate;
 
 - (instancetype)initWithImage:(nonnull NSImage *)image {
+    cv::Mat qMat = cv::imread("/Users/kon/Developer/HQ Solver/HQ Solver/question_mark.png", cv::IMREAD_GRAYSCALE);
+    cv::threshold(qMat, qMat, 128, 255, cv::THRESH_BINARY);
+    std::vector<std::vector<cv::Point>> contours;
+    std::vector<cv::Vec4i> hierarchy;
+    cv::findContours(qMat, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_NONE);
+    printf("Q Mark Found %lu contours\n", contours.size());
+//    cv::threshold(qMat, qMat, 255, 255, cv::THRESH_BINARY_INV);
+//    cv::drawContours(qMat, contours, 2, cv::Scalar(0, 255, 0), 1, cv::LINE_8, hierarchy);
+    cv::imshow("Q", qMat);
+    _qTemplate = qMat;
+    
     NSImageToMat(image, _cvMat);
     return self;
 }
@@ -58,7 +70,7 @@ static cv::Mat _cvMat;
     std::vector<cv::Vec4i> hierarchy;
     cv::findContours(_cvMat, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
     printf("Found %lu contours\n", contours.size());
-    _cvMat = colorMat;
+//    _cvMat = colorMat;
     
     auto largestArea = 0.0;
     auto largestIndex = 0;
@@ -72,9 +84,12 @@ static cv::Mat _cvMat;
         }
     }
     
+    cv::Mat result;
+    cv::matchTemplate(_cvMat, _qTemplate, result, CV_TM_SQDIFF_NORMED);
+    cv::imshow("Match", result);
+    
     printf("Largest counter area = %0.2f (index %d)\n", largestArea, largestIndex);
-//    cv::Scalar color = cv::Scalar(0, 255, 0);
-//    cv::drawContours(colorMat, contours, largestIndex, color, 2, cv::LINE_8);
+//    cv::drawContours(_cvMat, contours, qIndex, cv::Scalar(0, 255, 0), 2, cv::LINE_8);
     
     cv::Rect bounds = cv::boundingRect(contours[largestIndex]);
     bounds.x += 5;
@@ -82,7 +97,9 @@ static cv::Mat _cvMat;
     bounds.width -= 10;
     bounds.height -= 110;
     
-    _cvMat = _cvMat(bounds);
+    if (bounds.height > 0 && bounds.width > 0) {
+        _cvMat = _cvMat(bounds);
+    }
     
 //    cv::fastNlMeansDenoising(_cvMat, _cvMat);
 //    cv::GaussianBlur(_cvMat, _cvMat, cv::Size(3,3), .5, .5);

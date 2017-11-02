@@ -32,8 +32,8 @@ class ViewController: NSViewController {
         drawBorder(view: originalImageView, width: 1, color: NSColor.green)
         drawBorder(view: ocrImageView, width: 1, color: NSColor.blue)
         
-        solver.add(strategy: QBotStrategy())
-        solver.add(strategy: TfIdfStrategy())
+//        solver.add(strategy: QBotStrategy())
+//        solver.add(strategy: TfIdfStrategy())
         
         screenCap?.startCaputre()
 //        screenCap?.cropRect = CGRect(x: 30, y: 280, width: 445, height: 460)

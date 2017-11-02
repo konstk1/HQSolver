@@ -74,6 +74,7 @@
 		FF8B93501FA3974B00CED013 /* QBotStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QBotStrategy.swift; sourceTree = "<group>"; };
 		FF8B93521FA3BDE200CED013 /* GoogleStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleStrategy.swift; sourceTree = "<group>"; };
 		FF8B93541FA3C2FC00CED013 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		FFCDA9ED1FAA939E0034948D /* question_mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = question_mark.png; sourceTree = "<group>"; };
 		FFEF18F51F9FE46600533CDC /* HQ Solver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HQ Solver.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFEF18F81F9FE46600533CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FFEF18FA1F9FE46600533CDC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +114,7 @@
 		FF11546F1FA6C2B70056959B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FFCDA9ED1FAA939E0034948D /* question_mark.png */,
 				FFEF19011F9FE46600533CDC /* Info.plist */,
 				FF1154701FA6C2E80056959B /* Keys.plist */,
 				FFEF18FC1F9FE46600533CDC /* Assets.xcassets */,
