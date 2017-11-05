@@ -18,6 +18,7 @@ typedef NS_ENUM(NSInteger, ConversionCode) {
 @interface OpenCV : NSObject
 
 @property (nonatomic, nonnull) NSImage *image;
+@property bool questionMarkPresent;
 
 - (nonnull instancetype)initWithImage:(nonnull NSImage *)image;
 - (void)convertColorSpace:(ConversionCode)code;

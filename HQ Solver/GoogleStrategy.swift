@@ -33,16 +33,16 @@ class GoogleStrategy: TriviaStrategy {
     
     func answerQuestion(question: String, possibleAnswers: [String]) -> String {
         for (i, answer) in possibleAnswers.enumerated() {
-            let url = searchUrl(query: "\(question) \(answer)")
+            let url = searchUrl(query: "\(question)")
             print("Requesting \(url) in view \(i)")
             switch i
             {
             case 0:
                 webViewController.webView1?.load(URLRequest(url: url))
-            case 1:
-                webViewController.webView2?.load(URLRequest(url: url))
-            case 2:
-                webViewController.webView3?.load(URLRequest(url: url))
+//            case 1:
+//                webViewController.webView2?.load(URLRequest(url: url))
+//            case 2:
+//                webViewController.webView3?.load(URLRequest(url: url))
             default:
                 break
             }

@@ -16,7 +16,7 @@ class TfIdfStrategy: TriviaStrategy {
     func answerQuestion(question: String, possibleAnswers: [String]) -> String {
         guard let analysis = watson.analyze(text: question) else { return "Failed to analyze" }
         
-        let searchQuery = analysis.keywords.map { $0.text }.joined(separator: " ")
+        let searchQuery = analysis.keywords.reduce("") { $0 + " " + $1.text }
         _ = google.answerQuestion(question: searchQuery, possibleAnswers: possibleAnswers)
         
         return "Not implemented yet"

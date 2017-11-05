@@ -17,8 +17,7 @@ class ViewController: NSViewController {
     var ocrDuration:    TimeInterval = 0
     var totalDuration:  TimeInterval = 0
     
-    var shouldSolve = false
-    var shouldOcr = false
+    var isReadyForQuestion = true
     let solver = TriviaSolver()
 
     @IBOutlet weak var originalImageView: NSImageView!
@@ -33,7 +32,7 @@ class ViewController: NSViewController {
         drawBorder(view: ocrImageView, width: 1, color: NSColor.blue)
         
 //        solver.add(strategy: QBotStrategy())
-//        solver.add(strategy: TfIdfStrategy())
+        solver.add(strategy: TfIdfStrategy())
         
         screenCap?.startCaputre()
 //        screenCap?.cropRect = CGRect(x: 30, y: 280, width: 445, height: 460)
@@ -53,9 +52,10 @@ class ViewController: NSViewController {
         let startTime = Date()
         screenCap?.getImage(completion: { [unowned self] (image) in
             DispatchQueue.main.async { [unowned self] in
-                let text = self.runOcr(image: image)
+                if let text = self.runOcr(image: image) {
+                    self.parseAndSolve(text: text)
+                }
                 let endTime = Date()
-                self.parseAndSolve(text: text)
                 self.totalDuration = endTime.timeIntervalSince(startTime)
                 self.statsLabel.stringValue = """
                 Cap Freq\t:\t\(String(format: "%4.1f", 1/self.captureInterval)) fps
@@ -79,13 +79,10 @@ class ViewController: NSViewController {
         }
         let question = lines.joined(separator: " ")
         
-        if shouldSolve {
-            _ = solver.solve(question: question, possibleAnswers: answers)
-            shouldSolve = false
-        }
+        _ = solver.solve(question: question, possibleAnswers: answers)
     }
     
-    func runOcr(image: NSImage) -> String {
+    func runOcr(image: NSImage) -> String? {
         let startTime = Date()
         
         // Prepare image for OCR with OpenCV
@@ -98,8 +95,13 @@ class ViewController: NSViewController {
         ocrImageView.image = ocrImage
         self.openCvDuration = Date().timeIntervalSince(startTime)
         
-        guard shouldOcr else { return "No OCR" }
-        shouldOcr = false
+        print("Question: \(opencv.questionMarkPresent)")
+        guard isReadyForQuestion && opencv.questionMarkPresent else {
+            isReadyForQuestion = !opencv.questionMarkPresent
+            return nil
+        }
+        
+        isReadyForQuestion = false
         
         // Run OCR
         let tess = TessBaseAPICreate()
@@ -123,11 +125,12 @@ class ViewController: NSViewController {
     }
 
     @IBAction func doItPushed(_ sender: NSButton) {
-        shouldOcr = true
-        shouldSolve = true
-        
-//        let question = TestQuestions().randomQuestion()
-//        _ = solver.solve(question: question.question, possibleAnswers: question.answers)
+        isReadyForQuestion = true
+    }
+    
+    @IBAction func testPushed(_ sender: NSButton) {
+        let question = TestQuestions().randomQuestion()
+        _ = solver.solve(question: question.question, possibleAnswers: question.answers)
     }
     
     override var representedObject: Any? {

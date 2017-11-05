@@ -31,12 +31,14 @@ static cv::Mat _qTemplate;
     std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
     cv::findContours(qMat, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_NONE);
-    printf("Q Mark Found %lu contours\n", contours.size());
+//    printf("Q Mark Found %lu contours\n", contours.size());
 //    cv::threshold(qMat, qMat, 255, 255, cv::THRESH_BINARY_INV);
 //    cv::drawContours(qMat, contours, 2, cv::Scalar(0, 255, 0), 1, cv::LINE_8, hierarchy);
-    cv::imshow("Q", qMat);
     _qTemplate = qMat;
-    
+    cv::resize(qMat, _qTemplate, cv::Size(), 0.55, 0.55);
+//    cv::imshow("Q", _qTemplate);
+
+    _questionMarkPresent = false;
     NSImageToMat(image, _cvMat);
     return self;
 }
@@ -62,47 +64,47 @@ static cv::Mat _qTemplate;
 }
 
 - (void)prepareForOcr {
-    cv::Mat colorMat = _cvMat;
     cv::cvtColor(_cvMat, _cvMat, cv::COLOR_BGR2GRAY);
-//    _cvMat = _cvMat(cv::Rect(380, 100, 220, 300));
     cv::threshold(_cvMat, _cvMat, 200, 255, cv::THRESH_BINARY);
+    
     std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
     cv::findContours(_cvMat, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-    printf("Found %lu contours\n", contours.size());
-//    _cvMat = colorMat;
     
     auto largestArea = 0.0;
     auto largestIndex = 0;
     
     for(int i = 0; i < contours.size(); i++) {
         auto area = cv::contourArea(contours[i]);
-        if (area > largestArea)
-        {
+        if (area > largestArea) {
             largestArea = area;
             largestIndex = i;
         }
     }
     
-    cv::Mat result;
-    cv::matchTemplate(_cvMat, _qTemplate, result, CV_TM_SQDIFF_NORMED);
-    cv::imshow("Match", result);
-    
-    printf("Largest counter area = %0.2f (index %d)\n", largestArea, largestIndex);
-//    cv::drawContours(_cvMat, contours, qIndex, cv::Scalar(0, 255, 0), 2, cv::LINE_8);
-    
     cv::Rect bounds = cv::boundingRect(contours[largestIndex]);
+    // close in on the bounds a little to get rid of edges
+    // also crop the top end (counter) of the question box
     bounds.x += 5;
     bounds.y += 105;
     bounds.width -= 10;
     bounds.height -= 110;
-    
     if (bounds.height > 0 && bounds.width > 0) {
         _cvMat = _cvMat(bounds);
     }
     
-//    cv::fastNlMeansDenoising(_cvMat, _cvMat);
-//    cv::GaussianBlur(_cvMat, _cvMat, cv::Size(3,3), .5, .5);
+    double min = 0.0, max = 0.0;
+    if (_cvMat.size().height >= _qTemplate.size().height &&
+        _cvMat.size().width >= _qTemplate.size().height) {
+        cv::Mat result;
+        cv::matchTemplate(_cvMat, _qTemplate, result, cv::TM_CCOEFF_NORMED);
+        cv::minMaxLoc(result, &min, &max);
+        // printf("Min %f Max %f\n", min, max);
+        // cv::imshow("Match", result);
+    }
+
+    self.questionMarkPresent = max > 0.75;
+//    cv::imshow("Out", _cvMat);
 }
 
 @end
