@@ -22,8 +22,9 @@ class GoogleStrategy: TriviaStrategy {
     }
     
     init() {
-        let identifier = NSStoryboard.SceneIdentifier(rawValue: "WebViewController")
-        webViewWindowController = NSStoryboard.main?.instantiateController(withIdentifier: identifier) as! NSWindowController
+        let identifier = NSStoryboard.SceneIdentifier(rawValue: "WebViewWindowController")
+        let controller = NSStoryboard.main?.instantiateController(withIdentifier: identifier)
+        webViewWindowController = controller as! NSWindowController
         webViewWindowController.showWindow(nil)
         webViewController = webViewWindowController.contentViewController as! WebViewController
 //        webViewController.webView1.webFrame.frameView.documentView.scaleUnitSquare(to: NSMakeSize(0.7, 0.7))

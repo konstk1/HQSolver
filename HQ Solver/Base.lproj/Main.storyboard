@@ -682,10 +682,10 @@
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
         </scene>
-        <!--Window Controller-->
+        <!--Main Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
+                <windowController id="B8D-0N-5wS" userLabel="Main Window Controller" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -704,10 +704,10 @@
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        <!--Window Controller-->
+        <!--WebView Window Controller-->
         <scene sceneID="r8s-GX-nQZ">
             <objects>
-                <windowController storyboardIdentifier="WebViewController" id="EOP-gL-iKL" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="WebViewWindowController" id="EOP-gL-iKL" userLabel="WebView Window Controller" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="Jgh-4w-NKq">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -725,30 +725,30 @@
             </objects>
             <point key="canvasLocation" x="656" y="214"/>
         </scene>
-        <!--Web View Controller-->
+        <!--WebView Controller-->
         <scene sceneID="YNS-2f-sTN">
             <objects>
-                <viewController storyboardIdentifier="WebViewController" id="NLv-is-8P1" customClass="WebViewController" customModule="HQ_Solver" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewController" id="NLv-is-8P1" userLabel="WebView Controller" customClass="WebViewController" customModule="HQ_Solver" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="eT8-KT-udx">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u7e-At-oMl">
-                                <rect key="frame" x="5" y="5" width="230" height="260"/>
+                                <rect key="frame" x="5" y="5" width="383" height="260"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h2c-rm-nEx">
-                                <rect key="frame" x="360" y="5" width="115" height="260"/>
+                                <rect key="frame" x="437" y="5" width="38" height="260"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vBa-Ug-gbe">
-                                <rect key="frame" x="240" y="5" width="115" height="260"/>
+                                <rect key="frame" x="393" y="5" width="39" height="260"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
@@ -766,8 +766,8 @@
                             <constraint firstAttribute="trailing" secondItem="h2c-rm-nEx" secondAttribute="trailing" constant="5" id="aVJ-nC-ikm"/>
                             <constraint firstAttribute="bottom" secondItem="u7e-At-oMl" secondAttribute="bottom" constant="5" id="cve-LM-7EN"/>
                             <constraint firstItem="h2c-rm-nEx" firstAttribute="top" secondItem="u7e-At-oMl" secondAttribute="top" id="gd6-r3-9Nj"/>
-                            <constraint firstItem="h2c-rm-nEx" firstAttribute="width" secondItem="u7e-At-oMl" secondAttribute="width" multiplier="0.5" id="nT7-bv-jJP"/>
-                            <constraint firstItem="vBa-Ug-gbe" firstAttribute="width" secondItem="u7e-At-oMl" secondAttribute="width" multiplier="0.5" id="ogz-Fr-b2L"/>
+                            <constraint firstItem="h2c-rm-nEx" firstAttribute="width" secondItem="u7e-At-oMl" secondAttribute="width" multiplier="0.1" id="nT7-bv-jJP"/>
+                            <constraint firstItem="vBa-Ug-gbe" firstAttribute="width" secondItem="u7e-At-oMl" secondAttribute="width" multiplier="0.1" id="ogz-Fr-b2L"/>
                         </constraints>
                     </view>
                     <connections>
@@ -780,10 +780,10 @@
             </objects>
             <point key="canvasLocation" x="656" y="661"/>
         </scene>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="HQ_Solver" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" userLabel="Main View Controller" customClass="ViewController" customModule="HQ_Solver" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="500" height="339"/>
                         <autoresizingMask key="autoresizingMask"/>
