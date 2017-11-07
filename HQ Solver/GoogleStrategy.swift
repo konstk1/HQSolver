@@ -35,7 +35,7 @@ class GoogleStrategy: TriviaStrategy {
     }
     
     func answerQuestion(question: String, possibleAnswers: [String]) -> String {
-        for (i, answer) in possibleAnswers.enumerated() {
+        for (i, _) in possibleAnswers.enumerated() {
             switch i
             {
             case 0:

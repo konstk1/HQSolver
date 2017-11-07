@@ -40,8 +40,10 @@ class TriviaSolver {
     func solve(question: String, possibleAnswers: [String]) -> String {
         var answer = ""
         for strategy in strategies {
-            answer = strategy.answerQuestion(question: question, possibleAnswers: possibleAnswers)
-            print("Strategy \(strategy.name): \(answer)")
+            DispatchQueue.global(qos: .userInitiated).async {
+                answer = strategy.answerQuestion(question: question, possibleAnswers: possibleAnswers)
+                print("Strategy \(strategy.name): \(answer)")
+            }
         }
         // for now return the answer from last strategy used
         return answer
