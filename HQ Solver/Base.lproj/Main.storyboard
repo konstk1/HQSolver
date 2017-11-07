@@ -734,21 +734,21 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u7e-At-oMl">
-                                <rect key="frame" x="5" y="5" width="383" height="260"/>
+                                <rect key="frame" x="5" y="5" width="219" height="260"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h2c-rm-nEx">
-                                <rect key="frame" x="437" y="5" width="38" height="260"/>
+                                <rect key="frame" x="453" y="5" width="22" height="260"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <wkWebView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vBa-Ug-gbe">
-                                <rect key="frame" x="393" y="5" width="39" height="260"/>
+                                <rect key="frame" x="229" y="5" width="219" height="260"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
@@ -767,7 +767,7 @@
                             <constraint firstAttribute="bottom" secondItem="u7e-At-oMl" secondAttribute="bottom" constant="5" id="cve-LM-7EN"/>
                             <constraint firstItem="h2c-rm-nEx" firstAttribute="top" secondItem="u7e-At-oMl" secondAttribute="top" id="gd6-r3-9Nj"/>
                             <constraint firstItem="h2c-rm-nEx" firstAttribute="width" secondItem="u7e-At-oMl" secondAttribute="width" multiplier="0.1" id="nT7-bv-jJP"/>
-                            <constraint firstItem="vBa-Ug-gbe" firstAttribute="width" secondItem="u7e-At-oMl" secondAttribute="width" multiplier="0.1" id="ogz-Fr-b2L"/>
+                            <constraint firstItem="vBa-Ug-gbe" firstAttribute="width" secondItem="u7e-At-oMl" secondAttribute="width" id="ogz-Fr-b2L"/>
                         </constraints>
                     </view>
                     <connections>

@@ -16,6 +16,8 @@ class GoogleStrategy: TriviaStrategy {
     private let webViewWindowController: NSWindowController
     private let webViewController: WebViewController
     
+    let watson = WatsonNLU()
+    
     struct Query: Codable {
         let question: String
         let answers: [String]
@@ -34,14 +36,16 @@ class GoogleStrategy: TriviaStrategy {
     
     func answerQuestion(question: String, possibleAnswers: [String]) -> String {
         for (i, answer) in possibleAnswers.enumerated() {
-            let url = searchUrl(query: "\(question)")
-            print("Requesting \(url) in view \(i)")
             switch i
             {
             case 0:
+                let url = searchUrl(query: "\(question)")
+                print("Requesting \(url) in view \(i)")
                 webViewController.webView1?.load(URLRequest(url: url))
-//            case 1:
-//                webViewController.webView2?.load(URLRequest(url: url))
+            case 1:
+                guard let analysis = watson.analyze(text: question) else { break }
+                let searchQuery = analysis.keywords.reduce("") { $0 + " " + $1.text }
+                webViewController.webView2?.load(URLRequest(url: searchUrl(query: searchQuery)))
 //            case 2:
 //                webViewController.webView3?.load(URLRequest(url: url))
             default:

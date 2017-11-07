@@ -26,17 +26,8 @@ static cv::Mat _cvMat;
 static cv::Mat _qTemplate;
 
 - (instancetype)initWithImage:(nonnull NSImage *)image {
-    cv::Mat qMat = cv::imread("/Users/kon/Developer/HQ Solver/HQ Solver/question_mark.png", cv::IMREAD_GRAYSCALE);
-    cv::threshold(qMat, qMat, 128, 255, cv::THRESH_BINARY);
-    std::vector<std::vector<cv::Point>> contours;
-    std::vector<cv::Vec4i> hierarchy;
-    cv::findContours(qMat, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_NONE);
-//    printf("Q Mark Found %lu contours\n", contours.size());
-//    cv::threshold(qMat, qMat, 255, 255, cv::THRESH_BINARY_INV);
-//    cv::drawContours(qMat, contours, 2, cv::Scalar(0, 255, 0), 1, cv::LINE_8, hierarchy);
-    _qTemplate = qMat;
-    cv::resize(qMat, _qTemplate, cv::Size(), 0.55, 0.55);
-//    cv::imshow("Q", _qTemplate);
+    _qTemplate = cv::imread("/Users/kon/Developer/HQ Solver/HQ Solver/q_template1.png", cv::IMREAD_GRAYSCALE);
+    cv::resize(_qTemplate, _qTemplate, cv::Size(), 0.5, 0.5);
 
     _questionMarkPresent = false;
     NSImageToMat(image, _cvMat);
@@ -99,12 +90,11 @@ static cv::Mat _qTemplate;
         cv::Mat result;
         cv::matchTemplate(_cvMat, _qTemplate, result, cv::TM_CCOEFF_NORMED);
         cv::minMaxLoc(result, &min, &max);
-        // printf("Min %f Max %f\n", min, max);
-        // cv::imshow("Match", result);
+//        printf("Min %f Max %f\n", min, max);
+//        cv::imshow("Match", result);
     }
 
-    self.questionMarkPresent = max > 0.75;
-//    cv::imshow("Out", _cvMat);
+    self.questionMarkPresent = max > 0.85;
 }
 
 @end

@@ -61,6 +61,7 @@
 /* Begin PBXFileReference section */
 		FF04293C1FA2B6CB00F6B7A7 /* ScreenCap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCap.swift; sourceTree = "<group>"; };
 		FF1154701FA6C2E80056959B /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		FF46A8BA1FB1282500EB9BAD /* q_template1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = q_template1.png; sourceTree = "<group>"; };
 		FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestQuestions.swift; sourceTree = "<group>"; };
 		FF4A0D971FA6866200EB7A1C /* examples.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = examples.json; path = "HQ Solver/examples.json"; sourceTree = SOURCE_ROOT; };
 		FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TfidfStrategy.swift; sourceTree = "<group>"; };
@@ -114,6 +115,7 @@
 		FF11546F1FA6C2B70056959B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FF46A8BA1FB1282500EB9BAD /* q_template1.png */,
 				FFCDA9ED1FAA939E0034948D /* question_mark.png */,
 				FFEF19011F9FE46600533CDC /* Info.plist */,
 				FF1154701FA6C2E80056959B /* Keys.plist */,
