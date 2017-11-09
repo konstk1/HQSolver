@@ -41,11 +41,16 @@ class GoogleStrategy: TriviaStrategy {
             case 0:
                 let url = searchUrl(query: "\(question)")
                 print("Requesting \(url) in view \(i)")
-                webViewController.webView1?.load(URLRequest(url: url))
+                DispatchQueue.main.async { [unowned self] in
+                    self.webViewController.webView1?.load(URLRequest(url: url))
+                }
             case 1:
                 guard let analysis = watson.analyze(text: question) else { break }
                 let searchQuery = analysis.keywords.reduce("") { $0 + " " + $1.text }
-                webViewController.webView2?.load(URLRequest(url: searchUrl(query: searchQuery)))
+                let url = searchUrl(query: searchQuery)
+                DispatchQueue.main.async { [unowned self] in
+                    self.webViewController.webView2?.load(URLRequest(url: url))
+                }
 //            case 2:
 //                webViewController.webView3?.load(URLRequest(url: url))
             default:

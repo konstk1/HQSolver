@@ -73,6 +73,8 @@ static cv::Mat _qTemplate;
         }
     }
     
+//    printf("Largest area: %.2f\n", largestArea);
+    
     cv::Rect bounds = cv::boundingRect(contours[largestIndex]);
     // close in on the bounds a little to get rid of edges
     // also crop the top end (counter) of the question box
@@ -84,6 +86,9 @@ static cv::Mat _qTemplate;
         _cvMat = _cvMat(bounds);
     }
     
+    double imgMean = cv::mean(_cvMat)[0];
+    printf("Mean value: %0.2f\n", imgMean);
+    
     double min = 0.0, max = 0.0;
     if (_cvMat.size().height >= _qTemplate.size().height &&
         _cvMat.size().width >= _qTemplate.size().height) {
@@ -94,7 +99,7 @@ static cv::Mat _qTemplate;
 //        cv::imshow("Match", result);
     }
 
-    self.questionMarkPresent = max > 0.85;
+    self.questionMarkPresent = max > 0.85 && imgMean > 230;
 }
 
 @end
