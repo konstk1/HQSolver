@@ -10,7 +10,6 @@
 #import <opencv2/imgproc.hpp>
 
 #import <Foundation/Foundation.h>
-//#import <AppKit/AppKit.h>
 #import "OpenCV.h"
 
 static void NSImageToMat(NSImage *image, cv::Mat &mat);
@@ -74,6 +73,9 @@ static cv::Mat _qTemplate;
     }
     
 //    printf("Largest area: %.2f\n", largestArea);
+    if (contours.size() == 0) {
+        return;
+    }
     
     cv::Rect bounds = cv::boundingRect(contours[largestIndex]);
     // close in on the bounds a little to get rid of edges
@@ -87,7 +89,7 @@ static cv::Mat _qTemplate;
     }
     
     double imgMean = cv::mean(_cvMat)[0];
-    printf("Mean value: %0.2f\n", imgMean);
+//    printf("Mean value: %0.2f\n", imgMean);
     
     double min = 0.0, max = 0.0;
     if (_cvMat.size().height >= _qTemplate.size().height &&

@@ -95,7 +95,7 @@ class ViewController: NSViewController {
         ocrImageView.image = ocrImage
         self.openCvDuration = Date().timeIntervalSince(startTime)
         
-        print("Question: \(opencv.questionMarkPresent)")
+//        print("Question: \(opencv.questionMarkPresent)")
         guard isReadyForQuestion && opencv.questionMarkPresent else {
             isReadyForQuestion = !opencv.questionMarkPresent
             return nil

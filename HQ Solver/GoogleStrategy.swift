@@ -16,6 +16,8 @@ class GoogleStrategy: TriviaStrategy {
     private let webViewWindowController: NSWindowController
     private let webViewController: WebViewController
     
+    private var observation1: NSKeyValueObservation? = nil
+    
     let watson = WatsonNLU()
     
     struct Query: Codable {
@@ -29,40 +31,37 @@ class GoogleStrategy: TriviaStrategy {
         webViewWindowController = controller as! NSWindowController
         webViewWindowController.showWindow(nil)
         webViewController = webViewWindowController.contentViewController as! WebViewController
-//        webViewController.webView1.webFrame.frameView.documentView.scaleUnitSquare(to: NSMakeSize(0.7, 0.7))
-        
 
+//        webViewController.webView1.webFrame.frameView.documentView.scaleUnitSquare(to: NSMakeSize(0.7, 0.7))
     }
     
     func answerQuestion(question: String, possibleAnswers: [String]) -> String {
         for (i, _) in possibleAnswers.enumerated() {
+            var searchQuery: String? = nil
             switch i
             {
             case 0:
-                let url = searchUrl(query: "\(question)")
-                print("Requesting \(url) in view \(i)")
-                DispatchQueue.main.async { [unowned self] in
-                    self.webViewController.webView1?.load(URLRequest(url: url))
-                }
+                searchQuery = question
             case 1:
                 guard let analysis = watson.analyze(text: question) else { break }
-                let searchQuery = analysis.keywords.reduce("") { $0 + " " + $1.text }
-                let url = searchUrl(query: searchQuery)
-                DispatchQueue.main.async { [unowned self] in
-                    self.webViewController.webView2?.load(URLRequest(url: url))
-                }
+                searchQuery = analysis.keywords.reduce("") { $0 + " " + $1.text }
 //            case 2:
 //                webViewController.webView3?.load(URLRequest(url: url))
             default:
                 break
             }
+            
+            if let url = searchUrl(query: searchQuery) {
+                webViewController.getPage(webViewId: i, url: url)
+            }
         }
         return "Answering not implemented"
     }
     
-    func searchUrl(query: String) -> URL {
-        guard var urlComponents = URLComponents(string: baseUrl) else { return URL(string: "www.google.com")! }
+    func searchUrl(query: String?) -> URL? {
+        guard let query = query, query != "" else { return nil }
+        var urlComponents = URLComponents(string: baseUrl)!
         urlComponents.query = "q=\(query)"
-        return urlComponents.url ?? URL(string: "www.google.com")!
+        return urlComponents.url
     }
 }
