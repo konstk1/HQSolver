@@ -19,6 +19,7 @@ typedef NS_ENUM(NSInteger, ConversionCode) {
 
 @property (nonatomic, nonnull) NSImage *image;
 @property bool questionMarkPresent;
+@property int correctAnswer;
 
 - (nonnull instancetype)initWithImage:(nonnull NSImage *)image;
 - (void)convertColorSpace:(ConversionCode)code;

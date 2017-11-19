@@ -21,6 +21,7 @@ static NSImage *MatToNSImage(cv::Mat &mat);
 
 @implementation OpenCV
 
+static cv::Mat _cvMatOrig;
 static cv::Mat _cvMat;
 static cv::Mat _qTemplate;
 
@@ -29,6 +30,7 @@ static cv::Mat _qTemplate;
     cv::resize(_qTemplate, _qTemplate, cv::Size(), 0.5, 0.5);
 
     _questionMarkPresent = false;
+    _correctAnswer = 0;
     NSImageToMat(image, _cvMat);
     return self;
 }
@@ -53,14 +55,7 @@ static cv::Mat _qTemplate;
     cv::threshold(_cvMat, _cvMat, val, 255, cv::THRESH_BINARY);
 }
 
-- (void)prepareForOcr {
-    cv::cvtColor(_cvMat, _cvMat, cv::COLOR_BGR2GRAY);
-    cv::threshold(_cvMat, _cvMat, 200, 255, cv::THRESH_BINARY);
-    
-    std::vector<std::vector<cv::Point>> contours;
-    std::vector<cv::Vec4i> hierarchy;
-    cv::findContours(_cvMat, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-    
+- (std::vector<cv::Point>)getLargestContour:(std::vector<std::vector<cv::Point>>)contours {
     auto largestArea = 0.0;
     auto largestIndex = 0;
     
@@ -71,13 +66,58 @@ static cv::Mat _qTemplate;
             largestIndex = i;
         }
     }
+    //    printf("Largest area: %.2f\n", largestArea);
+    return largestArea > 0 ? contours[largestIndex] : std::vector<cv::Point>();;
+}
+
+- (int)detectCorrectAnswer:(cv::Mat)orig {
+    cv::Mat range;
+    std::vector<std::vector<cv::Point>> contours;
+    std::vector<cv::Vec4i> hierarchy;
     
-//    printf("Largest area: %.2f\n", largestArea);
-    if (contours.size() == 0) {
+    cv::inRange(orig, cv::Scalar(130, 180, 30), cv::Scalar(170, 255, 150), range);
+    cv::findContours(range, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+
+    cv::Rect boundsGreen = cv::boundingRect([self getLargestContour:contours]);
+//    printf("Green %d (h %d)\n", orig.size().height - boundsGreen.y, boundsGreen.height);
+    cv::rectangle(_cvMat, boundsGreen, cv::Scalar(0,0,0));
+    
+    cv::inRange(orig, cv::Scalar(150, 100, 200), cv::Scalar(200, 160, 255), range);
+    cv::findContours(range, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    
+//    cv::Rect boundsRed = cv::boundingRect([self getLargestContour:contours]);
+//    printf("Red %d\n", orig.size().height - boundsRed.y);
+//    cv::rectangle(_cvMat, boundsRed, cv::Scalar(0,0,0));
+    
+//    cv::imshow("Answers", orig);
+    
+    // assume each answer takes up 70 pixels
+    // look at bounds position from the bottom of the image and calculate
+    // answer, 1 being top-most, and 3 bottom-most
+    int correctAnswer = 4 - floor((orig.size().height - boundsGreen.y)/70);
+//    printf("Answer: %d\n", correctAnswer);
+    if (correctAnswer < 1 || correctAnswer > 3) {
+        return 0;
+    }
+    return correctAnswer;
+}
+
+- (void)prepareForOcr {
+    _cvMatOrig = _cvMat;
+    cv::cvtColor(_cvMat, _cvMat, cv::COLOR_BGR2GRAY);
+    cv::threshold(_cvMat, _cvMat, 200, 255, cv::THRESH_BINARY);
+    
+    std::vector<std::vector<cv::Point>> contours;
+    std::vector<cv::Vec4i> hierarchy;
+    cv::findContours(_cvMat, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    
+    auto largestContour = [self getLargestContour:contours];
+    
+    if (largestContour.size() == 0) {
         return;
     }
     
-    cv::Rect bounds = cv::boundingRect(contours[largestIndex]);
+    cv::Rect bounds = cv::boundingRect(largestContour);
     // close in on the bounds a little to get rid of edges
     // also crop the top end (counter) of the question box
     bounds.x += 5;
@@ -100,8 +140,11 @@ static cv::Mat _qTemplate;
 //        printf("Min %f Max %f\n", min, max);
 //        cv::imshow("Match", result);
     }
-
-    self.questionMarkPresent = max > 0.85 && imgMean > 230;
+    
+    self.questionMarkPresent = max > 0.85;
+    if (self.questionMarkPresent) {
+        self.correctAnswer = [self detectCorrectAnswer:_cvMatOrig(bounds)];
+    }
 }
 
 @end

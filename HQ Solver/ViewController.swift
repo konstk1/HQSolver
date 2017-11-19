@@ -31,7 +31,7 @@ class ViewController: NSViewController {
         drawBorder(view: originalImageView, width: 1, color: NSColor.green)
         drawBorder(view: ocrImageView, width: 1, color: NSColor.blue)
         
-        solver.add(strategy: QBotStrategy())
+//        solver.add(strategy: QBotStrategy())
         solver.add(strategy: GoogleStrategy())
         
         screenCap?.startCaputre()
@@ -96,7 +96,8 @@ class ViewController: NSViewController {
         self.openCvDuration = Date().timeIntervalSince(startTime)
         
 //        print("Question: \(opencv.questionMarkPresent)")
-        guard isReadyForQuestion && opencv.questionMarkPresent else {
+        guard isReadyForQuestion && opencv.questionMarkPresent && opencv.correctAnswer == 0 else {
+            print("Correct answer \(opencv.correctAnswer)")
             isReadyForQuestion = !opencv.questionMarkPresent
             return nil
         }
