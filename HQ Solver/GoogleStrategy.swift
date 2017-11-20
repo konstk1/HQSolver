@@ -8,6 +8,7 @@
 
 import Foundation
 import WebKit
+import Kanna
 
 class GoogleStrategy: TriviaStrategy {
     let name = "Google"
@@ -52,7 +53,18 @@ class GoogleStrategy: TriviaStrategy {
             }
             
             if let url = searchUrl(query: searchQuery) {
-                webViewController.getPage(webViewId: i, url: url)
+                webViewController.getPage(webViewId: i, url: url) { [unowned self] html in
+                    guard let html = html else { return }
+                    guard let doc = try? HTML(html: html, encoding: .utf8) else {
+                        print("Failed to parse HTML")
+                        return
+                    }
+                    for link in doc.xpath("//h3[@class=\"r\"]/a/@href") {
+                        guard let url = URL(string: "https://www.google.com/\(link.content ?? "")") else { return }
+                        self.webViewController.getPage(webViewId: i+2, url: url, completion: nil)
+                        break
+                    }
+                }
             }
         }
         return "Answering not implemented"

@@ -24,7 +24,7 @@ class TestQuestions {
     init() {
         let text = try! String(contentsOfFile: examplesFilePath)
         questions = try! JSONDecoder().decode([Question].self, from: text.data(using: .utf8)!)
-        print(questions)
+//        print(questions)
     }
     
     func nextQuestion() -> Question? {

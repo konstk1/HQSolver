@@ -97,7 +97,7 @@ class ViewController: NSViewController {
         
 //        print("Question: \(opencv.questionMarkPresent)")
         guard isReadyForQuestion && opencv.questionMarkPresent && opencv.correctAnswer == 0 else {
-            print("Correct answer \(opencv.correctAnswer)")
+//            print("Correct answer \(opencv.correctAnswer)")
             isReadyForQuestion = !opencv.questionMarkPresent
             return nil
         }
