@@ -41,7 +41,7 @@ class QBotStrategy: TriviaStrategy {
                 print("ERROR: Failed to post (\(error))")
             }
             guard let response = response as? HTTPURLResponse else { return }
-            print("Response \(response.statusCode)")
+//            print("Response \(response.statusCode)")
         }
     
         dataTask?.resume()

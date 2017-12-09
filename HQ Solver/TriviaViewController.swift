@@ -12,10 +12,7 @@ class TriviaViewController: NSViewController {
     
     let screenCap = ScreenCap(displayId: 0, maxFrameRate: 30)
     let captureInterval: TimeInterval = 0.1
-
-    var openCvDuration: TimeInterval = 0
-    var ocrDuration:    TimeInterval = 0
-    var totalDuration:  TimeInterval = 0
+    var captureTimer: Timer?
     
     let solver = TriviaSolver()
 
@@ -36,32 +33,23 @@ class TriviaViewController: NSViewController {
         screenCap?.startCaputre()
         screenCap?.cropRect = CGRect(x: 0, y: 100, width: 550, height: 760)
 
-        Timer.scheduledTimer(withTimeInterval: captureInterval, repeats: true) { [unowned self] (timer) in
-            self.processFrame()
-        }
+        captureTimer = Timer.scheduledTimer(timeInterval: captureInterval, target: self, selector: #selector(processFrame), userInfo: nil, repeats: true)
+
     }
     
     override func viewWillDisappear() {
         super.viewWillDisappear()
         screenCap?.stopCapture()
+        captureTimer?.invalidate()
     }
     
-    func processFrame() {
-        let startTime = Date()
+    @objc func processFrame() {
         screenCap?.getImage(completion: { [unowned self] (image) in
-            DispatchQueue.main.async { [unowned self] in
-//                if let text = self.runOcr(image: image) {
-//                    solver.parseAndSolve(text: text)
-//                }
-                let endTime = Date()
-                self.totalDuration = endTime.timeIntervalSince(startTime)
-                self.statsLabel.stringValue = """
-                Cap Freq\t:\t\(String(format: "%4.1f", 1/self.captureInterval)) fps
-                Cap Time\t:\t\(String(format: "%4.0f", (self.totalDuration - self.ocrDuration) * 1000)) ms
-                OpenCV\t:\t\(String(format: "%4.0f", self.openCvDuration * 1000)) ms
-                OCR Time\t:\t\(String(format: "%4.0f", self.ocrDuration * 1000)) ms
-                Total\t:\t\(String(format: "%4.0f", self.totalDuration  * 1000)) ms
-                """
+            let ocrImage = self.solver.processFrame(image: image)
+            
+            // update UI
+            DispatchQueue.main.async {
+                self.ocrImageView.image = ocrImage
             }
         })
     }
@@ -71,15 +59,11 @@ class TriviaViewController: NSViewController {
     }
     
     @IBAction func testPushed(_ sender: NSButton) {
-        let question = TestQuestions().randomQuestion()
-//        _ = solver.solve(question: question.question, possibleAnswers: question.answers)
+        let testQ = TestQuestions().randomQuestion()
+        let question = TriviaSolver.Question(question: testQ.question, answers: testQ.answers, solution: nil)
+        _ = solver.solve(question: question)
     }
     
-    override var representedObject: Any? {
-        didSet {
-        
-        }
-    }
 }
 
 extension TriviaViewController {

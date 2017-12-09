@@ -56,7 +56,7 @@ class WatsonNLU {
                 print("ERROR: Failed to post (\(error))")
             }
             guard let response = response as? HTTPURLResponse else { return }
-            print("Response \(response.statusCode)")
+//            print("Response \(response.statusCode)")
             analysis = try? JSONDecoder().decode(Analysis.self, from: data!)
         }
         dataTask?.resume()

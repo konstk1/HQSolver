@@ -13,7 +13,6 @@
 		FF1154741FA7E31C0056959B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFEF18FE1F9FE46600533CDC /* Main.storyboard */; };
 		FF1154761FA7E4A20056959B /* TestQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */; };
 		FF4A0D9A1FA6892A00EB7A1C /* TestQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */; };
-		FF4A0DA11FA6A8FA00EB7A1C /* TriviaSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B934E1FA3933F00CED013 /* TriviaSolver.swift */; };
 		FF4A0DA31FA6A98C00EB7A1C /* TfidfStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */; };
 		FF4A0DA61FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */; };
 		FF4A0DA71FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */; };
@@ -322,7 +321,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF4A0DA71FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */,
-				FF4A0DA11FA6A8FA00EB7A1C /* TriviaSolver.swift in Sources */,
 				FFEF190C1F9FE46600533CDC /* HQ_SolverTests.swift in Sources */,
 				FF4A0D9A1FA6892A00EB7A1C /* TestQuestions.swift in Sources */,
 			);
