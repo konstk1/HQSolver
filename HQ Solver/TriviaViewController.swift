@@ -60,6 +60,12 @@ class TriviaViewController: NSViewController, TriviaSolverDelegate {
                 self.answer3Button.title = q.answers[2]
                 
                 self.selectAnswerOption(answer: q.correctAnswer)
+            } else {
+                self.ocrResultLabel.stringValue = "Waiting for question..."
+                self.answer1Button.title = "1"
+                self.answer2Button.title = "2"
+                self.answer3Button.title = "3"
+                [self.answer1Button, self.answer2Button, self.answer3Button].forEach { $0?.layer?.backgroundColor = nil }
             }
         }
     }
@@ -82,6 +88,7 @@ class TriviaViewController: NSViewController, TriviaSolverDelegate {
         }
         guard 1...3 ~= answer else { return }
         chosenAnswer = answer
+        solver.currentQuestion?.correctAnswer = chosenAnswer
         buttons[chosenAnswer-1]?.layer?.backgroundColor = NSColor.green.cgColor
     }
     
@@ -89,14 +96,14 @@ class TriviaViewController: NSViewController, TriviaSolverDelegate {
         solver.ocrNow()
     }
 
-    @IBAction func approvePushed(_ sender: NSButton) {
-        solver.currentQuestion?.correctAnswer = chosenAnswer
-        solver.submit()
+    @IBAction func markPushed(_ sender: NSButton) {
+        solver.currentQuestion?.marked = true
+        [answer1Button, answer2Button, answer3Button][chosenAnswer-1]?.layer?.backgroundColor = NSColor.yellow.cgColor
     }
     
     @IBAction func testPushed(_ sender: NSButton) {
         let testQ = TestQuestions().randomQuestion()
-        let question = TriviaSolver.Question(question: testQ.question, answers: testQ.answers, correctAnswer: -1)
+        let question = TriviaSolver.Question(question: testQ.question, answers: testQ.answers)
         _ = solver.solve(question: question)
     }
     

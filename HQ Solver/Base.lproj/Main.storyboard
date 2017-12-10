@@ -813,7 +813,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="172" id="qyE-TT-Sn9"/>
                                 </constraints>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="OCR Result" id="2FD-l6-tXV">
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Waiting for quesiton..." id="2FD-l6-tXV">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -852,8 +852,8 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pzp-7C-06E">
-                                <rect key="frame" x="458" y="410" width="29" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Q10" id="rEE-8g-sHj">
+                                <rect key="frame" x="467" y="410" width="20" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Q1" id="rEE-8g-sHj">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -861,12 +861,12 @@
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="c6G-MN-hr6">
                                 <rect key="frame" x="272" y="175" width="184" height="32"/>
-                                <buttonCell key="cell" type="push" title="Approve" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6BU-5o-AAu">
+                                <buttonCell key="cell" type="push" title="Mark" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6BU-5o-AAu">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="approvePushed:" target="XfG-lQ-9wD" id="KOg-Ae-9oB"/>
+                                    <action selector="markPushed:" target="XfG-lQ-9wD" id="9KD-Qq-crB"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tlg-B0-ss2">
@@ -874,7 +874,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="9nf-uo-Y8C"/>
                                 </constraints>
-                                <buttonCell key="cell" type="smallSquare" title="A1" bezelStyle="smallSquare" imagePosition="overlaps" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" id="Yax-OU-3Nm">
+                                <buttonCell key="cell" type="smallSquare" title="1" bezelStyle="smallSquare" imagePosition="overlaps" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" id="Yax-OU-3Nm">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -887,7 +887,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="2SV-U5-GL8"/>
                                 </constraints>
-                                <buttonCell key="cell" type="smallSquare" title="A2" bezelStyle="smallSquare" imagePosition="overlaps" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" id="znP-sg-qkv">
+                                <buttonCell key="cell" type="smallSquare" title="2" bezelStyle="smallSquare" imagePosition="overlaps" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" id="znP-sg-qkv">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -900,7 +900,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="WQ4-pu-Ug2"/>
                                 </constraints>
-                                <buttonCell key="cell" type="smallSquare" title="A3" bezelStyle="smallSquare" imagePosition="overlaps" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" id="AoJ-20-JvJ">
+                                <buttonCell key="cell" type="smallSquare" title="3" bezelStyle="smallSquare" imagePosition="overlaps" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" id="AoJ-20-JvJ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>

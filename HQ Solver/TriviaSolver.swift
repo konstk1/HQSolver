@@ -23,8 +23,8 @@ protocol TriviaSolverDelegate: class {
 
 final class TriviaSolver {
     var state: State = .waitingForQuestion {
-        didSet(newValue) {
-            print("State: \(newValue)")
+        didSet {
+            print("State: \(state)")
             delegate?.triviaSolver(solver: self, didUpdateState: state)
         }
     }
@@ -44,8 +44,14 @@ final class TriviaSolver {
     struct Question {
         var question: String
         var answers: [String]
-        var correctAnswer = 0
+        var correctAnswer = -1
         var solution: String? { return 1...3 ~= correctAnswer ? answers[correctAnswer-1] : nil }
+        var marked: Bool = false
+        
+        init(question: String, answers: [String]) {
+            self.question = question
+            self.answers = answers
+        }
     }
     
     var strategies = [TriviaStrategy]()
@@ -78,14 +84,13 @@ final class TriviaSolver {
         }
         
         let question = lines.joined(separator: " ")
-        return Question(question: question, answers: answers, correctAnswer: -1)
+        return Question(question: question, answers: answers)
     }
     
     func solve(question: Question) -> String {
         var answer = ""
 
         currentQuestion = question
-        state = .waitingForAnswer
         
         for strategy in strategies {
             DispatchQueue.global(qos: .userInitiated).async {
@@ -106,42 +111,49 @@ final class TriviaSolver {
         // TODO: submit current question and asnwers to HQBot
         print(currentQuestion!)
     }
+    
+    func reset() {
+        state = .waitingForQuestion
+        currentQuestion = nil
+    }
 }
 
 // frame processing
 extension TriviaSolver {
     func processFrame(image: NSImage) -> NSImage {
-        let ocrImage = prepForOcr(image: image)
-        
-        if state == .readyForOcr {
-            if let text = runOcr(image: ocrImage) {
-                state = .waitingForAnswer
-                let q = parse(text: text)
-                _ = solve(question: q)
-            }
-        }
-        
-        return ocrImage
-    }
-    
-    private func prepForOcr(image: NSImage) -> NSImage {
+        // OpenCV to detect state and prepare for OCR
         let opencv =  OpenCV(image: image)
         opencv.prepareForOcr()
+        let ocrImage = opencv.image
         
-        print("\(state) - \(opencv.correctAnswer)")
+//        print("\(state) - \(opencv.correctAnswer)")
         if state == .waitingForQuestion && opencv.questionMarkPresent {
             state = .readyForOcr
         } else if state == .waitingForAnswer && opencv.correctAnswer > 0 {
             currentQuestion?.correctAnswer =  Int(opencv.correctAnswer)
             state = .waitingForApproval
             // start 3 second timer for auto approval
-        } else if state == .submitting && opencv.correctAnswer == 0 {
+//            DispatchQueue.global().asyncAfter(deadline: .now() + 3.0) { [unowned self] in
+//                print("Timer fired, submitting")
+//                self.submit()
+//            }
+        } else if state == .waitingForApproval && opencv.correctAnswer == 0 {
+            self.submit()
             // wait for correct answer disappear, now ready for next question
-            state = .waitingForQuestion
+            currentQuestion = nil
             questionNumber = questionNumber + 1
+            state = .waitingForQuestion
         }
         
-        return opencv.image
+        if state == .readyForOcr {
+            if let text = runOcr(image: ocrImage) {
+                let q = parse(text: text)
+                _ = solve(question: q)
+                state = .waitingForAnswer
+            }
+        }
+        
+        return ocrImage
     }
     
     private func runOcr(image: NSImage) -> String? {
