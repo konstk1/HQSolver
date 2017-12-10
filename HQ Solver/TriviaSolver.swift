@@ -17,13 +17,19 @@ extension TriviaStrategy {
     var name: String { return "Unknown" }
 }
 
-class TriviaSolver {
+protocol TriviaSolverDelegate: class {
+    func triviaSolver(solver: TriviaSolver, didUpdateState state: TriviaSolver.State);
+}
+
+final class TriviaSolver {
     var state: State = .waitingForQuestion {
         didSet(newValue) {
             print("State: \(newValue)")
+            delegate?.triviaSolver(solver: self, didUpdateState: state)
         }
     }
     
+    weak var delegate: TriviaSolverDelegate? = nil
     var currentQuestion: Question? = nil       // current question
     var questionNumber = 1
     
@@ -38,16 +44,17 @@ class TriviaSolver {
     struct Question {
         var question: String
         var answers: [String]
-        var solution: String? = nil
+        var correctAnswer = 0
+        var solution: String? { return 1...3 ~= correctAnswer ? answers[correctAnswer-1] : nil }
     }
     
     var strategies = [TriviaStrategy]()
     
     init() {
-        
     }
     
-    init(strategy: TriviaStrategy) {
+    convenience init(strategy: TriviaStrategy) {
+        self.init()
         strategies.append(strategy)
     }
     
@@ -71,13 +78,14 @@ class TriviaSolver {
         }
         
         let question = lines.joined(separator: " ")
-        return Question(question: question, answers: answers, solution: nil)
+        return Question(question: question, answers: answers, correctAnswer: -1)
     }
     
     func solve(question: Question) -> String {
         var answer = ""
 
         currentQuestion = question
+        state = .waitingForAnswer
         
         for strategy in strategies {
             DispatchQueue.global(qos: .userInitiated).async {
@@ -89,11 +97,14 @@ class TriviaSolver {
         return answer
     }
     
+    func ocrNow() {
+        state = .readyForOcr
+    }
+    
     func submit() {
         state = .submitting
         // TODO: submit current question and asnwers to HQBot
-        state = .waitingForQuestion
-        questionNumber = questionNumber + 1
+        print(currentQuestion!)
     }
 }
 
@@ -121,10 +132,13 @@ extension TriviaSolver {
         if state == .waitingForQuestion && opencv.questionMarkPresent {
             state = .readyForOcr
         } else if state == .waitingForAnswer && opencv.correctAnswer > 0 {
-            let solution = currentQuestion?.answers[Int(opencv.correctAnswer)]
-            currentQuestion?.solution = solution
+            currentQuestion?.correctAnswer =  Int(opencv.correctAnswer)
             state = .waitingForApproval
             // start 3 second timer for auto approval
+        } else if state == .submitting && opencv.correctAnswer == 0 {
+            // wait for correct answer disappear, now ready for next question
+            state = .waitingForQuestion
+            questionNumber = questionNumber + 1
         }
         
         return opencv.image

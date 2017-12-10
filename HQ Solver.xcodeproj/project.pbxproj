@@ -158,8 +158,8 @@
 			children = (
 				FFEF19191F9FE84D00533CDC /* HQ Solver-Bridging-Header.h */,
 				FFEF18F81F9FE46600533CDC /* AppDelegate.swift */,
-				FFEF18FA1F9FE46600533CDC /* TriviaViewController.swift */,
 				FF8B93541FA3C2FC00CED013 /* WebViewController.swift */,
+				FFEF18FA1F9FE46600533CDC /* TriviaViewController.swift */,
 				FF8B934E1FA3933F00CED013 /* TriviaSolver.swift */,
 				FF8B93501FA3974B00CED013 /* QBotStrategy.swift */,
 				FF8B93521FA3BDE200CED013 /* GoogleStrategy.swift */,

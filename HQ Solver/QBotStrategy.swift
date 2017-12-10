@@ -29,7 +29,7 @@ class QBotStrategy: TriviaStrategy {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         request.httpBody = try! encoder.encode(query)
-        print(String(data: request.httpBody!, encoding: .utf8)!)
+//        print(String(data: request.httpBody!, encoding: .utf8)!)
         let group = DispatchGroup()
         group.enter()
         dataTask = defaultSession.dataTask(with: request) { [unowned self] (data, response, error) in
@@ -40,7 +40,7 @@ class QBotStrategy: TriviaStrategy {
             if let error = error {
                 print("ERROR: Failed to post (\(error))")
             }
-            guard let response = response as? HTTPURLResponse else { return }
+            guard let _ = response as? HTTPURLResponse else { return }
 //            print("Response \(response.statusCode)")
         }
     

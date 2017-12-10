@@ -128,7 +128,7 @@ static cv::Mat _qTemplate;
         _cvMat = _cvMat(bounds);
     }
     
-    double imgMean = cv::mean(_cvMat)[0];
+//    double imgMean = cv::mean(_cvMat)[0];
 //    printf("Mean value: %0.2f\n", imgMean);
     
     double min = 0.0, max = 0.0;
