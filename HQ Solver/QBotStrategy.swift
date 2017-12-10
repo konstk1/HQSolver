@@ -11,6 +11,7 @@ import Foundation
 class QBotStrategy: TriviaStrategy {
     let name = "QBot"
     let baseUrl = "http://helpmetrivia.com"
+//    let baseUrl = "http://localhost:3000"
     
     let defaultSession = URLSession(configuration: .default)
     var dataTask: URLSessionDataTask?

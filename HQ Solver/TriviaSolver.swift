@@ -58,14 +58,29 @@ final class TriviaSolver {
         }
     }
     
-    var strategies = [TriviaStrategy]()
+    struct Stats {
+        var startTime = Date()
+        var prepForOcrTime: TimeInterval = 0
+        var ocrTime: TimeInterval = 0
+    }
+    
+    var stats = Stats()
+    
+    private var strategies = [TriviaStrategy]()
+    
+    private let tess = TessBaseAPICreate()
     
     init() {
+        TessBaseAPIInit3(tess, nil, "eng")
     }
     
     convenience init(strategy: TriviaStrategy) {
         self.init()
         strategies.append(strategy)
+    }
+    
+    deinit {
+        TessBaseAPIDelete(tess)
     }
     
     func add(strategy: TriviaStrategy) {
@@ -130,10 +145,14 @@ final class TriviaSolver {
 // frame processing
 extension TriviaSolver {
     func processFrame(image: NSImage) -> NSImage {
+        stats.startTime = Date()
+        
         // OpenCV to detect state and prepare for OCR
         let opencv =  OpenCV(image: image)
         opencv.prepareForOcr()
         let ocrImage = opencv.image
+        
+        stats.prepForOcrTime = Date().timeIntervalSince(stats.startTime)
         
 //        print("\(state) - \(opencv.correctAnswer)")
         if state == .waitingForQuestion && opencv.questionMarkPresent {
@@ -141,7 +160,7 @@ extension TriviaSolver {
         } else if state == .waitingForAnswer && opencv.correctAnswer > 0 {
             currentQuestion?.correctAnswer =  Int(opencv.correctAnswer)
             state = .waitingForApproval
-            // start 3 second timer for auto approval
+            // wait 3 seconds for auto approval
 //            DispatchQueue.global().asyncAfter(deadline: .now() + 3.0) { [unowned self] in
 //                print("Timer fired, submitting")
 //                self.submit()
@@ -156,6 +175,7 @@ extension TriviaSolver {
         
         if state == .readyForOcr {
             if let text = runOcr(image: ocrImage) {
+                stats.ocrTime = Date().timeIntervalSince(stats.startTime) - stats.prepForOcrTime
                 let q = parse(text: text)
                 _ = solve(question: q)
                 state = .waitingForAnswer
@@ -166,19 +186,12 @@ extension TriviaSolver {
     }
     
     private func runOcr(image: NSImage) -> String? {
-        let tess = TessBaseAPICreate()
-        TessBaseAPIInit3(tess, nil, "eng")
-        
         let bmp = image.representations[0] as! NSBitmapImageRep
         let data: UnsafeMutablePointer<UInt8> = bmp.bitmapData!
         
-        //        print("Processing image \(bmp.pixelsWide)x\(bmp.pixelsHigh) \(bmp.bitsPerPixel/8) \(bmp.bytesPerRow)")
+        // print("Processing image \(bmp.pixelsWide)x\(bmp.pixelsHigh) \(bmp.bitsPerPixel/8) \(bmp.bytesPerRow)")
         TessBaseAPISetImage(tess, data, Int32(bmp.pixelsWide), Int32(bmp.pixelsHigh), Int32(bmp.bitsPerPixel/8), Int32(bmp.bytesPerRow))
         
-        let outText = String(cString: TessBaseAPIGetUTF8Text(tess)!)
-        
-        TessBaseAPIDelete(tess)
-        
-        return outText
+        return String(cString: TessBaseAPIGetUTF8Text(tess)!)
     }
 }

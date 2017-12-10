@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class TriviaViewController: NSViewController, TriviaSolverDelegate {
+final class TriviaViewController: NSViewController, TriviaSolverDelegate {
     
     let screenCap = ScreenCap(displayId: 0, maxFrameRate: 30)
     let captureInterval: TimeInterval = 0.1
@@ -16,6 +16,13 @@ class TriviaViewController: NSViewController, TriviaSolverDelegate {
     
     var chosenAnswer = 0
     let solver = TriviaSolver()
+    
+    private struct Stats {
+        var imageCaptureTime: TimeInterval = 0
+        var processFrameTime: TimeInterval = 0
+    }
+    
+    private var stats = Stats()
 
     @IBOutlet weak var originalImageView: NSImageView!
     @IBOutlet weak var ocrImageView: NSImageView!
@@ -26,6 +33,7 @@ class TriviaViewController: NSViewController, TriviaSolverDelegate {
     @IBOutlet weak var answer1Button: NSButton!
     @IBOutlet weak var answer2Button: NSButton!
     @IBOutlet weak var answer3Button: NSButton!
+    @IBOutlet weak var markButton: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +42,7 @@ class TriviaViewController: NSViewController, TriviaSolverDelegate {
         drawBorder(view: ocrImageView, width: 1, color: NSColor.blue)
         
         solver.delegate = self
-        solver.add(strategy: QBotStrategy())
+//        solver.add(strategy: QBotStrategy())
         solver.add(strategy: GoogleStrategy())
         
         screenCap?.startCaputre()
@@ -67,16 +75,32 @@ class TriviaViewController: NSViewController, TriviaSolverDelegate {
                 self.answer3Button.title = "3"
                 [self.answer1Button, self.answer2Button, self.answer3Button].forEach { $0?.layer?.backgroundColor = nil }
             }
+            
+            if state == .waitingForQuestion {
+                // reset UI state
+                self.markButton?.layer?.backgroundColor = nil
+            }
         }
     }
     
     @objc func processFrame() {
+        let startTime = Date()
         screenCap?.getImage(completion: { [unowned self] (image) in
+            self.stats.imageCaptureTime = Date().timeIntervalSince(startTime)
             let ocrImage = self.solver.processFrame(image: image)
-            
+            self.stats.processFrameTime = Date().timeIntervalSince(startTime) - self.stats.imageCaptureTime
             // update UI
             DispatchQueue.main.async {
+                self.originalImageView.image = image
                 self.ocrImageView.image = ocrImage
+
+                self.statsLabel.stringValue = """
+                State:\t\(self.solver.state)
+                Img Cap:\t\t\(String(format: "%4.0f", self.stats.imageCaptureTime*1000)) msec
+                Frame Proc:\t\(String(format: "%4.0f", self.stats.processFrameTime*1000)) msec
+                Prep OCR:\t\(String(format: "%4.0f", self.solver.stats.prepForOcrTime*1000)) msec
+                OCR:\t\t\t\(String(format: "%4.0f", self.solver.stats.ocrTime*1000)) msec
+                """
             }
         })
     }
@@ -98,7 +122,7 @@ class TriviaViewController: NSViewController, TriviaSolverDelegate {
 
     @IBAction func markPushed(_ sender: NSButton) {
         solver.currentQuestion?.marked = true
-        ocrResultLabel.backgroundColor = NSColor.yellow
+        markButton?.layer?.backgroundColor = NSColor.yellow.cgColor
     }
     
     @IBAction func testPushed(_ sender: NSButton) {

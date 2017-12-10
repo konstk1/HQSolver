@@ -820,7 +820,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kpb-B4-DPs">
-                                <rect key="frame" x="276" y="20" width="176" height="100"/>
+                                <rect key="frame" x="276" y="20" width="216" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="172" id="0cs-1h-9pL"/>
                                     <constraint firstAttribute="height" constant="100" id="PIG-PN-vkE"/>
@@ -920,7 +920,6 @@
                             <constraint firstItem="tlg-B0-ss2" firstAttribute="leading" secondItem="tWk-gF-MjX" secondAttribute="leading" id="A38-Xz-DV9"/>
                             <constraint firstItem="rRq-98-Qdn" firstAttribute="top" secondItem="tlg-B0-ss2" secondAttribute="bottom" constant="8" id="CZu-Ix-IN3"/>
                             <constraint firstItem="Twe-fH-iOb" firstAttribute="leading" secondItem="G7B-Cf-6XU" secondAttribute="trailing" constant="5" id="Chm-fG-jeq"/>
-                            <constraint firstItem="Kpb-B4-DPs" firstAttribute="trailing" secondItem="tWk-gF-MjX" secondAttribute="trailing" id="GPr-YB-uwV"/>
                             <constraint firstAttribute="trailing" secondItem="pzp-7C-06E" secondAttribute="trailing" constant="15" id="IZj-Gl-DzC"/>
                             <constraint firstItem="lbL-vv-pOu" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="10" id="Jgy-hS-tdh"/>
                             <constraint firstItem="99d-C2-k9w" firstAttribute="top" secondItem="lbL-vv-pOu" secondAttribute="bottom" constant="10" id="NJv-Ae-VST"/>
@@ -938,6 +937,7 @@
                             <constraint firstItem="rrb-Le-QiU" firstAttribute="top" secondItem="rRq-98-Qdn" secondAttribute="bottom" constant="8" id="hWN-gi-fuZ"/>
                             <constraint firstItem="Kpb-B4-DPs" firstAttribute="top" secondItem="G7B-Cf-6XU" secondAttribute="bottom" constant="29" id="iJk-Pd-87w"/>
                             <constraint firstItem="Kpb-B4-DPs" firstAttribute="leading" secondItem="tWk-gF-MjX" secondAttribute="leading" id="rXp-oY-e9f"/>
+                            <constraint firstAttribute="trailing" secondItem="Kpb-B4-DPs" secondAttribute="trailing" constant="10" id="sUy-wc-Smx"/>
                             <constraint firstItem="Twe-fH-iOb" firstAttribute="trailing" secondItem="tWk-gF-MjX" secondAttribute="trailing" id="sfm-M0-alP"/>
                             <constraint firstItem="lbL-vv-pOu" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="9" id="siX-M1-9YR"/>
                             <constraint firstItem="99d-C2-k9w" firstAttribute="height" secondItem="lbL-vv-pOu" secondAttribute="height" id="yEP-cf-5Jh"/>
@@ -948,6 +948,7 @@
                         <outlet property="answer1Button" destination="tlg-B0-ss2" id="zIu-jA-NCg"/>
                         <outlet property="answer2Button" destination="rRq-98-Qdn" id="V02-tF-m3F"/>
                         <outlet property="answer3Button" destination="rrb-Le-QiU" id="6Ij-pK-NBN"/>
+                        <outlet property="markButton" destination="c6G-MN-hr6" id="Yrq-dU-aqg"/>
                         <outlet property="ocrImageView" destination="99d-C2-k9w" id="awJ-il-VLh"/>
                         <outlet property="ocrResultLabel" destination="tWk-gF-MjX" id="fYs-hh-pxM"/>
                         <outlet property="originalImageView" destination="lbL-vv-pOu" id="1RN-w4-Fhd"/>
