@@ -34,7 +34,7 @@ class TriviaViewController: NSViewController, TriviaSolverDelegate {
         drawBorder(view: ocrImageView, width: 1, color: NSColor.blue)
         
         solver.delegate = self
-//        solver.add(strategy: QBotStrategy())
+        solver.add(strategy: QBotStrategy())
         solver.add(strategy: GoogleStrategy())
         
         screenCap?.startCaputre()
@@ -98,7 +98,7 @@ class TriviaViewController: NSViewController, TriviaSolverDelegate {
 
     @IBAction func markPushed(_ sender: NSButton) {
         solver.currentQuestion?.marked = true
-        [answer1Button, answer2Button, answer3Button][chosenAnswer-1]?.layer?.backgroundColor = NSColor.yellow.cgColor
+        ocrResultLabel.backgroundColor = NSColor.yellow
     }
     
     @IBAction func testPushed(_ sender: NSButton) {

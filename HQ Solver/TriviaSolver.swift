@@ -11,10 +11,14 @@ import Cocoa
 protocol TriviaStrategy {
     var name: String { get }
     func answerQuestion(question: String, possibleAnswers: [String]) -> String
+    func submitAnswer(qNumber: Int, question: String, possibleAnswers: [String], correctAnswer: Int, marked: Bool)
 }
 
 extension TriviaStrategy {
     var name: String { return "Unknown" }
+    func submitAnswer(qNumber: Int, question: String, possibleAnswers: [String], correctAnswer: Int, marked: Bool) {
+        // default implementation
+    }
 }
 
 protocol TriviaSolverDelegate: class {
@@ -41,7 +45,7 @@ final class TriviaSolver {
         case submitting
     }
     
-    struct Question {
+    struct Question: Encodable {
         var question: String
         var answers: [String]
         var correctAnswer = -1
@@ -108,8 +112,13 @@ final class TriviaSolver {
     
     func submit() {
         state = .submitting
-        // TODO: submit current question and asnwers to HQBot
-        print(currentQuestion!)
+        for strategy in strategies {
+            DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+                guard let q = self.currentQuestion else { return }
+                strategy.submitAnswer(qNumber: self.questionNumber, question: q.question, possibleAnswers: q.answers, correctAnswer: q.correctAnswer, marked: q.marked)
+            }
+        }
+        print("Submitting \(currentQuestion!)")
     }
     
     func reset() {
