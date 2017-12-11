@@ -10,8 +10,8 @@ import Cocoa
 
 final class TriviaViewController: NSViewController, TriviaSolverDelegate {
     
-    let screenCap = ScreenCap(displayId: 0, maxFrameRate: 30)
-    let captureInterval: TimeInterval = 0.2
+    let screenCap = ScreenCap()
+    let captureInterval: TimeInterval = 0.1
     var captureTimer: Timer?
     
     var chosenAnswer = 0
@@ -45,8 +45,8 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
         solver.add(strategy: QBotStrategy())
         solver.add(strategy: GoogleStrategy())
         
-        screenCap?.startCaputre()
-        screenCap?.cropRect = CGRect(x: 0, y: 100, width: 550, height: 760)
+        screenCap.startCaputre()
+        screenCap.cropRect = CGRect(x: 0, y: 2436-1700-50, width: 1126, height: 1700)
 
         captureTimer = Timer.scheduledTimer(timeInterval: captureInterval, target: self, selector: #selector(processFrame), userInfo: nil, repeats: true)
 
@@ -54,7 +54,7 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
     
     override func viewWillDisappear() {
         super.viewWillDisappear()
-        screenCap?.stopCapture()
+        screenCap.stopCapture()
         captureTimer?.invalidate()
     }
     
@@ -85,7 +85,7 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
     
     @objc func processFrame() {
         let startTime = Date()
-        screenCap?.getImage(completion: { [unowned self] (image) in
+        screenCap.getImage(completion: { [unowned self] (image) in
             self.stats.imageCaptureTime = Date().timeIntervalSince(startTime)
             let ocrImage = self.solver.processFrame(image: image)
             self.stats.processFrameTime = Date().timeIntervalSince(startTime) - self.stats.imageCaptureTime
@@ -123,7 +123,7 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
     @IBAction func markPushed(_ sender: NSButton) {
         solver.currentQuestion?.marked = true
         markButton?.layer?.backgroundColor = NSColor.yellow.cgColor
-        screenCap?.startCaputre()
+        screenCap.startCaputre()
     }
     
     @IBAction func testPushed(_ sender: NSButton) {

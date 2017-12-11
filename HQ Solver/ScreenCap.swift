@@ -12,31 +12,22 @@ import CoreMediaIO
 
 class ScreenCap {
     let capSession: AVCaptureSession
-//    let screenCapInput: AVCaptureScreenInput
     let imageCapOutput: AVCaptureStillImageOutput
-//    let iPhoneInput: AVCaptureDeviceInput
     
-    var cropRect: CGRect {
-        get {
-            return CGRect()
-//            return iPhoneInput.cropRect
-        }
-        set(newRect) {
-//            iPhoneInput.cropRect = newRect
-//            imageCapOutput.outputSettings[AVVideoHeightKey] = newRect.size.height
-//            imageCapOutput.outputSettings[AVVideoWidthKey] = newRect.size.width
-        }
-    }
+    var cropRect: NSRect? = nil
         
-    init?(displayId: CGDirectDisplayID, maxFrameRate: Int32) {
+    init() {
         capSession = AVCaptureSession()
-        capSession.sessionPreset = .qvga320x240
+        capSession.sessionPreset = .photo
 
         imageCapOutput = AVCaptureStillImageOutput()
         imageCapOutput.outputSettings = [
-            AVVideoCodecKey: AVVideoCodecType.jpeg]
+            kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
         
-        guard capSession.canAddOutput(imageCapOutput) else { return nil }
+        guard capSession.canAddOutput(imageCapOutput) else {
+            print("Failed to add image capture output to session")
+            return
+        }
         capSession.addOutput(imageCapOutput)
         
         var token: NSObjectProtocol?
@@ -52,7 +43,6 @@ class ScreenCap {
         )
         var allow: UInt32 = 1
         CMIOObjectSetPropertyData(CMIOObjectID(kCMIOObjectSystemObject), &property, 0, nil, UInt32(MemoryLayout.size(ofValue: allow)), &allow)
-        
     }
     
     func refreshDevices() -> AVCaptureDevice? {
@@ -83,10 +73,10 @@ class ScreenCap {
     
     func getImage(completion: @escaping (NSImage) -> Void) {
         guard let vidConnection = imageCapOutput.connection(with: .video) else {
-//            print("Failed to get video connection of ImageCaptureOutput")
+            print("Failed to get video connection of ImageCaptureOutput")
             return
         }
-        imageCapOutput.captureStillImageAsynchronously(from: vidConnection) { (buffer, error) in
+        imageCapOutput.captureStillImageAsynchronously(from: vidConnection) { [unowned self] (buffer, error) in
             guard error == nil else {
                 print("Capture error: \(error!)")
                 return
@@ -95,12 +85,42 @@ class ScreenCap {
                 print("Buffer is nil")
                 return
             }
-            guard let image = NSImage(data: AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)!) else {
-//                print("Failed to get image data")
-                return
+            
+            var image: NSImage!
+
+            if let cropRect = self.cropRect {
+                var ciImage = CIImage(cvImageBuffer: CMSampleBufferGetImageBuffer(buffer)!)
+                ciImage = ciImage.cropped(to: cropRect)
+                ciImage = ciImage.transformed(by: CGAffineTransform(scaleX: 0.7, y: 0.7))
+                let rep = NSCIImageRep(ciImage: ciImage)
+                image = NSImage(size: rep.size)
+                image?.addRepresentation(rep)
+
             }
+            
+//            guard let image = NSImage(data: AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)!) else {
+//                print("Failed to get image data")
+//                return
+//            }
             print("Image \(image.size)")
             completion(image)
         }
+    }
+}
+
+extension NSImage {
+    func crop(to rect: NSRect) -> NSImage? {
+        guard let rep = self.bestRepresentation(for: rect, context: nil, hints: nil) else {
+            print("Failed to get rep for image")
+            return nil
+        }
+        
+        let image = NSImage(size: rect.size)
+        image.lockFocus()
+        defer { image.unlockFocus() }
+        
+        rep.draw(in: NSMakeRect(0, 0, rect.size.width, rect.size.height) , from: rect, operation: .copy, fraction: 1.0, respectFlipped: false, hints: nil)
+        
+        return image
     }
 }
