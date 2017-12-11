@@ -8,43 +8,72 @@
 
 import Foundation
 import AVFoundation
+import CoreMediaIO
 
 class ScreenCap {
     let capSession: AVCaptureSession
-    let screenCapInput: AVCaptureScreenInput
+//    let screenCapInput: AVCaptureScreenInput
     let imageCapOutput: AVCaptureStillImageOutput
+//    let iPhoneInput: AVCaptureDeviceInput
     
     var cropRect: CGRect {
         get {
-            return screenCapInput.cropRect
+            return CGRect()
+//            return iPhoneInput.cropRect
         }
         set(newRect) {
-            screenCapInput.cropRect = newRect
-            imageCapOutput.outputSettings[AVVideoHeightKey] = newRect.size.height
-            imageCapOutput.outputSettings[AVVideoWidthKey] = newRect.size.width
+//            iPhoneInput.cropRect = newRect
+//            imageCapOutput.outputSettings[AVVideoHeightKey] = newRect.size.height
+//            imageCapOutput.outputSettings[AVVideoWidthKey] = newRect.size.width
         }
     }
         
     init?(displayId: CGDirectDisplayID, maxFrameRate: Int32) {
-        let tempDisplay = CGMainDisplayID()
         capSession = AVCaptureSession()
         capSession.sessionPreset = .photo
-        
-        screenCapInput = AVCaptureScreenInput(displayID: tempDisplay)
-        screenCapInput.minFrameDuration = CMTimeMake(1, maxFrameRate)
-        print("Min frame rate: \(screenCapInput.minFrameDuration)")
-        guard capSession.canAddInput(screenCapInput) else { return nil }
-        capSession.addInput(screenCapInput)
-        
+
         imageCapOutput = AVCaptureStillImageOutput()
         imageCapOutput.outputSettings = [
             AVVideoCodecKey: AVVideoCodecType.jpeg]
         guard capSession.canAddOutput(imageCapOutput) else { return nil }
         capSession.addOutput(imageCapOutput)
+        
+        var token: NSObjectProtocol?
+        token = NotificationCenter.default.addObserver(forName: NSNotification.Name.AVCaptureDeviceWasConnected, object: nil, queue: nil) { (notification) in
+            print("Device connected")
+            NotificationCenter.default.removeObserver(token as Any)
+        }
+        
+        var property = CMIOObjectPropertyAddress(
+            mSelector: CMIOObjectPropertySelector(kCMIOHardwarePropertyAllowScreenCaptureDevices),
+            mScope: CMIOObjectPropertyScope(kCMIOObjectPropertyScopeGlobal),
+            mElement: CMIOObjectPropertyElement(kCMIOObjectPropertyElementMaster)
+        )
+        var allow: UInt32 = 1
+        CMIOObjectSetPropertyData(CMIOObjectID(kCMIOObjectSystemObject), &property, 0, nil, UInt32(MemoryLayout.size(ofValue: allow)), &allow)
+        
+    }
+    
+    func refreshDevices() -> AVCaptureDevice? {
+        let devices = AVCaptureDevice.devices(for: .muxed)
+        print("Getting devices...\(devices.count)")
+        return devices.first { $0.localizedName.contains("iPhone") }
     }
     
     func startCaputre() {
         print("Starting screen cap session")
+        
+        guard let iPhoneDev = refreshDevices(),
+            let iPhoneInput = try? AVCaptureDeviceInput(device: iPhoneDev) else {
+            print("iPhone not connected")
+            return
+        }
+        
+        iPhoneInput.
+        
+        guard capSession.canAddInput(iPhoneInput) else { return }
+        capSession.addInput(iPhoneInput)
+        
         capSession.startRunning()
     }
     
@@ -55,7 +84,7 @@ class ScreenCap {
     
     func getImage(completion: @escaping (NSImage) -> Void) {
         guard let vidConnection = imageCapOutput.connection(with: .video) else {
-            print("Failed to get video connection of ImageCaptureOutput")
+//            print("Failed to get video connection of ImageCaptureOutput")
             return
         }
         imageCapOutput.captureStillImageAsynchronously(from: vidConnection) { (buffer, error) in
@@ -68,7 +97,7 @@ class ScreenCap {
                 return
             }
             guard let image = NSImage(data: AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)!) else {
-                print("Failed to get image data")
+//                print("Failed to get image data")
                 return
             }
             completion(image)

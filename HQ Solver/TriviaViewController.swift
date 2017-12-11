@@ -11,7 +11,7 @@ import Cocoa
 final class TriviaViewController: NSViewController, TriviaSolverDelegate {
     
     let screenCap = ScreenCap(displayId: 0, maxFrameRate: 30)
-    let captureInterval: TimeInterval = 0.1
+    let captureInterval: TimeInterval = 0.2
     var captureTimer: Timer?
     
     var chosenAnswer = 0
@@ -42,7 +42,7 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
         drawBorder(view: ocrImageView, width: 1, color: NSColor.blue)
         
         solver.delegate = self
-//        solver.add(strategy: QBotStrategy())
+        solver.add(strategy: QBotStrategy())
         solver.add(strategy: GoogleStrategy())
         
         screenCap?.startCaputre()
@@ -123,6 +123,7 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
     @IBAction func markPushed(_ sender: NSButton) {
         solver.currentQuestion?.marked = true
         markButton?.layer?.backgroundColor = NSColor.yellow.cgColor
+        screenCap?.startCaputre()
     }
     
     @IBAction func testPushed(_ sender: NSButton) {
