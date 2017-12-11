@@ -91,7 +91,7 @@ class ScreenCap {
             if let cropRect = self.cropRect {
                 var ciImage = CIImage(cvImageBuffer: CMSampleBufferGetImageBuffer(buffer)!)
                 ciImage = ciImage.cropped(to: cropRect)
-                ciImage = ciImage.transformed(by: CGAffineTransform(scaleX: 0.7, y: 0.7))
+                ciImage = ciImage.transformed(by: CGAffineTransform(scaleX: 0.4882, y: 0.4882))
                 let rep = NSCIImageRep(ciImage: ciImage)
                 image = NSImage(size: rep.size)
                 image?.addRepresentation(rep)

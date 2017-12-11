@@ -46,7 +46,7 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
         solver.add(strategy: GoogleStrategy())
         
         screenCap.startCaputre()
-        screenCap.cropRect = CGRect(x: 0, y: 2436-1700-50, width: 1126, height: 1700)
+        screenCap.cropRect = CGRect(x: 0, y: 2436-1700-50, width: 1126, height: 1556)
 
         captureTimer = Timer.scheduledTimer(timeInterval: captureInterval, target: self, selector: #selector(processFrame), userInfo: nil, repeats: true)
 
