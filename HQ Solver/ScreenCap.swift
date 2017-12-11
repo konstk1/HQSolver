@@ -30,11 +30,12 @@ class ScreenCap {
         
     init?(displayId: CGDirectDisplayID, maxFrameRate: Int32) {
         capSession = AVCaptureSession()
-        capSession.sessionPreset = .photo
+        capSession.sessionPreset = .qvga320x240
 
         imageCapOutput = AVCaptureStillImageOutput()
         imageCapOutput.outputSettings = [
             AVVideoCodecKey: AVVideoCodecType.jpeg]
+        
         guard capSession.canAddOutput(imageCapOutput) else { return nil }
         capSession.addOutput(imageCapOutput)
         
@@ -69,8 +70,6 @@ class ScreenCap {
             return
         }
         
-        iPhoneInput.
-        
         guard capSession.canAddInput(iPhoneInput) else { return }
         capSession.addInput(iPhoneInput)
         
@@ -100,6 +99,7 @@ class ScreenCap {
 //                print("Failed to get image data")
                 return
             }
+            print("Image \(image.size)")
             completion(image)
         }
     }
