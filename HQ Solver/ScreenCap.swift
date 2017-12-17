@@ -95,7 +95,8 @@ class ScreenCap {
     func stopCapture() {
         print("Stopping screen cap session")
         capSession.stopRunning()
-        capSession.removeInput(capSession.inputs.first!)
+        
+        capSession.inputs.forEach { capSession.removeInput($0) }
     }
     
     func getImage(completion: @escaping (NSImage) -> Void) {

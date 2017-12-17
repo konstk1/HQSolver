@@ -62,8 +62,8 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
     
     override func viewWillDisappear() {
         super.viewWillDisappear()
-        screenCap.stopCapture()
-        captureTimer?.invalidate()
+//        screenCap.stopCapture()
+//        captureTimer?.invalidate()
     }
     
     func triviaSolver(solver: TriviaSolver, didUpdateState state: TriviaSolver.State) {
