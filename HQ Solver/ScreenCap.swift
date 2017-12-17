@@ -11,10 +11,25 @@ import AVFoundation
 import CoreMediaIO
 
 class ScreenCap {
-    let capSession: AVCaptureSession
-    let imageCapOutput: AVCaptureStillImageOutput
-    
     var cropRect: NSRect? = nil
+    var devices = [AVCaptureDevice]()
+    var enableDevices: Bool = false {
+        willSet(newValue) {
+            var property = CMIOObjectPropertyAddress(
+                mSelector: CMIOObjectPropertySelector(kCMIOHardwarePropertyAllowScreenCaptureDevices),
+                mScope: CMIOObjectPropertyScope(kCMIOObjectPropertyScopeGlobal),
+                mElement: CMIOObjectPropertyElement(kCMIOObjectPropertyElementMaster)
+            )
+            var allow: UInt32 = newValue ? 1 : 0
+            print("Setting enable devices: \(newValue)")
+            CMIOObjectSetPropertyData(CMIOObjectID(kCMIOObjectSystemObject), &property, 0, nil, UInt32(MemoryLayout.size(ofValue: allow)), &allow)
+        }
+    }
+    
+    private let capSession: AVCaptureSession
+    private let imageCapOutput: AVCaptureStillImageOutput
+    
+    private var notifications = [NSObjectProtocol]()
         
     init() {
         capSession = AVCaptureSession()
@@ -30,31 +45,42 @@ class ScreenCap {
         }
         capSession.addOutput(imageCapOutput)
         
-        var token: NSObjectProtocol?
-        token = NotificationCenter.default.addObserver(forName: NSNotification.Name.AVCaptureDeviceWasConnected, object: nil, queue: nil) { (notification) in
+        print("Setting notficiations")
+        var notif: NSObjectProtocol
+        notif = NotificationCenter.default.addObserver(forName: NSNotification.Name.AVCaptureDeviceWasConnected, object: nil, queue: nil) { [unowned self] (notification) in
             print("Device connected")
-            NotificationCenter.default.removeObserver(token as Any)
+            self.refreshDevices()
+            self.startCaputre()
         }
-        
-        var property = CMIOObjectPropertyAddress(
-            mSelector: CMIOObjectPropertySelector(kCMIOHardwarePropertyAllowScreenCaptureDevices),
-            mScope: CMIOObjectPropertyScope(kCMIOObjectPropertyScopeGlobal),
-            mElement: CMIOObjectPropertyElement(kCMIOObjectPropertyElementMaster)
-        )
-        var allow: UInt32 = 1
-        CMIOObjectSetPropertyData(CMIOObjectID(kCMIOObjectSystemObject), &property, 0, nil, UInt32(MemoryLayout.size(ofValue: allow)), &allow)
+        notifications.append(notif)
+        notif = NotificationCenter.default.addObserver(forName: NSNotification.Name.AVCaptureDeviceWasDisconnected, object: nil, queue: nil) { [unowned self] (notification) in
+            print("Device disconnected")
+            self.refreshDevices()
+            self.stopCapture()
+        }
+        notifications.append(notif)
     }
     
-    func refreshDevices() -> AVCaptureDevice? {
-        let devices = AVCaptureDevice.devices(for: .muxed)
-        print("Getting devices...\(devices.count)")
-        return devices.first { $0.localizedName.contains("iPhone") }
+    deinit {
+        notifications.forEach { NotificationCenter.default.removeObserver($0 as Any) }
+        stopCapture()
+    }
+    
+    func refreshDevices() {
+        devices.removeAll()
+        let iphones = AVCaptureDevice.devices(for: .muxed).filter { $0.localizedName.contains("iPhone") }
+        print("Getting devices...\(iphones.count)")
+        devices.append(contentsOf: iphones)
     }
     
     func startCaputre() {
+        guard !capSession.isRunning else {
+            print("Screen cap already running")
+            return
+        }
         print("Starting screen cap session")
         
-        guard let iPhoneDev = refreshDevices(),
+        guard let iPhoneDev = devices.first,
             let iPhoneInput = try? AVCaptureDeviceInput(device: iPhoneDev) else {
             print("iPhone not connected")
             return
@@ -69,6 +95,7 @@ class ScreenCap {
     func stopCapture() {
         print("Stopping screen cap session")
         capSession.stopRunning()
+        capSession.removeInput(capSession.inputs.first!)
     }
     
     func getImage(completion: @escaping (NSImage) -> Void) {
@@ -98,11 +125,6 @@ class ScreenCap {
 
             }
             
-//            guard let image = NSImage(data: AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer)!) else {
-//                print("Failed to get image data")
-//                return
-//            }
-            print("Image \(image.size)")
             completion(image)
         }
     }

@@ -42,14 +42,22 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
         drawBorder(view: ocrImageView, width: 1, color: NSColor.blue)
         
         solver.delegate = self
-        solver.add(strategy: QBotStrategy())
+//        solver.add(strategy: QBotStrategy())
         solver.add(strategy: GoogleStrategy())
         
-        screenCap.startCaputre()
+//        screenCap.startCaputre()
         screenCap.cropRect = CGRect(x: 0, y: 2436-1700-50, width: 1126, height: 1556)
-
-        captureTimer = Timer.scheduledTimer(timeInterval: captureInterval, target: self, selector: #selector(processFrame), userInfo: nil, repeats: true)
-
+        screenCap.enableDevices = true
+        
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [unowned self] (timer) in
+            print("Waiting for devices: \(self.screenCap.devices.count)")
+            self.screenCap.refreshDevices()
+            if self.screenCap.devices.count > 0 {
+                timer.invalidate()
+                self.screenCap.startCaputre()
+                self.captureTimer = Timer.scheduledTimer(timeInterval: self.captureInterval, target: self, selector: #selector(self.processFrame), userInfo: nil, repeats: true)
+            }
+        }
     }
     
     override func viewWillDisappear() {

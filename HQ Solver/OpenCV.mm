@@ -14,6 +14,13 @@
 
 static void NSImageToMat(NSImage *image, cv::Mat &mat);
 static NSImage *MatToNSImage(cv::Mat &mat);
+static void showImage(cv::String title, cv::Mat img);
+
+static void showImage(cv::String title, cv::Mat img) {
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        cv::imshow(title, img);
+    });
+}
 
 @interface OpenCV ()
 
@@ -24,10 +31,16 @@ static NSImage *MatToNSImage(cv::Mat &mat);
 static cv::Mat _cvMatOrig;
 static cv::Mat _cvMat;
 static cv::Mat _qTemplate;
+static bool _qTemplateLoaded = false;
 
 - (instancetype)initWithImage:(nonnull NSImage *)image {
-    _qTemplate = cv::imread("/Users/kon/Developer/HQ Solver/HQ Solver/q_template1.png", cv::IMREAD_GRAYSCALE);
-    cv::resize(_qTemplate, _qTemplate, cv::Size(), 0.5, 0.5);
+    if (!_qTemplateLoaded) {
+        printf("Loading Q template...\n");
+        _qTemplate = cv::imread("/Users/kon/Developer/HQ Solver/HQ Solver/q_template2.png", cv::IMREAD_GRAYSCALE);
+        _qTemplateLoaded = true;
+    }
+//    cv::resize(_qTemplate, _qTemplate, cv::Size(), 0.70, 0.70);
+//    showImage("Q", _qTemplate);
 
     _questionMarkPresent = false;
     _correctAnswer = 0;
@@ -91,10 +104,10 @@ static cv::Mat _qTemplate;
     
 //    cv::imshow("Answers", orig);
     
-    // assume each answer takes up 70 pixels
+    // assume each answer takes up 90 pixels
     // look at bounds position from the bottom of the image and calculate
     // answer, 1 being top-most, and 3 bottom-most
-    int correctAnswer = 4 - floor((orig.size().height - boundsGreen.y)/70);
+    int correctAnswer = 4 - floor((orig.size().height - boundsGreen.y) / 90);
 //    printf("Answer: %d\n", correctAnswer);
     if (correctAnswer < 1 || correctAnswer > 3) {
         return 0;
@@ -138,7 +151,7 @@ static cv::Mat _qTemplate;
         cv::matchTemplate(_cvMat, _qTemplate, result, cv::TM_CCOEFF_NORMED);
         cv::minMaxLoc(result, &min, &max);
 //        printf("Min %f Max %f\n", min, max);
-//        cv::imshow("Match", result);
+//        showImage("Match", _cvMat);
     }
     
     self.questionMarkPresent = max > 0.85;
