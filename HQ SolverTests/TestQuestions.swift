@@ -10,7 +10,8 @@ import Foundation
 import WebKit
 
 class TestQuestions {
-    private let examplesFilePath = "/Users/kon/Developer/HQ Solver/HQ Solver/examples.json"
+//    private let examplesFilePath = "/Users/kon/Developer/HQ Solver/HQ Solver/examples.json"
+    private let examplesFilePath = "/Users/kon/Developer/qbot/examples_failed.json"
     
     struct Question: Codable {
         let question: String

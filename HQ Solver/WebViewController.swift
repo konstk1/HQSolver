@@ -31,7 +31,6 @@ class WebViewController: NSViewController {
         
         let loadingObservation:(WKWebView, NSKeyValueObservedChange<Bool>)->(Void) = { [weak self] (webView, change) in
             // once loaded
-            print("Done loading")
             if (!webView.isLoading) {
                 let webViewId = self?.webViews.index(where: { $0 == webView })
                 webView.magnification = 0.9         // zoom out a little bit
@@ -61,7 +60,7 @@ class WebViewController: NSViewController {
             return
         }
         
-        print("Requesting \(url) in view \(webViewId)")
+//        print("Requesting \(url) in view \(webViewId)")
         
         completions[webViewId] = completion
         DispatchQueue.main.async {

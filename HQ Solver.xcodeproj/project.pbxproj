@@ -13,7 +13,6 @@
 		FF1154741FA7E31C0056959B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFEF18FE1F9FE46600533CDC /* Main.storyboard */; };
 		FF1154761FA7E4A20056959B /* TestQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */; };
 		FF4A0D9A1FA6892A00EB7A1C /* TestQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */; };
-		FF4A0DA11FA6A8FA00EB7A1C /* TriviaSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B934E1FA3933F00CED013 /* TriviaSolver.swift */; };
 		FF4A0DA31FA6A98C00EB7A1C /* TfidfStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */; };
 		FF4A0DA61FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */; };
 		FF4A0DA71FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */; };
@@ -30,7 +29,7 @@
 		FFC935EC1FC24F7500338B4C /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFC935EB1FC24F7500338B4C /* Kanna.framework */; };
 		FFC935ED1FC24F7500338B4C /* Kanna.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FFC935EB1FC24F7500338B4C /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FFEF18F91F9FE46600533CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF18F81F9FE46600533CDC /* AppDelegate.swift */; };
-		FFEF18FB1F9FE46600533CDC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF18FA1F9FE46600533CDC /* ViewController.swift */; };
+		FFEF18FB1F9FE46600533CDC /* TriviaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF18FA1F9FE46600533CDC /* TriviaViewController.swift */; };
 		FFEF18FD1F9FE46600533CDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFEF18FC1F9FE46600533CDC /* Assets.xcassets */; };
 		FFEF19001F9FE46600533CDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFEF18FE1F9FE46600533CDC /* Main.storyboard */; };
 		FFEF190C1F9FE46600533CDC /* HQ_SolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF190B1F9FE46600533CDC /* HQ_SolverTests.swift */; };
@@ -84,7 +83,7 @@
 		FFCDA9ED1FAA939E0034948D /* question_mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = question_mark.png; sourceTree = "<group>"; };
 		FFEF18F51F9FE46600533CDC /* HQ Solver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HQ Solver.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFEF18F81F9FE46600533CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FFEF18FA1F9FE46600533CDC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FFEF18FA1F9FE46600533CDC /* TriviaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriviaViewController.swift; sourceTree = "<group>"; };
 		FFEF18FC1F9FE46600533CDC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FFEF18FF1F9FE46600533CDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FFEF19011F9FE46600533CDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -159,8 +158,8 @@
 			children = (
 				FFEF19191F9FE84D00533CDC /* HQ Solver-Bridging-Header.h */,
 				FFEF18F81F9FE46600533CDC /* AppDelegate.swift */,
-				FFEF18FA1F9FE46600533CDC /* ViewController.swift */,
 				FF8B93541FA3C2FC00CED013 /* WebViewController.swift */,
+				FFEF18FA1F9FE46600533CDC /* TriviaViewController.swift */,
 				FF8B934E1FA3933F00CED013 /* TriviaSolver.swift */,
 				FF8B93501FA3974B00CED013 /* QBotStrategy.swift */,
 				FF8B93521FA3BDE200CED013 /* GoogleStrategy.swift */,
@@ -305,7 +304,7 @@
 			files = (
 				FF8B93531FA3BDE200CED013 /* GoogleStrategy.swift in Sources */,
 				FF8B93511FA3974B00CED013 /* QBotStrategy.swift in Sources */,
-				FFEF18FB1F9FE46600533CDC /* ViewController.swift in Sources */,
+				FFEF18FB1F9FE46600533CDC /* TriviaViewController.swift in Sources */,
 				FF1154761FA7E4A20056959B /* TestQuestions.swift in Sources */,
 				FF79E0C91FA17465007B2922 /* OpenCV.mm in Sources */,
 				FF04293D1FA2B6CB00F6B7A7 /* ScreenCap.swift in Sources */,
@@ -322,7 +321,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF4A0DA71FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */,
-				FF4A0DA11FA6A8FA00EB7A1C /* TriviaSolver.swift in Sources */,
 				FFEF190C1F9FE46600533CDC /* HQ_SolverTests.swift in Sources */,
 				FF4A0D9A1FA6892A00EB7A1C /* TestQuestions.swift in Sources */,
 			);

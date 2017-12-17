@@ -10,7 +10,8 @@ import Foundation
 
 class QBotStrategy: TriviaStrategy {
     let name = "QBot"
-    let baseUrl = "http://ec2-34-212-196-253.us-west-2.compute.amazonaws.com/question"
+    let baseUrl = "http://helpmetrivia.com"
+//    let baseUrl = "http://localhost:3000"
     
     let defaultSession = URLSession(configuration: .default)
     var dataTask: URLSessionDataTask?
@@ -23,13 +24,15 @@ class QBotStrategy: TriviaStrategy {
     func answerQuestion(question: String, possibleAnswers: [String]) -> String {
         dataTask?.cancel()
         let query = Query(question: question, answers: possibleAnswers)
-        var request = URLRequest(url: URL(string: baseUrl)!)
+        var url = URLComponents(string: baseUrl)!
+        url.path = "/question"
+        var request = URLRequest(url: url.url!)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         request.httpBody = try! encoder.encode(query)
-        print(String(data: request.httpBody!, encoding: .utf8)!)
+//        print(String(data: request.httpBody!, encoding: .utf8)!)
         let group = DispatchGroup()
         group.enter()
         dataTask = defaultSession.dataTask(with: request) { [unowned self] (data, response, error) in
@@ -40,14 +43,48 @@ class QBotStrategy: TriviaStrategy {
             if let error = error {
                 print("ERROR: Failed to post (\(error))")
             }
-            guard let response = response as? HTTPURLResponse else { return }
-            print("Response \(response.statusCode)")
+            guard let _ = response as? HTTPURLResponse else { return }
+//            print("Response \(response.statusCode)")
         }
     
         dataTask?.resume()
         
         group.wait()
         return "Not implemented"
+    }
+    
+    func submitAnswer(qNumber: Int, question: String, possibleAnswers: [String], correctAnswer: Int, marked: Bool = false) {
+        dataTask?.cancel()
+        var url = URLComponents(string: baseUrl)!
+        url.path = "/answer"
+        var request = URLRequest(url: url.url!)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        struct Answer: Encodable {
+            let questionNumber: Int
+            let question: String
+            let answers: [String]
+            let correctAnswer: Int
+            let solution: String
+            let marked: Bool
+        }
+        let solution = 1...3 ~= correctAnswer ? possibleAnswers[correctAnswer-1] : ""
+        let answer = Answer(questionNumber: qNumber, question: question, answers: possibleAnswers, correctAnswer: correctAnswer, solution: solution, marked: marked)
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        request.httpBody = try! encoder.encode(answer)
+        print(String(data: request.httpBody!, encoding: .utf8)!)
+        
+        dataTask = defaultSession.dataTask(with: request) { [unowned self] (data, response, error) in
+            defer { self.dataTask = nil }
+            if let error = error {
+                print("ERROR: Failed to submit (\(error))")
+            }
+            guard let response = response as? HTTPURLResponse else { return }
+            print("Response \(response.statusCode)")
+        }
+        dataTask?.resume()
     }
     
     func queryApi(query: String) {
