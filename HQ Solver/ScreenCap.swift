@@ -28,12 +28,17 @@ class ScreenCap {
     
     private let capSession: AVCaptureSession
     private let imageCapOutput: AVCaptureStillImageOutput
+    private let audioOutput: AVCaptureAudioPreviewOutput
     
     private var notifications = [NSObjectProtocol]()
         
     init() {
         capSession = AVCaptureSession()
         capSession.sessionPreset = .photo
+        
+        audioOutput = AVCaptureAudioPreviewOutput()
+        audioOutput.volume = 1.0
+        capSession.addOutput(audioOutput)
 
         imageCapOutput = AVCaptureStillImageOutput()
         imageCapOutput.outputSettings = [
@@ -85,7 +90,6 @@ class ScreenCap {
             print("iPhone not connected")
             return
         }
-        
         guard capSession.canAddInput(iPhoneInput) else { return }
         capSession.addInput(iPhoneInput)
         
