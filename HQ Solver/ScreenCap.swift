@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 import CoreMediaIO
 
-class ScreenCap {
+class ScreenCap: NSObject, AVCaptureFileOutputRecordingDelegate {
     var cropRect: NSRect? = nil
     var devices = [AVCaptureDevice]()
     var enableDevices: Bool = false {
@@ -28,22 +28,28 @@ class ScreenCap {
     
     private let capSession: AVCaptureSession
     private let imageCapOutput: AVCaptureStillImageOutput
+    private let videoFileOutput: AVCaptureMovieFileOutput
     private let audioOutput: AVCaptureAudioPreviewOutput
     
     private var notifications = [NSObjectProtocol]()
         
-    init() {
+    override init() {
         capSession = AVCaptureSession()
-        capSession.sessionPreset = .photo
+        capSession.sessionPreset = .high
         
         audioOutput = AVCaptureAudioPreviewOutput()
         audioOutput.volume = 1.0
         capSession.addOutput(audioOutput)
+        
+        videoFileOutput = AVCaptureMovieFileOutput()
+        capSession.addOutput(videoFileOutput)
 
         imageCapOutput = AVCaptureStillImageOutput()
         imageCapOutput.outputSettings = [
             kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
         
+        super.init()
+
         guard capSession.canAddOutput(imageCapOutput) else {
             print("Failed to add image capture output to session")
             return
@@ -94,6 +100,10 @@ class ScreenCap {
         capSession.addInput(iPhoneInput)
         
         capSession.startRunning()
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yy - HHmmss"
+        videoFileOutput.startRecording(to: URL(fileURLWithPath: "/Users/Kon/Downloads/hq/\(formatter.string(from: Date())).mov"), recordingDelegate: self)
     }
     
     func stopCapture() {
@@ -132,6 +142,14 @@ class ScreenCap {
             
             completion(image)
         }
+    }
+    
+    func fileOutput(_ output: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
+        print("Started recording to \(fileURL)")
+    }
+    
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        print("Finished recording to \(outputFileURL) (error: \(error))")
     }
 }
 
