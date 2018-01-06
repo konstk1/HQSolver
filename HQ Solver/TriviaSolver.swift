@@ -155,7 +155,7 @@ extension TriviaSolver {
         stats.prepForOcrTime = Date().timeIntervalSince(stats.startTime)
         
 //        print("\(state) - \(opencv.correctAnswer)")
-        if state == .waitingForQuestion && opencv.questionMarkPresent {
+        if state == .waitingForQuestion && opencv.questionMarkPresent && opencv.correctAnswer == 0 {
             state = .readyForOcr
         } else if state == .waitingForAnswer && opencv.correctAnswer > 0 {
             currentQuestion?.correctAnswer =  Int(opencv.correctAnswer)
