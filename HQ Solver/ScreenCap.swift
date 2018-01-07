@@ -96,14 +96,21 @@ class ScreenCap: NSObject, AVCaptureFileOutputRecordingDelegate {
             print("iPhone not connected")
             return
         }
+        
+        if iPhoneDev.localizedName.contains("Kon") {      // iPhone X
+            cropRect = CGRect(x: 0, y: 2436-1700-50, width: 1126, height: 1556)
+        } else {                                          // iPhone 7
+            cropRect = CGRect(x: 0, y: 0, width: 750, height: 1334)
+        }
+        
         guard capSession.canAddInput(iPhoneInput) else { return }
         capSession.addInput(iPhoneInput)
         
         capSession.startRunning()
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yy - HHmmss"
-        videoFileOutput.startRecording(to: URL(fileURLWithPath: "/Users/Kon/Downloads/hq/\(formatter.string(from: Date())).mov"), recordingDelegate: self)
+        formatter.dateFormat = "MM.dd.yy - HHmmss"
+        videoFileOutput.startRecording(to: URL(fileURLWithPath: "/Users/Kon/Downloads/hq/rec/\(formatter.string(from: Date())).mov"), recordingDelegate: self)
     }
     
     func stopCapture() {
@@ -129,16 +136,16 @@ class ScreenCap: NSObject, AVCaptureFileOutputRecordingDelegate {
             }
             
             var image: NSImage!
-
+            var ciImage = CIImage(cvImageBuffer: CMSampleBufferGetImageBuffer(buffer)!)
+            
             if let cropRect = self.cropRect {
-                var ciImage = CIImage(cvImageBuffer: CMSampleBufferGetImageBuffer(buffer)!)
                 ciImage = ciImage.cropped(to: cropRect)
-                ciImage = ciImage.transformed(by: CGAffineTransform(scaleX: 0.4882, y: 0.4882))
-                let rep = NSCIImageRep(ciImage: ciImage)
-                image = NSImage(size: rep.size)
-                image?.addRepresentation(rep)
-
             }
+            
+            ciImage = ciImage.transformed(by: CGAffineTransform(scaleX: 0.4882, y: 0.4882))
+            let rep = NSCIImageRep(ciImage: ciImage)
+            image = NSImage(size: rep.size)
+            image?.addRepresentation(rep)
             
             completion(image)
         }
@@ -149,7 +156,7 @@ class ScreenCap: NSObject, AVCaptureFileOutputRecordingDelegate {
     }
     
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        print("Finished recording to \(outputFileURL) (error: \(error))")
+        print("Finished recording to \(outputFileURL) (error: \(String(describing: error)))")
     }
 }
 
