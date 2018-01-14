@@ -12,6 +12,7 @@
 		FF1154731FA6C6FD0056959B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF1154701FA6C2E80056959B /* Keys.plist */; };
 		FF1154741FA7E31C0056959B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFEF18FE1F9FE46600533CDC /* Main.storyboard */; };
 		FF1154761FA7E4A20056959B /* TestQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */; };
+		FF34DE34200BFB6600176726 /* q_template2.png in Resources */ = {isa = PBXBuildFile; fileRef = FF34DE33200BFB6600176726 /* q_template2.png */; };
 		FF4A0D9A1FA6892A00EB7A1C /* TestQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */; };
 		FF4A0DA31FA6A98C00EB7A1C /* TfidfStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */; };
 		FF4A0DA61FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */; };
@@ -64,6 +65,7 @@
 /* Begin PBXFileReference section */
 		FF04293C1FA2B6CB00F6B7A7 /* ScreenCap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCap.swift; sourceTree = "<group>"; };
 		FF1154701FA6C2E80056959B /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		FF34DE33200BFB6600176726 /* q_template2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = q_template2.png; sourceTree = "<group>"; };
 		FF46A8BA1FB1282500EB9BAD /* q_template1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = q_template1.png; sourceTree = "<group>"; };
 		FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestQuestions.swift; sourceTree = "<group>"; };
 		FF4A0D971FA6866200EB7A1C /* examples.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = examples.json; path = "HQ Solver/examples.json"; sourceTree = SOURCE_ROOT; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				FF46A8BA1FB1282500EB9BAD /* q_template1.png */,
+				FF34DE33200BFB6600176726 /* q_template2.png */,
 				FFCDA9ED1FAA939E0034948D /* question_mark.png */,
 				FFEF19011F9FE46600533CDC /* Info.plist */,
 				FF1154701FA6C2E80056959B /* Keys.plist */,
@@ -281,6 +284,7 @@
 			files = (
 				FFEF18FD1F9FE46600533CDC /* Assets.xcassets in Resources */,
 				FFEF19001F9FE46600533CDC /* Main.storyboard in Resources */,
+				FF34DE34200BFB6600176726 /* q_template2.png in Resources */,
 				FFC935EA1FC24F0200338B4C /* Cartfile in Resources */,
 				FF1154711FA6C2E80056959B /* Keys.plist in Resources */,
 			);

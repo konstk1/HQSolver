@@ -33,7 +33,9 @@ final class TriviaSolver {
         }
     }
     
+    var device: Int = 0
     weak var delegate: TriviaSolverDelegate? = nil
+    
     var currentQuestion: Question? = nil       // current question
     var questionNumber = 1
     
@@ -148,7 +150,7 @@ extension TriviaSolver {
         stats.startTime = Date()
         
         // OpenCV to detect state and prepare for OCR
-        let opencv =  OpenCV(image: image)
+        let opencv =  OpenCV(image: image, device: Int32(device))!
         opencv.prepareForOcr()
         let ocrImage = opencv.image
         

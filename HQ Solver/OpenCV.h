@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, ConversionCode) {
 @property bool questionMarkPresent;
 @property int correctAnswer;
 
-- (nonnull instancetype)initWithImage:(nonnull NSImage *)image;
+- (instancetype)initWithImage:(nonnull NSImage *)image device:(int)device;
 - (void)convertColorSpace:(ConversionCode)code;
 - (void)cropTo:(CGRect) rect;
 - (void)threshold:(double)val;

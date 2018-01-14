@@ -12,6 +12,7 @@ import CoreMediaIO
 
 class ScreenCap: NSObject, AVCaptureFileOutputRecordingDelegate {
     var cropRect: NSRect? = nil
+    var device = 10         // default iPhone X
     var devices = [AVCaptureDevice]()
     var enableDevices: Bool = false {
         willSet(newValue) {
@@ -99,8 +100,10 @@ class ScreenCap: NSObject, AVCaptureFileOutputRecordingDelegate {
         
         if iPhoneDev.localizedName.contains("Kon") {      // iPhone X
             cropRect = CGRect(x: 0, y: 2436-1700-50, width: 1126, height: 1556)
+            device = 10;
         } else {                                          // iPhone 7
             cropRect = CGRect(x: 0, y: 0, width: 750, height: 1334)
+            device = 7;
         }
         
         guard capSession.canAddInput(iPhoneInput) else { return }

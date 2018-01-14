@@ -24,6 +24,10 @@ static void showImage(cv::String title, cv::Mat img) {
 
 @interface OpenCV ()
 
+@property double qTemplateScaleFactor;
+@property int qHeightAdjust;
+@property int qAnswerHeight;
+
 @end
 
 @implementation OpenCV
@@ -33,15 +37,25 @@ static cv::Mat _cvMat;
 static cv::Mat _qTemplate;
 static bool _qTemplateLoaded = false;
 
-- (instancetype)initWithImage:(nonnull NSImage *)image {
+- (instancetype)initWithImage:(nonnull NSImage *)image device:(int)device {
+    if (device == 7) {                      // iPhone 7
+        _qTemplateScaleFactor = 0.678;
+        _qHeightAdjust = 80;
+        _qAnswerHeight = 60;
+    } else {                                // iPhone X
+        _qTemplateScaleFactor = 1;
+        _qHeightAdjust = 105;
+        _qAnswerHeight = 90;
+    }
+    
     if (!_qTemplateLoaded) {
         printf("Loading Q template...\n");
         _qTemplate = cv::imread("/Users/kon/Developer/HQ Solver/HQ Solver/q_template2.png", cv::IMREAD_GRAYSCALE);
         _qTemplateLoaded = true;
+        cv::resize(_qTemplate, _qTemplate, cv::Size(), _qTemplateScaleFactor, _qTemplateScaleFactor);
+        showImage("Q", _qTemplate);
     }
-//    cv::resize(_qTemplate, _qTemplate, cv::Size(), 0.70, 0.70);
-//    showImage("Q", _qTemplate);
-
+    
     _questionMarkPresent = false;
     _correctAnswer = 0;
     NSImageToMat(image, _cvMat);
@@ -92,7 +106,7 @@ static bool _qTemplateLoaded = false;
     cv::findContours(range, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
     cv::Rect boundsGreen = cv::boundingRect([self getLargestContour:contours]);
-//    printf("Green %d (h %d)\n", orig.size().height - boundsGreen.y, boundsGreen.height);
+    printf("Green %d (h %d)\n", orig.size().height - boundsGreen.y, boundsGreen.height);
     cv::rectangle(_cvMat, boundsGreen, cv::Scalar(0,0,0));
     
     cv::inRange(orig, cv::Scalar(150, 100, 200), cv::Scalar(200, 160, 255), range);
@@ -107,7 +121,7 @@ static bool _qTemplateLoaded = false;
     // assume each answer takes up 90 pixels
     // look at bounds position from the bottom of the image and calculate
     // answer, 1 being top-most, and 3 bottom-most
-    int correctAnswer = 4 - floor((orig.size().height - boundsGreen.y) / 90);
+    int correctAnswer = 4 - floor((orig.size().height - boundsGreen.y) / self.qAnswerHeight);
 //    printf("Answer: %d\n", correctAnswer);
     if (correctAnswer < 1 || correctAnswer > 3) {
         return 0;
@@ -134,15 +148,12 @@ static bool _qTemplateLoaded = false;
     // close in on the bounds a little to get rid of edges
     // also crop the top end (counter) of the question box
     bounds.x += 5;
-    bounds.y += 105;
+    bounds.y += self.qHeightAdjust;
     bounds.width -= 10;
-    bounds.height -= 110;
+    bounds.height -= (self.qHeightAdjust + 5);
     if (bounds.height > 0 && bounds.width > 0) {
         _cvMat = _cvMat(bounds);
     }
-    
-//    double imgMean = cv::mean(_cvMat)[0];
-//    printf("Mean value: %0.2f\n", imgMean);
     
     double min = 0.0, max = 0.0;
     if (_cvMat.size().height >= _qTemplate.size().height &&
@@ -150,11 +161,11 @@ static bool _qTemplateLoaded = false;
         cv::Mat result;
         cv::matchTemplate(_cvMat, _qTemplate, result, cv::TM_CCOEFF_NORMED);
         cv::minMaxLoc(result, &min, &max);
-//        printf("Min %f Max %f\n", min, max);
-//        showImage("Match", _cvMat);
+        printf("Min %f Max %f\n", min, max);
+        showImage("Match", result);
     }
     
-    self.questionMarkPresent = max > 0.85;
+    self.questionMarkPresent = max > 0.83;
     if (self.questionMarkPresent) {
         self.correctAnswer = [self detectCorrectAnswer:_cvMatOrig(bounds)];
     }

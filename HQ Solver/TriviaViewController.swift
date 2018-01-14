@@ -42,7 +42,7 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
         drawBorder(view: ocrImageView, width: 1, color: NSColor.blue)
         
         solver.delegate = self
-        solver.add(strategy: QBotStrategy())
+//        solver.add(strategy: QBotStrategy())
         solver.add(strategy: GoogleStrategy())
         
         screenCap.enableDevices = true
@@ -91,6 +91,7 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
     
     @objc func processFrame() {
         let startTime = Date()
+        solver.device = screenCap.device    // set current device (iPhone 7 or X)
         screenCap.getImage(completion: { [unowned self] (image) in
             self.stats.imageCaptureTime = Date().timeIntervalSince(startTime)
             let ocrImage = self.solver.processFrame(image: image)
