@@ -53,7 +53,7 @@ static bool _qTemplateLoaded = false;
         _qTemplate = cv::imread("/Users/kon/Developer/HQ Solver/HQ Solver/q_template2.png", cv::IMREAD_GRAYSCALE);
         _qTemplateLoaded = true;
         cv::resize(_qTemplate, _qTemplate, cv::Size(), _qTemplateScaleFactor, _qTemplateScaleFactor);
-        showImage("Q", _qTemplate);
+//        showImage("Q", _qTemplate);
     }
     
     _questionMarkPresent = false;
@@ -162,7 +162,7 @@ static bool _qTemplateLoaded = false;
         cv::matchTemplate(_cvMat, _qTemplate, result, cv::TM_CCOEFF_NORMED);
         cv::minMaxLoc(result, &min, &max);
         printf("Min %f Max %f\n", min, max);
-        showImage("Match", result);
+//        showImage("Match", result);
     }
     
     self.questionMarkPresent = max > 0.83;
