@@ -192,9 +192,9 @@ extension TriviaSolver {
                 } else if ocrImages.count == 4 {     // Cash Show style (split)
                     let question = text.replacingOccurrences(of: "\n", with: " ")
                     var answers = [String]()
-                    answers.append(runOcr(image: ocrImages[1]) ?? "")
-                    answers.append(runOcr(image: ocrImages[2]) ?? "")
-                    answers.append(runOcr(image: ocrImages[3]) ?? "")
+                    answers.append(runOcr(image: ocrImages[1])?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "")
+                    answers.append(runOcr(image: ocrImages[2])?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "")
+                    answers.append(runOcr(image: ocrImages[3])?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "")
                     q = Question(question: question, answers: answers)
                     _ = solve(question: q)
                 } else {

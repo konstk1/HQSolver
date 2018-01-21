@@ -89,7 +89,7 @@ static bool _qTemplateLoaded = false;
     for (int i = 0; i < self.boundingRects.size(); i++) {
         cv::Mat mat = _cvMat(self.boundingRects[i]);
         [imgs addObject:MatToNSImage(mat)];
-        showImage(titles[i], mat);
+//        showImage(titles[i], mat);
     }
     return [NSArray arrayWithArray:imgs];
 }
