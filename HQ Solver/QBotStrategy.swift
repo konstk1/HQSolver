@@ -19,6 +19,7 @@ class QBotStrategy: TriviaStrategy {
     struct Query: Codable {
         let question: String
         let answers: [String]
+        let agent = "SCREEN_CAP"
     }
     
     func answerQuestion(question: String, possibleAnswers: [String]) -> String {

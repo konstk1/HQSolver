@@ -1,16 +1,17 @@
 //
-//  OpenCV.m
+//  OpenCVHQ.mm
 //  HQ Solver
 //
-//  Created by Konstantin Klitenik on 10/25/17.
-//  Copyright © 2017 Konstantin Klitenik. All rights reserved.
+//  Created by Konstantin Klitenik on 1/20/18.
+//  Copyright © 2018 Konstantin Klitenik. All rights reserved.
 //
+
 #import <vector>
 #import <opencv2/opencv.hpp>
 #import <opencv2/imgproc.hpp>
 
 #import <Foundation/Foundation.h>
-#import "OpenCV.h"
+#import "OpenCVCashShow.h"
 
 static void NSImageToMat(NSImage *image, cv::Mat &mat);
 static NSImage *MatToNSImage(cv::Mat &mat);
@@ -22,19 +23,31 @@ static void showImage(cv::String title, cv::Mat img) {
     });
 }
 
-@interface OpenCV ()
+static bool contourAreaCompare(std::vector<cv::Point> c1, std::vector<cv::Point> c2) {
+    return cv::contourArea(c1) > cv::contourArea(c2);
+}
+
+static bool rectYCompare(cv::Rect r1, cv::Rect r2) {
+    return r1.y < r2.y;
+}
+
+@interface OpenCVCashShow()
 
 @property double qTemplateScaleFactor;
 @property int qHeightAdjust;
 @property int qAnswerHeight;
 
+@property std::vector<cv::Rect> boundingRects;
+
 @property cv::Mat cvMatOrig;
 @property cv::Mat cvMat;
 
+- (std::vector<cv::Rect>)sortContoursIntoRects:(std::vector<std::vector<cv::Point>>)contours;
+- (int)detectCorrectAnswer:(cv::Mat)orig;
+
 @end
 
-@implementation OpenCV
-
+@implementation OpenCVCashShow
 
 static cv::Mat _qTemplate;
 static bool _qTemplateLoaded = false;
@@ -45,14 +58,14 @@ static bool _qTemplateLoaded = false;
         _qHeightAdjust = 80;
         _qAnswerHeight = 60;
     } else {                                // iPhone X
-        _qTemplateScaleFactor = 1;
-        _qHeightAdjust = 105;
+        _qTemplateScaleFactor = 0.5;
+        _qHeightAdjust = 110;
         _qAnswerHeight = 90;
     }
     
     if (!_qTemplateLoaded) {
         printf("Loading Q template...\n");
-        _qTemplate = cv::imread("/Users/kon/Developer/HQ Solver/HQ Solver/q_template2.png", cv::IMREAD_GRAYSCALE);
+        _qTemplate = cv::imread("/Users/kon/Developer/HQ Solver/HQ Solver/q_template_cash_show.png", cv::IMREAD_GRAYSCALE);
         _qTemplateLoaded = true;
         cv::resize(_qTemplate, _qTemplate, cv::Size(), _qTemplateScaleFactor, _qTemplateScaleFactor);
 //        showImage("Q", _qTemplate);
@@ -68,8 +81,17 @@ static bool _qTemplateLoaded = false;
     NSImageToMat(image, _cvMat);
 }
 
-- (NSImage *)image {
-    return MatToNSImage(_cvMat);
+- (NSArray *)images {
+    NSMutableArray *imgs = [NSMutableArray array];
+    
+    char *titles[] = {"Q", "1", "2", "3"};
+    
+    for (int i = 0; i < self.boundingRects.size(); i++) {
+        cv::Mat mat = _cvMat(self.boundingRects[i]);
+        [imgs addObject:MatToNSImage(mat)];
+        showImage(titles[i], mat);
+    }
+    return [NSArray arrayWithArray:imgs];
 }
 
 - (void)convertColorSpace:(ConversionCode)code {
@@ -84,49 +106,61 @@ static bool _qTemplateLoaded = false;
     cv::threshold(_cvMat, _cvMat, val, 255, cv::THRESH_BINARY);
 }
 
-- (std::vector<cv::Point>)getLargestContour:(std::vector<std::vector<cv::Point>>)contours {
-    auto largestArea = 0.0;
-    auto largestIndex = 0;
-    
-    for(int i = 0; i < contours.size(); i++) {
-        auto area = cv::contourArea(contours[i]);
-        if (area > largestArea) {
-            largestArea = area;
-            largestIndex = i;
+- (std::vector<cv::Rect>)sortContoursIntoRects:(std::vector<std::vector<cv::Point>>)contours {
+    std::vector<cv::Rect> boundingRects;
+    if (contours.size() > 0) {
+        std::sort(contours.begin(), contours.end(), contourAreaCompare);
+
+        // get 4 largest contours
+        std::vector<std::vector<cv::Point>> sortedContours(contours.begin(), contours.begin() + MIN(contours.size()-1,4));
+        
+        for(int i = 0; i < sortedContours.size(); i++) {
+            auto area = cv::contourArea(contours[i]);
+            if (area > 0) {
+                boundingRects.push_back(cv::boundingRect(contours[i]));
+            }
+        }
+        
+        std::sort(boundingRects.begin(), boundingRects.end(), rectYCompare);            // sort by Y
+        
+        for (int i = 0; i < boundingRects.size(); i++) {
+            // for answer bounding rectangles, take in width a little to get rid of angled corners
+            if (i >= 1) {
+                boundingRects[i].x += 35;
+                boundingRects[i].width = MAX(boundingRects[i].width - 80, 1);
+            }
+//            printf("Rect %d - area: %d - Y: %d\n", i, boundingRects[i].area(), boundingRects[i].y);
         }
     }
-    //    printf("Largest area: %.2f\n", largestArea);
-    return largestArea > 0 ? contours[largestIndex] : std::vector<cv::Point>();;
+    
+    return boundingRects;
 }
 
-- (int)detectCorrectAnswer:(cv::Mat)orig {
+- (void)detectChoicesFromSortedContours:(std::vector<std::vector<cv::Point>>)contours {
+    // contour[0] is largest, it's the question
+    // contours[1-3] are the answers, need to sort by location (higest is choice 1)
+    
+}
+
+- (int)detectCorrectAnswer {
     cv::Mat range;
     std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
-    
-    cv::inRange(orig, cv::Scalar(130, 180, 30), cv::Scalar(170, 255, 150), range);
-    cv::findContours(range, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
-    cv::Rect boundsGreen = cv::boundingRect([self getLargestContour:contours]);
-    printf("Green %d (h %d)\n", orig.size().height - boundsGreen.y, boundsGreen.height);
-    cv::rectangle(_cvMat, boundsGreen, cv::Scalar(0,0,0));
+    double maxMean = 0;
+    int correctAnswer = 0;
     
-    cv::inRange(orig, cv::Scalar(150, 100, 200), cv::Scalar(200, 160, 255), range);
-    cv::findContours(range, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-    
-//    cv::Rect boundsRed = cv::boundingRect([self getLargestContour:contours]);
-//    printf("Red %d\n", orig.size().height - boundsRed.y);
-//    cv::rectangle(_cvMat, boundsRed, cv::Scalar(0,0,0));
-    
-//    cv::imshow("Answers", orig);
-    
-    // assume each answer takes up 90 pixels
-    // look at bounds position from the bottom of the image and calculate
-    // answer, 1 being top-most, and 3 bottom-most
-    int correctAnswer = 4 - floor((orig.size().height - boundsGreen.y) / self.qAnswerHeight);
-//    printf("Answer: %d\n", correctAnswer);
-    if (correctAnswer < 1 || correctAnswer > 3) {
-        return 0;
+    for (int i = 1; i < self.boundingRects.size(); i++) {
+        cv::inRange(_cvMatOrig(self.boundingRects[i]), cv::Scalar(170, 220, 80), cv::Scalar(220, 255, 180), range);
+        auto mean = cv::mean(range)[0];
+        if (mean > maxMean) {
+            maxMean = mean;
+            correctAnswer = i;
+        }
+//        printf("Mean %d - %0.2f, %0.2f, %0.2f\n", i, mean[0], mean[1], mean[2]);
+    }
+    if (correctAnswer > 0) {
+        printf("Correct answer %d (mean %0.1f)\n", correctAnswer, maxMean);
     }
     return correctAnswer;
 }
@@ -139,37 +173,40 @@ static bool _qTemplateLoaded = false;
     std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
     cv::findContours(_cvMat, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-    
-    auto largestContour = [self getLargestContour:contours];
-    
-    if (largestContour.size() == 0) {
+
+    self.boundingRects = [self sortContoursIntoRects:contours];
+    if (self.boundingRects.size() == 0) {
         return;
     }
     
-    cv::Rect bounds = cv::boundingRect(largestContour);
+    cv::Rect qBounds = self.boundingRects[0];
     // close in on the bounds a little to get rid of edges
     // also crop the top end (counter) of the question box
-    bounds.x += 5;
-    bounds.y += self.qHeightAdjust;
-    bounds.width -= 10;
-    bounds.height -= (self.qHeightAdjust + 5);
-    if (bounds.height > 0 && bounds.width > 0) {
-        _cvMat = _cvMat(bounds);
+    qBounds.x += 2;
+    qBounds.y += self.qHeightAdjust;
+    qBounds.width -= 4;
+    qBounds.height -= (self.qHeightAdjust + 30);
+    if (qBounds.height <= 0 || qBounds.width <= 0) {
+        return;
     }
+    
+    _boundingRects[0] = qBounds;    // update q bounds
+    
+    cv::Mat qMat = _cvMat(qBounds);
     
     double min = 0.0, max = 0.0;
-    if (_cvMat.size().height >= _qTemplate.size().height &&
-        _cvMat.size().width >= _qTemplate.size().height) {
+    if (qMat.size().height >= _qTemplate.size().height &&
+        qMat.size().width >= _qTemplate.size().height) {
         cv::Mat result;
-        cv::matchTemplate(_cvMat, _qTemplate, result, cv::TM_CCOEFF_NORMED);
+        cv::matchTemplate(qMat, _qTemplate, result, cv::TM_CCOEFF_NORMED);
         cv::minMaxLoc(result, &min, &max);
-        printf("Min %f Max %f\n", min, max);
+//        printf("Min %f Max %f\n", min, max);
 //        showImage("Match", result);
     }
-    
-    self.questionMarkPresent = max > 0.83;
+
+    self.questionMarkPresent = max > 0.80;
     if (self.questionMarkPresent) {
-        self.correctAnswer = [self detectCorrectAnswer:_cvMatOrig(bounds)];
+        self.correctAnswer = [self detectCorrectAnswer];
     }
 }
 
@@ -188,11 +225,11 @@ static void NSImageToMat(NSImage *image, cv::Mat &mat) {
     CGContextDrawImage(contextRef, CGRectMake(0, 0, width, height), imageRef);
     CGContextRelease(contextRef);
     CGColorSpaceRelease(colorSpace);
-
+    
     // Draw all pixels to the buffer.
     cv::Mat mat8uc3 = cv::Mat((int)width, (int)height, CV_8UC3);
     cv::cvtColor(mat8uc4, mat8uc3, CV_RGBA2BGR);
-
+    
     mat = mat8uc3;
 }
 

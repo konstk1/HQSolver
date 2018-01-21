@@ -86,7 +86,14 @@ final class TriviaSolver {
     }
     
     func add(strategy: TriviaStrategy) {
+        print("Adding \(strategy.name)")
         strategies.append(strategy)
+    }
+    
+    func removeStrategy(named: String) {
+        guard let idx = (strategies.index { $0.name == named }) else { return }
+        print("Removing \(strategies[idx].name)")
+        strategies.remove(at: idx)
     }
     
     func use(strategy: TriviaStrategy) {
@@ -150,9 +157,9 @@ extension TriviaSolver {
         stats.startTime = Date()
         
         // OpenCV to detect state and prepare for OCR
-        let opencv =  OpenCV(image: image, device: Int32(device))!
+        let opencv =  OpenCVCashShow(image: image, device: Int32(device))
         opencv.prepareForOcr()
-        let ocrImage = opencv.image
+        let ocrImages = opencv.images as! [NSImage]
         
         stats.prepForOcrTime = Date().timeIntervalSince(stats.startTime)
         
@@ -176,15 +183,29 @@ extension TriviaSolver {
         }
         
         if state == .readyForOcr {
-            if let text = runOcr(image: ocrImage) {
+            if let text = runOcr(image: ocrImages[0]) {
                 stats.ocrTime = Date().timeIntervalSince(stats.startTime) - stats.prepForOcrTime
-                let q = parse(text: text)
-                _ = solve(question: q)
+                var q: Question
+                if ocrImages.count == 1 {       // HQ style (combined question and answers)
+                    q = parse(text: text)
+                    _ = solve(question: q)
+                } else if ocrImages.count == 4 {     // Cash Show style (split)
+                    let question = text.replacingOccurrences(of: "\n", with: " ")
+                    var answers = [String]()
+                    answers.append(runOcr(image: ocrImages[1]) ?? "")
+                    answers.append(runOcr(image: ocrImages[2]) ?? "")
+                    answers.append(runOcr(image: ocrImages[3]) ?? "")
+                    q = Question(question: question, answers: answers)
+                    _ = solve(question: q)
+                } else {
+                    print("ERROR: incorrect number of images \(ocrImages.count)")
+                }
+                
                 state = .waitingForAnswer
             }
         }
         
-        return ocrImage
+        return ocrImages.count > 0 ? ocrImages[0] : NSImage();
     }
     
     private func runOcr(image: NSImage) -> String? {

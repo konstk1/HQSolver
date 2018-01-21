@@ -42,7 +42,7 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
         drawBorder(view: ocrImageView, width: 1, color: NSColor.blue)
         
         solver.delegate = self
-        solver.add(strategy: QBotStrategy())
+//        solver.add(strategy: QBotStrategy())
         solver.add(strategy: GoogleStrategy())
         
         screenCap.enableDevices = true
@@ -121,6 +121,19 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
         chosenAnswer = answer
         solver.currentQuestion?.correctAnswer = chosenAnswer
         buttons[chosenAnswer-1]?.layer?.backgroundColor = NSColor.green.cgColor
+    }
+    
+    @IBAction func screenCapCheckPushed(_ sender: NSButton) {
+        screenCap.enableDevices = (sender.state == .on)
+    }
+    
+    @IBAction func qBotCheckPushed(_ sender: NSButton) {
+        if sender.state == .on {
+            solver.add(strategy: QBotStrategy())
+        } else {
+            solver.removeStrategy(named: "QBot")
+        }
+        
     }
     
     @IBAction func ocrNowPushed(_ sender: NSButton) {

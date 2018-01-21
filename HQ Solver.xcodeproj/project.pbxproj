@@ -29,6 +29,8 @@
 		FFC935EA1FC24F0200338B4C /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = FFC935E91FC24F0200338B4C /* Cartfile */; };
 		FFC935EC1FC24F7500338B4C /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFC935EB1FC24F7500338B4C /* Kanna.framework */; };
 		FFC935ED1FC24F7500338B4C /* Kanna.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FFC935EB1FC24F7500338B4C /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FFE28B772014380200C3EFA5 /* OpenCVCashShow.mm in Sources */ = {isa = PBXBuildFile; fileRef = FFE28B762014380200C3EFA5 /* OpenCVCashShow.mm */; };
+		FFE28B7A2014E14800C3EFA5 /* q_template_cash_show.png in Resources */ = {isa = PBXBuildFile; fileRef = FFE28B792014E14800C3EFA5 /* q_template_cash_show.png */; };
 		FFEF18F91F9FE46600533CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF18F81F9FE46600533CDC /* AppDelegate.swift */; };
 		FFEF18FB1F9FE46600533CDC /* TriviaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF18FA1F9FE46600533CDC /* TriviaViewController.swift */; };
 		FFEF18FD1F9FE46600533CDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FFEF18FC1F9FE46600533CDC /* Assets.xcassets */; };
@@ -83,6 +85,9 @@
 		FFC935E91FC24F0200338B4C /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = SOURCE_ROOT; };
 		FFC935EB1FC24F7500338B4C /* Kanna.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kanna.framework; path = Carthage/Build/Mac/Kanna.framework; sourceTree = "<group>"; };
 		FFCDA9ED1FAA939E0034948D /* question_mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = question_mark.png; sourceTree = "<group>"; };
+		FFE28B762014380200C3EFA5 /* OpenCVCashShow.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVCashShow.mm; sourceTree = "<group>"; };
+		FFE28B782014382100C3EFA5 /* OpenCVCashShow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVCashShow.h; sourceTree = "<group>"; };
+		FFE28B792014E14800C3EFA5 /* q_template_cash_show.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = q_template_cash_show.png; sourceTree = "<group>"; };
 		FFEF18F51F9FE46600533CDC /* HQ Solver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HQ Solver.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFEF18F81F9FE46600533CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FFEF18FA1F9FE46600533CDC /* TriviaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriviaViewController.swift; sourceTree = "<group>"; };
@@ -94,7 +99,7 @@
 		FFEF190B1F9FE46600533CDC /* HQ_SolverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HQ_SolverTests.swift; sourceTree = "<group>"; };
 		FFEF190D1F9FE46600533CDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFEF19171F9FE77D00533CDC /* libtesseract.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtesseract.4.dylib; path = ../../../../usr/local/lib/libtesseract.4.dylib; sourceTree = "<group>"; };
-		FFEF19191F9FE84D00533CDC /* HQ Solver-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HQ Solver-Bridging-Header.h"; sourceTree = "<group>"; };
+		FFEF19191F9FE84D00533CDC /* HQ Solver-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = "HQ Solver-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +130,7 @@
 			children = (
 				FF46A8BA1FB1282500EB9BAD /* q_template1.png */,
 				FF34DE33200BFB6600176726 /* q_template2.png */,
+				FFE28B792014E14800C3EFA5 /* q_template_cash_show.png */,
 				FFCDA9ED1FAA939E0034948D /* question_mark.png */,
 				FFEF19011F9FE46600533CDC /* Info.plist */,
 				FF1154701FA6C2E80056959B /* Keys.plist */,
@@ -169,6 +175,8 @@
 				FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */,
 				FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */,
 				FF04293C1FA2B6CB00F6B7A7 /* ScreenCap.swift */,
+				FFE28B762014380200C3EFA5 /* OpenCVCashShow.mm */,
+				FFE28B782014382100C3EFA5 /* OpenCVCashShow.h */,
 				FF79E0C81FA17465007B2922 /* OpenCV.mm */,
 				FF79E0CA1FA1747E007B2922 /* OpenCV.h */,
 				FFEF18FE1F9FE46600533CDC /* Main.storyboard */,
@@ -283,6 +291,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FFEF18FD1F9FE46600533CDC /* Assets.xcassets in Resources */,
+				FFE28B7A2014E14800C3EFA5 /* q_template_cash_show.png in Resources */,
 				FFEF19001F9FE46600533CDC /* Main.storyboard in Resources */,
 				FF34DE34200BFB6600176726 /* q_template2.png in Resources */,
 				FFC935EA1FC24F0200338B4C /* Cartfile in Resources */,
@@ -307,6 +316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF8B93531FA3BDE200CED013 /* GoogleStrategy.swift in Sources */,
+				FFE28B772014380200C3EFA5 /* OpenCVCashShow.mm in Sources */,
 				FF8B93511FA3974B00CED013 /* QBotStrategy.swift in Sources */,
 				FFEF18FB1F9FE46600533CDC /* TriviaViewController.swift in Sources */,
 				FF1154761FA7E4A20056959B /* TestQuestions.swift in Sources */,
