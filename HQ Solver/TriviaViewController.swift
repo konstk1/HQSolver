@@ -42,8 +42,8 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
         drawBorder(view: ocrImageView, width: 1, color: NSColor.blue)
         
         solver.delegate = self
-//        solver.add(strategy: QBotStrategy())
-        solver.add(strategy: GoogleStrategy())
+        solver.add(strategy: QBotStrategy())
+//        solver.add(strategy: GoogleStrategy())
         
         screenCap.enableDevices = true
         

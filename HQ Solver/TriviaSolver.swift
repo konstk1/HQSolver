@@ -142,7 +142,8 @@ final class TriviaSolver {
                 strategy.submitAnswer(qNumber: self.questionNumber, question: q.question, possibleAnswers: q.answers, correctAnswer: q.correctAnswer, marked: q.marked)
             }
         }
-        print("Submitting \(currentQuestion!)")
+        guard let question = currentQuestion else { return }
+        print("Submitting \(question)")
     }
     
     func reset() {
@@ -158,6 +159,7 @@ extension TriviaSolver {
         
         // OpenCV to detect state and prepare for OCR
         let opencv =  OpenCVCashShow(image: image, device: Int32(device))
+//        let opencv =  OpenCVQB(image: image, device: Int32(device))
         opencv.prepareForOcr()
         let ocrImages = opencv.images as! [NSImage]
         

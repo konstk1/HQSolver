@@ -37,6 +37,8 @@
 		FFEF19001F9FE46600533CDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFEF18FE1F9FE46600533CDC /* Main.storyboard */; };
 		FFEF190C1F9FE46600533CDC /* HQ_SolverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF190B1F9FE46600533CDC /* HQ_SolverTests.swift */; };
 		FFEF19181F9FE77D00533CDC /* libtesseract.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FFEF19171F9FE77D00533CDC /* libtesseract.4.dylib */; };
+		FFFE47B1203DF4DB00B3AD80 /* OpenCVQB.mm in Sources */ = {isa = PBXBuildFile; fileRef = FFFE47B0203DF4DB00B3AD80 /* OpenCVQB.mm */; };
+		FFFE47B3203DFFB400B3AD80 /* q_template_qb.png in Resources */ = {isa = PBXBuildFile; fileRef = FFFE47B2203DFFB400B3AD80 /* q_template_qb.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +102,9 @@
 		FFEF190D1F9FE46600533CDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFEF19171F9FE77D00533CDC /* libtesseract.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtesseract.4.dylib; path = ../../../../usr/local/lib/libtesseract.4.dylib; sourceTree = "<group>"; };
 		FFEF19191F9FE84D00533CDC /* HQ Solver-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = "HQ Solver-Bridging-Header.h"; sourceTree = "<group>"; };
+		FFFE47AF203DF4DA00B3AD80 /* OpenCVQB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVQB.h; sourceTree = "<group>"; };
+		FFFE47B0203DF4DB00B3AD80 /* OpenCVQB.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVQB.mm; sourceTree = "<group>"; };
+		FFFE47B2203DFFB400B3AD80 /* q_template_qb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = q_template_qb.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +133,7 @@
 		FF11546F1FA6C2B70056959B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FFFE47B2203DFFB400B3AD80 /* q_template_qb.png */,
 				FF46A8BA1FB1282500EB9BAD /* q_template1.png */,
 				FF34DE33200BFB6600176726 /* q_template2.png */,
 				FFE28B792014E14800C3EFA5 /* q_template_cash_show.png */,
@@ -175,6 +181,8 @@
 				FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */,
 				FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */,
 				FF04293C1FA2B6CB00F6B7A7 /* ScreenCap.swift */,
+				FFFE47AF203DF4DA00B3AD80 /* OpenCVQB.h */,
+				FFFE47B0203DF4DB00B3AD80 /* OpenCVQB.mm */,
 				FFE28B762014380200C3EFA5 /* OpenCVCashShow.mm */,
 				FFE28B782014382100C3EFA5 /* OpenCVCashShow.h */,
 				FF79E0C81FA17465007B2922 /* OpenCV.mm */,
@@ -295,6 +303,7 @@
 				FFEF19001F9FE46600533CDC /* Main.storyboard in Resources */,
 				FF34DE34200BFB6600176726 /* q_template2.png in Resources */,
 				FFC935EA1FC24F0200338B4C /* Cartfile in Resources */,
+				FFFE47B3203DFFB400B3AD80 /* q_template_qb.png in Resources */,
 				FF1154711FA6C2E80056959B /* Keys.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,6 +326,7 @@
 			files = (
 				FF8B93531FA3BDE200CED013 /* GoogleStrategy.swift in Sources */,
 				FFE28B772014380200C3EFA5 /* OpenCVCashShow.mm in Sources */,
+				FFFE47B1203DF4DB00B3AD80 /* OpenCVQB.mm in Sources */,
 				FF8B93511FA3974B00CED013 /* QBotStrategy.swift in Sources */,
 				FFEF18FB1F9FE46600533CDC /* TriviaViewController.swift in Sources */,
 				FF1154761FA7E4A20056959B /* TestQuestions.swift in Sources */,

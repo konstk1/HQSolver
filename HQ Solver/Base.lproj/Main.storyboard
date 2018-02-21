@@ -906,7 +906,7 @@
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="L2n-wt-5zK">
                                 <rect key="frame" x="414" y="422" width="53" height="18"/>
-                                <buttonCell key="cell" type="check" title="QBot" bezelStyle="regularSquare" imagePosition="left" inset="2" id="QNf-Ax-86a">
+                                <buttonCell key="cell" type="check" title="QBot" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="QNf-Ax-86a">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>

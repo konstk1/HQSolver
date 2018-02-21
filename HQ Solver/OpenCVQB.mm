@@ -1,5 +1,5 @@
 //
-//  OpenCVHQ.mm
+//  OpenCVQB.mm
 //  HQ Solver
 //
 //  Created by Konstantin Klitenik on 1/20/18.
@@ -11,7 +11,7 @@
 #import <opencv2/imgproc.hpp>
 
 #import <Foundation/Foundation.h>
-#import "OpenCVCashShow.h"
+#import "OpenCVQB.h"
 
 static void NSImageToMat(NSImage *image, cv::Mat &mat);
 static NSImage *MatToNSImage(cv::Mat &mat);
@@ -31,7 +31,7 @@ static bool rectYCompare(cv::Rect r1, cv::Rect r2) {
     return r1.y < r2.y;
 }
 
-@interface OpenCVCashShow()
+@interface OpenCVQB()
 
 @property double qTemplateScaleFactor;
 @property int qHeightAdjust;
@@ -47,7 +47,7 @@ static bool rectYCompare(cv::Rect r1, cv::Rect r2) {
 
 @end
 
-@implementation OpenCVCashShow
+@implementation OpenCVQB
 
 static cv::Mat _qTemplate;
 static bool _qTemplateLoaded = false;
@@ -65,10 +65,10 @@ static bool _qTemplateLoaded = false;
     
     if (!_qTemplateLoaded) {
         printf("Loading Q template...\n");
-        _qTemplate = cv::imread("/Users/kon/Developer/HQ Solver/HQ Solver/q_template_cash_show.png", cv::IMREAD_GRAYSCALE);
+        _qTemplate = cv::imread("/Users/kon/Developer/HQ Solver/HQ Solver/q_template_qb.png", cv::IMREAD_GRAYSCALE);
         _qTemplateLoaded = true;
         cv::resize(_qTemplate, _qTemplate, cv::Size(), _qTemplateScaleFactor, _qTemplateScaleFactor);
-//        showImage("Q", _qTemplate);
+        showImage("Q", _qTemplate);
     }
     
     _questionMarkPresent = false;
@@ -89,7 +89,7 @@ static bool _qTemplateLoaded = false;
     for (int i = 0; i < self.boundingRects.size(); i++) {
         cv::Mat mat = _cvMat(self.boundingRects[i]);
         [imgs addObject:MatToNSImage(mat)];
-//        showImage(titles[i], mat);
+        showImage(titles[i], mat);
     }
     return [NSArray arrayWithArray:imgs];
 }
@@ -108,31 +108,41 @@ static bool _qTemplateLoaded = false;
 
 - (std::vector<cv::Rect>)sortContoursIntoRects:(std::vector<std::vector<cv::Point>>)contours {
     std::vector<cv::Rect> boundingRects;
-    if (contours.size() > 0) {
-        std::sort(contours.begin(), contours.end(), contourAreaCompare);
-
-        // get 4 largest contours
-        std::vector<std::vector<cv::Point>> sortedContours(contours.begin(), contours.begin() + MIN(contours.size()-1,4));
-        
-        for(int i = 0; i < sortedContours.size(); i++) {
-            auto area = cv::contourArea(contours[i]);
-            if (area > 0) {
-                boundingRects.push_back(cv::boundingRect(contours[i]));
-            }
-        }
-        
-        std::sort(boundingRects.begin(), boundingRects.end(), rectYCompare);            // sort by Y
-        
-        for (int i = 0; i < boundingRects.size(); i++) {
-            // for answer bounding rectangles, take in width a little to get rid of angled corners
-            if (i >= 1) {
-                boundingRects[i].x += 35;
-                boundingRects[i].width = MAX(boundingRects[i].width - 80, 1);
-            }
-//            printf("Rect %d - area: %d - Y: %d\n", i, boundingRects[i].area(), boundingRects[i].y);
-        }
-    }
     
+    // 550 x 761
+    cv::Rect rq = cv::Rect(30, 100, 490, 310);
+    cv::Rect r1 = cv::Rect(30, 400, 490, 60);
+    cv::Rect r2 = cv::Rect(30, 480, 490, 60);
+    cv::Rect r3 = cv::Rect(30, 570, 490, 60);
+//    if (contours.size() > 0) {
+//        std::sort(contours.begin(), contours.end(), contourAreaCompare);
+//
+//        // get 4 largest contours
+//        std::vector<std::vector<cv::Point>> sortedContours(contours.begin(), contours.begin() + MIN(contours.size()-1,4));
+//
+//        for(int i = 0; i < sortedContours.size(); i++) {
+//            auto area = cv::contourArea(contours[i]);
+//            if (area > 0) {
+//                boundingRects.push_back(cv::boundingRect(contours[i]));
+//            }
+//        }
+//
+//        std::sort(boundingRects.begin(), boundingRects.end(), rectYCompare);            // sort by Y
+//
+//        for (int i = 0; i < boundingRects.size(); i++) {
+//            // for answer bounding rectangles, take in width a little to get rid of angled corners
+//            if (i >= 1) {
+//                boundingRects[i].x += 35;
+//                boundingRects[i].width = MAX(boundingRects[i].width - 80, 1);
+//            }
+////            printf("Rect %d - area: %d - Y: %d\n", i, boundingRects[i].area(), boundingRects[i].y);
+//        }
+//    }
+    
+    boundingRects.push_back(rq);
+    boundingRects.push_back(r1);
+    boundingRects.push_back(r2);
+    boundingRects.push_back(r3);
     return boundingRects;
 }
 
@@ -151,7 +161,7 @@ static bool _qTemplateLoaded = false;
     int correctAnswer = 0;
     
     for (int i = 1; i < self.boundingRects.size(); i++) {
-        cv::inRange(_cvMatOrig(self.boundingRects[i]), cv::Scalar(170, 220, 80), cv::Scalar(220, 255, 180), range);
+        cv::inRange(_cvMatOrig(self.boundingRects[i]), cv::Scalar(200, 220, 50), cv::Scalar(240, 255, 150), range);
         auto mean = cv::mean(range)[0];
         if (mean > maxMean) {
             maxMean = mean;
@@ -168,12 +178,13 @@ static bool _qTemplateLoaded = false;
 - (void)prepareForOcr {
     _cvMatOrig = _cvMat;
     cv::cvtColor(_cvMat, _cvMat, cv::COLOR_BGR2GRAY);
-    cv::threshold(_cvMat, _cvMat, 200, 255, cv::THRESH_BINARY);
+    cv::threshold(_cvMat, _cvMat, 220, 255, cv::THRESH_BINARY);
     
     std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
     cv::findContours(_cvMat, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
+    printf("Image %d x %d\n", _cvMat.size().width, _cvMat.size().height);
     self.boundingRects = [self sortContoursIntoRects:contours];
     if (self.boundingRects.size() == 0) {
         return;
