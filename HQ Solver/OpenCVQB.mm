@@ -68,7 +68,7 @@ static bool _qTemplateLoaded = false;
         _qTemplate = cv::imread("/Users/kon/Developer/HQ Solver/HQ Solver/q_template_qb.png", cv::IMREAD_GRAYSCALE);
         _qTemplateLoaded = true;
         cv::resize(_qTemplate, _qTemplate, cv::Size(), _qTemplateScaleFactor, _qTemplateScaleFactor);
-        showImage("Q", _qTemplate);
+//        showImage("Q", _qTemplate);
     }
     
     _questionMarkPresent = false;
@@ -89,7 +89,7 @@ static bool _qTemplateLoaded = false;
     for (int i = 0; i < self.boundingRects.size(); i++) {
         cv::Mat mat = _cvMat(self.boundingRects[i]);
         [imgs addObject:MatToNSImage(mat)];
-        showImage(titles[i], mat);
+//        showImage(titles[i], mat);
     }
     return [NSArray arrayWithArray:imgs];
 }
@@ -215,7 +215,7 @@ static bool _qTemplateLoaded = false;
 //        showImage("Match", result);
     }
 
-    self.questionMarkPresent = max > 0.75;
+    self.questionMarkPresent = max > 0.82;
     if (self.questionMarkPresent) {
         self.correctAnswer = [self detectCorrectAnswer];
     }

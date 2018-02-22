@@ -158,8 +158,8 @@ extension TriviaSolver {
         stats.startTime = Date()
         
         // OpenCV to detect state and prepare for OCR
-        let opencv =  OpenCVCashShow(image: image, device: Int32(device))
-//        let opencv =  OpenCVQB(image: image, device: Int32(device))
+//        let opencv =  OpenCVCashShow(image: image, device: Int32(device))
+        let opencv =  OpenCVQB(image: image, device: Int32(device))
         opencv.prepareForOcr()
         let ocrImages = opencv.images as! [NSImage]
         
@@ -192,7 +192,7 @@ extension TriviaSolver {
                     q = parse(text: text)
                     _ = solve(question: q)
                 } else if ocrImages.count == 4 {     // Cash Show style (split)
-                    let question = text.replacingOccurrences(of: "\n", with: " ")
+                    let question = text.replacingOccurrences(of: "\n", with: " ").removingRegexMatches(pattern: "^\\d+.")
                     var answers = [String]()
                     answers.append(runOcr(image: ocrImages[1])?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "")
                     answers.append(runOcr(image: ocrImages[2])?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "")
@@ -218,5 +218,17 @@ extension TriviaSolver {
         TessBaseAPISetImage(tess, data, Int32(bmp.pixelsWide), Int32(bmp.pixelsHigh), Int32(bmp.bitsPerPixel/8), Int32(bmp.bytesPerRow))
         
         return String(cString: TessBaseAPIGetUTF8Text(tess)!)
+    }
+}
+
+extension String {
+    func removingRegexMatches(pattern: String, replaceWith: String = "") -> String {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
+            let range = NSMakeRange(0, self.count)
+            return regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: replaceWith)
+        } catch {
+            return self
+        }
     }
 }

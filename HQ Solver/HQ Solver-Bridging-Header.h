@@ -4,5 +4,5 @@
 
 //#include "OpenCV.h"
 #include "OpenCVCashShow.h"
-//#include "OpenCVQB.h"
+#include "OpenCVQB.h"
 #include <tesseract/capi.h>

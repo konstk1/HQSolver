@@ -10,10 +10,7 @@
 #define OpenCVCashShow_h
 
 #import <Cocoa/Cocoa.h>
-
-typedef NS_ENUM(NSInteger, ConversionCode) {
-    BGR2GRAY = 6
-};
+#import "OpenCVCommon.h"
 
 @interface OpenCVCashShow : NSObject
 

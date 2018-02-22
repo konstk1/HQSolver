@@ -105,6 +105,7 @@
 		FFFE47AF203DF4DA00B3AD80 /* OpenCVQB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCVQB.h; sourceTree = "<group>"; };
 		FFFE47B0203DF4DB00B3AD80 /* OpenCVQB.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVQB.mm; sourceTree = "<group>"; };
 		FFFE47B2203DFFB400B3AD80 /* q_template_qb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = q_template_qb.png; sourceTree = "<group>"; };
+		FFFE47B4203EF0A100B3AD80 /* OpenCVCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVCommon.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +182,7 @@
 				FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */,
 				FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */,
 				FF04293C1FA2B6CB00F6B7A7 /* ScreenCap.swift */,
+				FFFE47B4203EF0A100B3AD80 /* OpenCVCommon.h */,
 				FFFE47AF203DF4DA00B3AD80 /* OpenCVQB.h */,
 				FFFE47B0203DF4DB00B3AD80 /* OpenCVQB.mm */,
 				FFE28B762014380200C3EFA5 /* OpenCVCashShow.mm */,
