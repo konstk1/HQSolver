@@ -87,20 +87,40 @@ class QBotStrategy: TriviaStrategy {
         }
         dataTask?.resume()
     }
-    
-    func queryApi(query: String) {
-        dataTask?.cancel()
-        // https://api.cognitive.microsoft.com/bing/v7.0/search
-        guard var urlComponents = URLComponents(string: baseUrl) else { return }
-//        urlComponents.query = query
-        guard let url = urlComponents.url else { return }
-        var urlRequest = URLRequest(url: url)
-        urlRequest.setValue("e2e2e7b573f34810aa1de005be886e13", forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
-        dataTask = defaultSession.dataTask(with: url) { (data, response, error) in
-            defer { self.dataTask = nil }
-            
-        }
+}
+
+extension QBotStrategy {
+    static func getNextGame() -> String {
+        var nextGame = ""
+        var url = URLComponents(string: "https://helpmetrivia.com")!
+        url.path = "/next_game"
+        var request = URLRequest(url: url.url!)
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        dataTask?.resume()
+        let group = DispatchGroup()
+        group.enter()
+        
+        let session = URLSession(configuration: .default)
+        let dataTask = session.dataTask(with: request) { (data, response, error) in
+            defer {
+                group.leave()
+            }
+            if let error = error {
+                print("ERROR: Failed to fetch next game (\(error))")
+            }
+            guard let _ = response as? HTTPURLResponse else { return }
+            guard let data = data else { return }
+            guard let json = (try? JSONSerialization.jsonObject(with: data, options: [])) as? [String: Any] else { return }
+            guard let game = json["game"] as? String else {
+                print("EROR: Game not found \(json)")
+                return
+            }
+            nextGame = game
+        }
+        dataTask.resume()
+        group.wait()
+        print("Next game: \(nextGame)")
+        return nextGame;
     }
 }

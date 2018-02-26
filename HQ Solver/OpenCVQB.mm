@@ -184,7 +184,7 @@ static bool _qTemplateLoaded = false;
     std::vector<cv::Vec4i> hierarchy;
     cv::findContours(_cvMat, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
-    printf("Image %d x %d\n", _cvMat.size().width, _cvMat.size().height);
+//    printf("Image %d x %d\n", _cvMat.size().width, _cvMat.size().height);
     self.boundingRects = [self sortContoursIntoRects:contours];
     if (self.boundingRects.size() == 0) {
         return;

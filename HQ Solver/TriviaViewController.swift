@@ -41,6 +41,8 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
         drawBorder(view: originalImageView, width: 1, color: NSColor.green)
         drawBorder(view: ocrImageView, width: 1, color: NSColor.blue)
         
+        solver.gameTitle = QBotStrategy.getNextGame()
+        
         solver.delegate = self
         solver.add(strategy: QBotStrategy())
 //        solver.add(strategy: GoogleStrategy())
