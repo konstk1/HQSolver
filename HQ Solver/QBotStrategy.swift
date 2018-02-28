@@ -13,13 +13,19 @@ class QBotStrategy: TriviaStrategy {
     let baseUrl = "https://helpmetrivia.com"
 //    let baseUrl = "http://localhost:3000"
     
-    let defaultSession = URLSession(configuration: .default)
+    let defaultSession: URLSession
     var dataTask: URLSessionDataTask?
     
     struct Query: Codable {
         let question: String
         let answers: [String]
         let agent = "OCR"
+    }
+    
+    init() {
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = 1
+        defaultSession = URLSession(configuration: config)
     }
     
     func answerQuestion(question: String, possibleAnswers: [String]) -> String {
@@ -35,22 +41,33 @@ class QBotStrategy: TriviaStrategy {
         request.httpBody = try! encoder.encode(query)
 //        print(String(data: request.httpBody!, encoding: .utf8)!)
         let group = DispatchGroup()
-        group.enter()
-        dataTask = defaultSession.dataTask(with: request) { [unowned self] (data, response, error) in
-            defer {
-                self.dataTask = nil
-                group.leave()
+        var isSubmitted = false
+        for i in 1...2 {
+            group.enter()
+            print("Submitting question (attempt \(i))")
+            dataTask = defaultSession.dataTask(with: request) { [unowned self] (data, response, error) in
+                defer {
+                    self.dataTask = nil
+                    group.leave()
+                }
+                if let error = error as NSError? {
+                    if error.code == -1001 {      // timed out
+                        // retry
+                    }
+                    print("ERROR: Failed to post (\(error.code) - \(error))")
+                } else {
+                    guard let response = response as? HTTPURLResponse else { return }
+                    print("Response \(response.statusCode)")
+                    isSubmitted = true
+                }
             }
-            if let error = error {
-                print("ERROR: Failed to post (\(error))")
-            }
-            guard let _ = response as? HTTPURLResponse else { return }
-//            print("Response \(response.statusCode)")
+            
+            dataTask?.resume()
+            print("Waiting for response")
+            group.wait()
+            if isSubmitted { break }
         }
-    
-        dataTask?.resume()
-        
-        group.wait()
+        print("Done")
         return "Not implemented"
     }
     
