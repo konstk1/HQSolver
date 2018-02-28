@@ -168,7 +168,7 @@ extension TriviaSolver {
 //            print("ERROR: unsupported game")
 //        }
         
-//        let opencv =  OpenCVQB(image: image, device: Int32(device))
+        let opencv =  OpenCVQB(image: image, device: Int32(device))
 //        let opencv =  OpenCVCashShow(image: image, device: Int32(device))
         
         opencv.prepareForOcr()
@@ -203,11 +203,14 @@ extension TriviaSolver {
                     q = parse(text: text)
                     _ = solve(question: q)
                 } else if ocrImages.count == 4 {     // Cash Show style (split)
-                    let question = text.replacingOccurrences(of: "\n", with: " ").removingRegexMatches(pattern: "^\\d+.")
+                    let question = text.replacingOccurrences(of: "\n", with: " ").removingRegexMatches(pattern: "^[\\— ]*\\d+. *")
                     var answers = [String]()
-                    answers.append(runOcr(image: ocrImages[1])?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "")
-                    answers.append(runOcr(image: ocrImages[2])?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "")
-                    answers.append(runOcr(image: ocrImages[3])?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "")
+                    for i in 1...3 {
+                        var answer = runOcr(image: ocrImages[i])
+                        answer = answer?.trimmingCharacters(in: .whitespacesAndNewlines)
+                        answer = answer?.removingRegexMatches(pattern: "[| ]*$")
+                        answers.append(answer ?? "")
+                    }
                     q = Question(question: question, answers: answers)
                     _ = solve(question: q)
                 } else {
@@ -243,3 +246,18 @@ extension String {
         }
     }
 }
+
+//Submitting Question(question: "— 7. Which is a song by The Presidents of the United States of America? ", answers: ["“Apples” |", "“Peaches” |", "\"Grapes\" |"], correctAnswer: 2, marked: false)
+//{
+//    "marked" : false,
+//    "answers" : [
+//    "“Apples” |",
+//    "“Peaches” |",
+//    "\"Grapes\" |"
+//    ],
+//    "questionNumber" : 7,
+//    "question" : "— 7. Which is a song by The Presidents of the United States of America? ",
+//    "correctAnswer" : 2,
+//    "solution" : "“Peaches” |"
+//}
+
