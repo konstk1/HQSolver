@@ -168,8 +168,8 @@ extension TriviaSolver {
 //            print("ERROR: unsupported game")
 //        }
         
-        let opencv =  OpenCVQB(image: image, device: Int32(device))
-//        let opencv =  OpenCVCashShow(image: image, device: Int32(device))
+//        let opencv =  OpenCVQB(image: image, device: Int32(device))
+        let opencv =  OpenCVCashShow(image: image, device: Int32(device))
         
         opencv.prepareForOcr()
         let ocrImages = opencv.images as! [NSImage]
@@ -260,4 +260,20 @@ extension String {
 //    "correctAnswer" : 2,
 //    "solution" : "“Peaches” |"
 //}
+
+//Submitting Question(question: "Which of these animal young is amammal? ", answers: ["Shoat I", "Nymph I", "Polliwog I"], correctAnswer: 1, marked: false)
+//State: waitingForQuestion
+//{
+//    "marked" : false,
+//    "answers" : [
+//    "Shoat I",
+//    "Nymph I",
+//    "Polliwog I"
+//    ],
+//    "questionNumber" : 7,
+//    "question" : "Which of these animal young is amammal? ",
+//    "correctAnswer" : 1,
+//    "solution" : "Shoat I"
+//}
+
 

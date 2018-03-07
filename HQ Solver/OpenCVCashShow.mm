@@ -194,17 +194,20 @@ static bool _qTemplateLoaded = false;
     
     cv::Mat qMat = _cvMat(qBounds);
     
-    double min = 0.0, max = 0.0;
+    double min = 0.0, max = 0.0, maxAvg = 0.0;
+    static double prevMax = 0.0;
     if (qMat.size().height >= _qTemplate.size().height &&
         qMat.size().width >= _qTemplate.size().height) {
         cv::Mat result;
         cv::matchTemplate(qMat, _qTemplate, result, cv::TM_CCOEFF_NORMED);
         cv::minMaxLoc(result, &min, &max);
-        printf("Min %f Max %f\n", min, max);
-//        showImage("Match", result);
+        maxAvg = (max + prevMax) / 2;
+        printf("Min %f Max %f Max Avg %f\n", min, max, maxAvg);
+        //        showImage("Match", result);
     }
+    prevMax = max;
 
-    self.questionMarkPresent = max > 0.75;
+    self.questionMarkPresent = maxAvg > 0.75;
     if (self.questionMarkPresent) {
         self.correctAnswer = [self detectCorrectAnswer];
     }

@@ -148,6 +148,10 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
         screenCap.startCaputre()
     }
     
+    @IBAction func resetPushed(_ sender: NSButton) {
+        solver.state = .waitingForQuestion
+    }
+    
     @IBAction func testPushed(_ sender: NSButton) {
         let testQ = TestQuestions().randomQuestion()
         let question = TriviaSolver.Question(question: testQ.question, answers: testQ.answers)
