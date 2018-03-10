@@ -34,6 +34,7 @@ final class TriviaSolver {
     }
     
     var gameTitle = ""
+    var openCvGameTitle = ""
     
     var device: Int = 0
     weak var delegate: TriviaSolverDelegate? = nil
@@ -158,18 +159,19 @@ final class TriviaSolver {
 extension TriviaSolver {
     func processFrame(image: NSImage) -> NSImage {
         stats.startTime = Date()
-    
-        // OpenCV to detect state and prepare for OCR
-//        if gameTitle.lowercased().contains("cash") {
-//            let opencv =  OpenCVCashShow(image: image, device: Int32(device))
-//        } else if gameTitle.lowercased().contains("quiz") {
-//            let opencv =  OpenCVQB(image: image, device: Int32(device))
-//        } else {
-//            print("ERROR: unsupported game")
-//        }
+        var opencv: OpenCV
         
-//        let opencv =  OpenCVQB(image: image, device: Int32(device))
-        let opencv =  OpenCVCashShow(image: image, device: Int32(device))
+        // OpenCV to detect state and prepare for OCR
+        if gameTitle.lowercased().contains("cash") {
+            opencv =  OpenCVCashShow(image: image, device: Int32(device))
+        } else if gameTitle.lowercased().contains("quiz") {
+            opencv =  OpenCVQB(image: image, device: Int32(device))
+        } else {
+            opencv = OpenCVCashShow(image: image, device: Int32(device))
+            print("ERROR: unsupported game")
+        }
+        
+        openCvGameTitle = opencv.gameTitle
         
         opencv.prepareForOcr()
         let ocrImages = opencv.images as! [NSImage]

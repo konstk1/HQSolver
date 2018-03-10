@@ -53,6 +53,8 @@ static cv::Mat _qTemplate;
 static bool _qTemplateLoaded = false;
 
 - (instancetype)initWithImage:(nonnull NSImage *)image device:(int)device {
+    _gameTitle = @"QuizBiz";
+    
     if (device == 7) {                      // iPhone 7
         _qTemplateScaleFactor = 0.678;
         _qHeightAdjust = 80;

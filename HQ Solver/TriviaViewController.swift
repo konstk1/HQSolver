@@ -29,6 +29,7 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
     @IBOutlet weak var ocrResultLabel: NSTextField!
     @IBOutlet weak var statsLabel: NSTextField!
     @IBOutlet weak var questionNumberLabel: NSTextField!
+    @IBOutlet weak var gameTitleLabel: NSTextField!
     
     @IBOutlet weak var answer1Button: NSButton!
     @IBOutlet weak var answer2Button: NSButton!
@@ -102,7 +103,8 @@ final class TriviaViewController: NSViewController, TriviaSolverDelegate {
             DispatchQueue.main.async {
                 self.originalImageView.image = image
                 self.ocrImageView.image = ocrImage
-
+                
+                self.gameTitleLabel.stringValue = "\(self.solver.openCvGameTitle)"
                 self.statsLabel.stringValue = """
                 State:\t\(self.solver.state)
                 Img Cap:\t\t\(String(format: "%4.0f", self.stats.imageCaptureTime*1000)) msec

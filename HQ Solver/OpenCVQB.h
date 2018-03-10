@@ -12,19 +12,19 @@
 #import <Cocoa/Cocoa.h>
 #import "OpenCVCommon.h"
 
-@interface OpenCVQB : NSObject
+@interface OpenCVQB : NSObject <OpenCV>
 
+@property (nonatomic, nonnull) NSString *gameTitle;
 @property (nonatomic, nonnull) NSArray *images;
-
 @property bool questionMarkPresent;
 @property int correctAnswer;
 
-- (instancetype _Nonnull)initWithImage:(nonnull NSImage *)image device:(int)device;
-- (void)convertColorSpace:(ConversionCode)code;
-- (void)cropTo:(CGRect) rect;
-- (void)threshold:(double)val;
-
-- (void)prepareForOcr;
+//- (instancetype _Nonnull)initWithImage:(nonnull NSImage *)image device:(int)device;
+//- (void)convertColorSpace:(ConversionCode)code;
+//- (void)cropTo:(CGRect) rect;
+//- (void)threshold:(double)val;
+//
+//- (void)prepareForOcr;
 
 @end
 
