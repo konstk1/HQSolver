@@ -128,8 +128,8 @@ static bool _qTemplateLoaded = false;
         for (int i = 0; i < boundingRects.size(); i++) {
             // for answer bounding rectangles, take in width a little to get rid of angled corners
             if (i >= 1) {
-                boundingRects[i].x += 35;
                 boundingRects[i].width = MAX(boundingRects[i].width - 80, 1);
+                boundingRects[i].x = MIN(boundingRects[i].x + 35, _cvMat.cols - boundingRects[i].width);
             }
 //            printf("Rect %d - area: %d - Y: %d\n", i, boundingRects[i].area(), boundingRects[i].y);
         }

@@ -8,7 +8,7 @@
 
 import Foundation
 import WebKit
-import Kanna
+//import Kanna
 
 class GoogleStrategy: TriviaStrategy {
     let name = "Google"

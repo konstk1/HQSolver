@@ -14,7 +14,6 @@
 		FF1154761FA7E4A20056959B /* TestQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */; };
 		FF34DE34200BFB6600176726 /* q_template2.png in Resources */ = {isa = PBXBuildFile; fileRef = FF34DE33200BFB6600176726 /* q_template2.png */; };
 		FF4A0D9A1FA6892A00EB7A1C /* TestQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0D951FA6863600EB7A1C /* TestQuestions.swift */; };
-		FF4A0DA31FA6A98C00EB7A1C /* TfidfStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA21FA6A98C00EB7A1C /* TfidfStrategy.swift */; };
 		FF4A0DA61FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */; };
 		FF4A0DA71FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4A0DA51FA6ABA700EB7A1C /* WatsonNLU.swift */; };
 		FF79E0D01FA177E2007B2922 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF79E0CE1FA17554007B2922 /* opencv2.framework */; };
@@ -23,11 +22,8 @@
 		FF79E0D61FA178AC007B2922 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF79E0D51FA178AC007B2922 /* OpenCL.framework */; };
 		FF8B934F1FA3933F00CED013 /* TriviaSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B934E1FA3933F00CED013 /* TriviaSolver.swift */; };
 		FF8B93511FA3974B00CED013 /* QBotStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B93501FA3974B00CED013 /* QBotStrategy.swift */; };
-		FF8B93531FA3BDE200CED013 /* GoogleStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B93521FA3BDE200CED013 /* GoogleStrategy.swift */; };
 		FF8B93551FA3C2FC00CED013 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B93541FA3C2FC00CED013 /* WebViewController.swift */; };
 		FFC935EA1FC24F0200338B4C /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = FFC935E91FC24F0200338B4C /* Cartfile */; };
-		FFC935EC1FC24F7500338B4C /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFC935EB1FC24F7500338B4C /* Kanna.framework */; };
-		FFC935ED1FC24F7500338B4C /* Kanna.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FFC935EB1FC24F7500338B4C /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FFE28B772014380200C3EFA5 /* OpenCVCashShow.mm in Sources */ = {isa = PBXBuildFile; fileRef = FFE28B762014380200C3EFA5 /* OpenCVCashShow.mm */; };
 		FFE28B7A2014E14800C3EFA5 /* q_template_cash_show.png in Resources */ = {isa = PBXBuildFile; fileRef = FFE28B792014E14800C3EFA5 /* q_template_cash_show.png */; };
 		FFEF18F91F9FE46600533CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEF18F81F9FE46600533CDC /* AppDelegate.swift */; };
@@ -57,7 +53,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FFC935ED1FC24F7500338B4C /* Kanna.framework in Embed Frameworks */,
 				FF79E0D11FA177E2007B2922 /* opencv2.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -82,7 +77,6 @@
 		FF8B93521FA3BDE200CED013 /* GoogleStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleStrategy.swift; sourceTree = "<group>"; };
 		FF8B93541FA3C2FC00CED013 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		FFC935E91FC24F0200338B4C /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = SOURCE_ROOT; };
-		FFC935EB1FC24F7500338B4C /* Kanna.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kanna.framework; path = Carthage/Build/Mac/Kanna.framework; sourceTree = "<group>"; };
 		FFCDA9ED1FAA939E0034948D /* question_mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = question_mark.png; sourceTree = "<group>"; };
 		FFE28B762014380200C3EFA5 /* OpenCVCashShow.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVCashShow.mm; sourceTree = "<group>"; };
 		FFE28B782014382100C3EFA5 /* OpenCVCashShow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVCashShow.h; sourceTree = "<group>"; };
@@ -113,7 +107,6 @@
 				FF79E0D61FA178AC007B2922 /* OpenCL.framework in Frameworks */,
 				FF79E0D41FA17856007B2922 /* Accelerate.framework in Frameworks */,
 				FF79E0D01FA177E2007B2922 /* opencv2.framework in Frameworks */,
-				FFC935EC1FC24F7500338B4C /* Kanna.framework in Frameworks */,
 				FFEF19181F9FE77D00533CDC /* libtesseract.4.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -149,7 +142,6 @@
 			isa = PBXGroup;
 			children = (
 				FFC935E91FC24F0200338B4C /* Cartfile */,
-				FFC935EB1FC24F7500338B4C /* Kanna.framework */,
 				FFEF18F71F9FE46600533CDC /* HQ Solver */,
 				FFEF190A1F9FE46600533CDC /* HQ SolverTests */,
 				FFEF18F61F9FE46600533CDC /* Products */,
@@ -321,7 +313,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF8B93531FA3BDE200CED013 /* GoogleStrategy.swift in Sources */,
 				FFE28B772014380200C3EFA5 /* OpenCVCashShow.mm in Sources */,
 				FFFE47B1203DF4DB00B3AD80 /* OpenCVQB.mm in Sources */,
 				FF8B93511FA3974B00CED013 /* QBotStrategy.swift in Sources */,
@@ -330,7 +321,6 @@
 				FF04293D1FA2B6CB00F6B7A7 /* ScreenCap.swift in Sources */,
 				FF4A0DA61FA6ABA800EB7A1C /* WatsonNLU.swift in Sources */,
 				FFEF18F91F9FE46600533CDC /* AppDelegate.swift in Sources */,
-				FF4A0DA31FA6A98C00EB7A1C /* TfidfStrategy.swift in Sources */,
 				FF8B934F1FA3933F00CED013 /* TriviaSolver.swift in Sources */,
 				FF8B93551FA3C2FC00CED013 /* WebViewController.swift in Sources */,
 			);

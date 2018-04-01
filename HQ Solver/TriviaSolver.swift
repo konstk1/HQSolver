@@ -168,8 +168,9 @@ extension TriviaSolver {
             opencv =  OpenCVQB(image: image, device: Int32(device))
         } else {
             opencv = OpenCVCashShow(image: image, device: Int32(device))
-            print("ERROR: unsupported game")
+            print("ERROR: unsupported game, defaulting to CS")
         }
+//        opencv = OpenCVCashShow(image: image, device: Int32(device))
         
         openCvGameTitle = opencv.gameTitle
         
